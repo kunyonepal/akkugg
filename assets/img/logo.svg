@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85 32" width="85" height="32" role="img" aria-label="AKKU">
+  <rect x="0" y="16" width="79.5" height="1" fill="#ff0101" opacity=".8"/>
+  <path fill="#fff" d="M12 0h2l12.5 32H20L13 13 9.2 23H15l1.5 4h-15z"/>
+  <path fill="#ed3237" d="M37 0h6.5L34 16l10 16h-7L27 16zM53.5 0H60l-9.5 16 10 16h-7l-10-16z"/>
+  <path fill="#fff" d="M70 3.5 64 10.5v11a10.5 10.5 0 0 0 21 0V5.5L79 0v21.5a4.5 4.5 0 0 1-9 0z"/>
+</svg>

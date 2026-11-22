@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" data-root="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Akku.GG</title>
+    <meta name="description" content="Akku.GG is an online store in Kathmandu for gaming PCs, laptops, smartphones, PC components and peripherals.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:site_name" content="Akku.GG">
+    <meta property="og:title" content="Checkout | Akku.GG">
+    <meta property="og:description" content="Akku.GG is an online store in Kathmandu for gaming PCs, laptops, smartphones, PC components and peripherals.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akku.gg/checkout.html">
+    <meta property="og:image" content="https://akku.gg/assets/img/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#160708">
+
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/pages/checkout.css">
+    <link rel="stylesheet" href="css/akku.css">
+</head>
+<body class="dark-theme" data-page="checkout">
+    <div class="akku-preview-bar" role="note"><i class="fas fa-eye"></i> Preview of the Akku.GG store: sample products and prices. Orders placed here are not sent to the store.</div>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="header">
+        <div class="header__main">
+            <div class="container">
+                <a href="index.html" class="header__logo" aria-label="Akku.GG home">
+                    <img src="assets/img/logo.svg" alt="Akku.GG" width="85" height="32"><span class="header__logo-suffix">.GG</span>
+                </a>
+
+                <form class="header__search" action="search-results.html" method="GET" role="search">
+                    <input type="text" name="q" id="searchInput" placeholder="Search for products, brands and more..." aria-label="Search products" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+                </form>
+
+                <div class="header__actions">
+                    <button class="header__settings-btn" id="openSettingsModal" type="button" aria-haspopup="dialog">
+                        <i class="fas fa-globe"></i>
+                        <span data-pref-label>EN / NPR</span>
+                    </button>
+                    <a href="wishlist.html" class="header__action-item" aria-label="Wishlist" title="Wishlist">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge" data-count="wishlist" hidden>0</span>
+                    </a>
+                    <a href="cart.html" class="header__action-item" aria-label="Shopping cart" title="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" data-count="cart">0</span>
+                    </a>
+                    <a href="login.html" class="header__login-btn" data-account-link>
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span data-account-name>Login</span>
+                    </a>
+                </div>
+
+                <button class="header__menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <nav class="header__nav" id="mainNav" aria-label="Main">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="has-dropdown">
+                    <a href="laptops.html">Laptops</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Laptops menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="laptops.html#gaming-laptops" class="dropdown-item">Gaming Laptops</a>
+                        <a href="laptops.html#business-laptops" class="dropdown-item">Business Laptops</a>
+                        <a href="laptops.html#student-laptops" class="dropdown-item">Student Laptops</a>
+                        <a href="laptops.html#ultrabooks" class="dropdown-item">Ultrabooks</a>
+                    </div>
+                </li>
+                <li class="has-dropdown">
+                    <a href="desktops.html">Desktop PCs</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Desktop PCs menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="desktops.html#gaming-pcs" class="dropdown-item">Gaming PCs</a>
+                        <a href="desktops.html#workstations" class="dropdown-item">Workstations</a>
+                        <a href="desktops.html#all-in-one" class="dropdown-item">All-in-One PCs</a>
+                        <a href="desktops.html#mini-pcs" class="dropdown-item">Mini PCs</a>
+                    </div>
+                </li>
+                <li><a href="pc-builder.html">Custom PC Build</a></li>
+                <li class="has-dropdown">
+                    <a href="mobiles.html">Mobile Phones</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Mobile Phones menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="mobiles.html#smartphones" class="dropdown-item">Smartphones</a>
+                        <a href="mobiles.html#tablets" class="dropdown-item">Tablets</a>
+                    </div>
+                </li>
+                <li class="has-dropdown">
+                    <a href="peripherals.html">Peripherals</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Peripherals menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="peripherals.html#keyboards" class="dropdown-item">Keyboards</a>
+                        <a href="peripherals.html#mice" class="dropdown-item">Mice</a>
+                        <a href="peripherals.html#headsets" class="dropdown-item">Headsets</a>
+                        <a href="peripherals.html#microphones" class="dropdown-item">Microphones</a>
+                        <a href="peripherals.html#webcams" class="dropdown-item">Webcams</a>
+                        <a href="monitors.html" class="dropdown-item">Monitors</a>
+                    </div>
+                </li>
+                <li><a href="deals.html">Deals</a></li>
+                <li class="has-dropdown">
+                    <a href="contact-us.html">Help</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Help menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="contact-us.html" class="dropdown-item">Contact Us</a>
+                        <a href="faq.html" class="dropdown-item">FAQs</a>
+                        <a href="warranty.html" class="dropdown-item">Warranty</a>
+                        <a href="track-order.html" class="dropdown-item">Track Order</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="header__nav-extra">
+                <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist <span data-count="wishlist" hidden>0</span></a>
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span data-count="cart">0</span></a>
+                <a href="my-orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                <a href="login.html" data-account-link><i class="fas fa-sign-in-alt"></i> <span data-account-name>Login</span></a>
+                <button type="button" data-open-settings><i class="fas fa-globe"></i> <span data-pref-label>EN / NPR</span></button>
+            </div>
+        </nav>
+    </header>
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="cart.html">Cart</a>
+            <i class="fas fa-chevron-right"></i>
+            <span class="current">Checkout</span>
+        </div>
+    </div>
+
+        <main id="main" class="checkout-container">
+        <div class="container">
+            <form class="checkout__wrapper" id="checkoutForm" novalidate hidden>
+                <div class="checkout__main">
+                    <div class="akku-notice" role="note"><i class="fas fa-info-circle"></i><div><strong>Preview mode.</strong> Orders placed on this page are saved in this browser only and are <strong>not</strong> sent to Akku.GG yet.</div></div>
+                    <section class="checkout-section">
+                        <div class="section-header-compact">
+                            <div class="step-number">1</div>
+                            <div class="section-title-compact"><h2>Contact Information</h2><p>We call this number to confirm your order</p></div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="fullName">Full Name <span class="required">*</span></label>
+                                <input class="form-control" id="fullName" name="fullName" type="text" required placeholder="Your full name" autocomplete="name">
+                                
+                                <small class="invalid-feedback" data-error-for="fullName"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Mobile Number <span class="required">*</span></label>
+                                <input class="form-control" id="phone" name="phone" type="tel" required placeholder="98XXXXXXXX" autocomplete="tel" inputmode="tel">
+                                <small class="form-hint">10-digit Nepali mobile number</small>
+                                <small class="invalid-feedback" data-error-for="phone"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email (optional)</label>
+                                <input class="form-control" id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+                                
+                                <small class="invalid-feedback" data-error-for="email"></small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="checkout-section">
+                        <div class="section-header-compact">
+                            <div class="step-number">2</div>
+                            <div class="section-title-compact"><h2>Delivery Method</h2></div>
+                        </div>
+                        <div class="delivery-options-grid">
+                            <label class="delivery-option-card selected">
+                                <input type="radio" name="delivery" value="valley" checked>
+                                <div class="delivery-icon"><i class="fas fa-truck"></i></div>
+                                <div class="delivery-details"><h4>Inside Kathmandu Valley</h4><p class="delivery-time"></p></div>
+                                <div class="delivery-price" data-delivery-price="valley"></div>
+                            </label><label class="delivery-option-card">
+                                <input type="radio" name="delivery" value="outside">
+                                <div class="delivery-icon"><i class="fas fa-truck"></i></div>
+                                <div class="delivery-details"><h4>Outside Kathmandu Valley</h4><p class="delivery-time"></p></div>
+                                <div class="delivery-price" data-delivery-price="outside"></div>
+                            </label>
+                            <label class="delivery-option-card">
+                                <input type="radio" name="delivery" value="pickup">
+                                <div class="delivery-icon"><i class="fas fa-store"></i></div>
+                                <div class="delivery-details"><h4>Store Pickup</h4><p class="delivery-time">Collect from our Putalisadak store</p><p class="delivery-desc">Putalisadak, Kathmandu, Nepal</p></div>
+                                <div class="delivery-price free">FREE</div>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="checkout-section" data-address-section>
+                        <div class="section-header-compact">
+                            <div class="step-number">3</div>
+                            <div class="section-title-compact"><h2>Delivery Address</h2></div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="street">Street / Area <span class="required">*</span></label>
+                                <input class="form-control" id="street" name="street" type="text" required placeholder="Tole, street, house number" autocomplete="street-address">
+                                
+                                <small class="invalid-feedback" data-error-for="street"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City <span class="required">*</span></label>
+                                <input class="form-control" id="city" name="city" type="text" required placeholder="Kathmandu" autocomplete="address-level2">
+                                
+                                <small class="invalid-feedback" data-error-for="city"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="province">Province <span class="required">*</span></label>
+                                <select class="form-control" id="province" name="province" required><option value="">Choose...</option><option>Koshi</option><option>Madhesh</option><option selected>Bagmati</option><option>Gandaki</option><option>Lumbini</option><option>Karnali</option><option>Sudurpashchim</option></select>
+                                
+                                <small class="invalid-feedback" data-error-for="province"></small>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="landmark">Landmark (optional)</label>
+                                <input class="form-control" id="landmark" name="landmark" type="text" placeholder="Near a well-known place, to help the rider">
+                                
+                                <small class="invalid-feedback" data-error-for="landmark"></small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="checkout-section">
+                        <div class="section-header-compact">
+                            <div class="step-number" data-pay-step>4</div>
+                            <div class="section-title-compact"><h2>Payment Method</h2></div>
+                        </div>
+                        <div class="payment-methods-compact">
+                            <label class="payment-option-compact selected">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <div class="payment-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                <div class="payment-info"><span class="payment-title">Cash on Delivery</span><span class="payment-desc">Pay when your order arrives</span></div>
+                            </label>
+                            <label class="payment-option-compact">
+                                <input type="radio" name="payment" value="esewa">
+                                <div class="payment-icon payment-icon--logo"><img src="assets/img/pay/esewa.png" alt="" loading="lazy"></div>
+                                <div class="payment-info"><span class="payment-title">eSewa</span><span class="payment-desc">We send the payment details when we confirm your order</span></div>
+                            </label>
+                            <label class="payment-option-compact">
+                                <input type="radio" name="payment" value="khalti">
+                                <div class="payment-icon payment-icon--logo"><img src="assets/img/pay/khalti.png" alt="" loading="lazy"></div>
+                                <div class="payment-info"><span class="payment-title">Khalti</span><span class="payment-desc">We send the payment details when we confirm your order</span></div>
+                            </label>
+                            <label class="payment-option-compact">
+                                <input type="radio" name="payment" value="connectips">
+                                <div class="payment-icon payment-icon--logo"><img src="assets/img/pay/connectips.png" alt="" loading="lazy"></div>
+                                <div class="payment-info"><span class="payment-title">ConnectIPS</span><span class="payment-desc">We send the payment details when we confirm your order</span></div>
+                            </label>
+                            <label class="payment-option-compact">
+                                <input type="radio" name="payment" value="fonepay">
+                                <div class="payment-icon payment-icon--logo"><img src="assets/img/pay/fonepay.png" alt="" loading="lazy"></div>
+                                <div class="payment-info"><span class="payment-title">Fonepay</span><span class="payment-desc">We send the payment details when we confirm your order</span></div>
+                            </label>
+                        </div>
+                        <div class="form-grid akku-mt">
+                            <div class="form-group full-width">
+                                <label for="note">Order note (optional)</label>
+                                <textarea class="form-control" id="note" name="note" rows="3" placeholder="Anything we should know about this order"></textarea>
+                                
+                                <small class="invalid-feedback" data-error-for="note"></small>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="checkout__sidebar">
+                    <div class="order-summary glass-card">
+                        <h2>Order Summary</h2>
+                        <div class="summary-items">
+                            <div class="summary-item-header"><span>Items (<span data-co-count>0</span>)</span><button type="button" class="btn-link" id="viewDetailsBtn" aria-expanded="false" aria-controls="itemsDetail">View Details</button></div>
+                            <div class="summary-item-preview" data-co-preview></div>
+                            <div class="summary-items-detail" id="itemsDetail" hidden></div>
+                        </div>
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-breakdown">
+                            <div class="summary-row"><span>Subtotal</span><span data-co-subtotal></span></div>
+                            <div class="summary-row akku-discount-row" data-co-discount-row hidden><span>Discount <small data-co-coupon></small></span><span data-co-discount></span></div>
+                            <div class="summary-row"><span>Delivery</span><span data-co-delivery></span></div>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-total"><span>Total Amount</span><div class="total-price"><span class="amount" data-co-total></span></div></div>
+                        <p class="akku-summary-note" data-co-note hidden></p>
+                        <div class="savings-badge" data-co-savings hidden><i class="fas fa-tags"></i> <span></span></div>
+                        <div class="summary-actions">
+                            <button type="submit" class="btn-primary btn-full" id="placeOrderBtn"><i class="fas fa-check"></i> Place Order</button>
+                            <a href="cart.html" class="btn-secondary btn-full"><i class="fas fa-arrow-left"></i> Back to Cart</a>
+                        </div>
+                        <div class="policy-links">
+                            <a class="policy-link" href="refund-policy.html"><i class="fas fa-undo"></i> Refund Policy</a>
+                            <a class="policy-link" href="terms-conditions.html"><i class="fas fa-file-alt"></i> Terms</a>
+                        </div>
+                    </div>
+                    <div class="support-card glass-card">
+                        <div class="support-icon"><i class="fas fa-headset"></i></div>
+                        <h3>Need Help?</h3>
+                        <p>Questions about your order? Get in touch.</p>
+                        
+                        <a class="support-link" href="mailto:support@akku.gg"><i class="fas fa-envelope"></i> support@akku.gg</a>
+                        <a class="support-link" href="contact-us.html"><i class="fas fa-comments"></i> Contact page</a>
+                    </div>
+                </aside>
+            </form>
+
+            <div class="empty-cart akku-checkout-empty" id="checkoutEmpty" hidden>
+                <div class="empty-cart__content">
+                    <div class="empty-cart__animation akku-empty-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <h2 class="empty-title">Your cart is empty</h2>
+                    <p class="empty-subtitle">Add something to your cart before checking out.</p>
+                    <a class="btn-start-shopping glow-button" href="products.html"><i class="fas fa-shopping-bag"></i><span>Start Shopping</span></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer-v2">
+        <div class="footer-v2__main">
+            <div class="container">
+                <div class="footer-v2__grid">
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">CUSTOMER SERVICE</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="contact-us.html">Contact Us</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="warranty.html">Warranty</a></li>
+                            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+                            <li><a href="refund-policy.html">Refund Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">HELP &amp; SUPPORT</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="track-order.html">Track Order</a></li>
+                            <li><a href="compare.html">Compare Products</a></li>
+                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">COMPANY INFO</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="blog.html">Our Blog</a></li>
+                            <li><a href="store-locations.html">Store Location</a></li>
+                            <li><a href="categories.html">All Categories</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">OUR SHOP</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="gaming.html">Gaming Gear</a></li>
+                            <li><a href="components.html">PC Components</a></li>
+                            <li><a href="laptops.html">Laptops</a></li>
+                            <li><a href="mobiles.html">Smartphones</a></li>
+                            <li><a href="audio.html">Audio &amp; Wearables</a></li>
+                            <li><a href="deals.html">Deals</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">MY ACCOUNT</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="register.html">Register</a></li>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                            <li><a href="my-orders.html">My Orders</a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-v2__bottom">
+            <div class="container">
+                <div class="footer-v2__bottom-grid">
+                    <div class="footer-v2__social-section">
+                        <h4 class="footer-v2__bottom-title">Visit Us:</h4>
+                        <p class="footer-v2__address"><i class="fas fa-map-marker-alt"></i> Putalisadak, Kathmandu, Nepal</p>
+                    </div>
+
+                    <div class="footer-v2__payment-section">
+                        <h4 class="footer-v2__bottom-title">We Accept:</h4>
+                        <div class="footer-v2__payment-methods">
+                            <img src="assets/img/pay/esewa.png" alt="eSewa" class="payment-logo" loading="lazy">
+                            <img src="assets/img/pay/khalti.png" alt="Khalti" class="payment-logo" loading="lazy">
+                            <img src="assets/img/pay/connectips.png" alt="ConnectIPS" class="payment-logo" loading="lazy">
+                            <img src="assets/img/pay/fonepay.png" alt="Fonepay" class="payment-logo" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer-v2__newsletter-section">
+                        <h4 class="footer-v2__bottom-title">Get the Latest Deals:</h4>
+                        <form class="footer-v2__newsletter-form" data-newsletter novalidate>
+                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="footer-v2__contact-info">
+                    <div class="footer-v2__copyright">
+                        <i class="far fa-copyright"></i>
+                        <span>2026 Akku.GG, Nepal.</span>
+                        <span>All rights reserved.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+        <div class="settings-modal__overlay" data-close-settings></div>
+        <div class="settings-modal__content">
+            <div class="settings-modal__header">
+                <h3 id="settingsModalTitle"><i class="fas fa-globe"></i> Preferences</h3>
+                <button class="close-btn" type="button" data-close-settings aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-modal__body">
+                <div class="settings-section">
+                    <h4><i class="fas fa-language"></i> Language</h4>
+                    <div class="settings-options">
+                        <label class="settings-option active">
+                            <input type="radio" name="language" value="en" checked>
+                            <span class="option-content"><span class="option-flag">EN</span><span class="option-label">English</span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                        <label class="settings-option is-disabled" title="Nepali is coming soon">
+                            <input type="radio" name="language" value="ne" disabled>
+                            <span class="option-content"><span class="option-flag">ने</span><span class="option-label">नेपाली <small>soon</small></span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h4><i class="fas fa-coins"></i> Currency</h4>
+                    <div class="settings-options">
+                        <label class="settings-option active">
+                            <input type="radio" name="currency" value="NPR" checked>
+                            <span class="option-content"><span class="option-currency">रु</span><span class="option-label">NPR</span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                        <label class="settings-option">
+                            <input type="radio" name="currency" value="USD">
+                            <span class="option-content"><span class="option-currency">$</span><span class="option-label">USD <small>approx.</small></span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                    </div>
+                    <p class="settings-note">USD prices are an estimate at Rs. 140 per dollar. Orders are charged in NPR.</p>
+                </div>
+            </div>
+            <div class="settings-modal__footer">
+                <button class="btn-secondary" type="button" data-close-settings>Cancel</button>
+                <button class="btn-apply" type="button" data-apply-settings><i class="fas fa-check"></i> Apply</button>
+            </div>
+        </div>
+    </div>
+    <div class="akku-toasts" id="akkuToasts" role="status" aria-live="polite"></div>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://akku.gg/"},{"@type":"ListItem","position":2,"name":"Cart","item":"https://akku.gg/cart.html"},{"@type":"ListItem","position":3,"name":"Checkout","item":"https://akku.gg/checkout.html"}]}</script>
+    <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script src="js/data.js" defer></script>
+    <script src="js/core.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <script src="js/pages/checkout.js" defer></script>
+</body>
+</html>

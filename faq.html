@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" data-root="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions | Akku.GG</title>
+    <meta name="description" content="Akku.GG is an online store in Kathmandu for gaming PCs, laptops, smartphones, PC components and peripherals.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:site_name" content="Akku.GG">
+    <meta property="og:title" content="Frequently Asked Questions | Akku.GG">
+    <meta property="og:description" content="Akku.GG is an online store in Kathmandu for gaming PCs, laptops, smartphones, PC components and peripherals.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akku.gg/faq.html">
+    <meta property="og:image" content="https://akku.gg/assets/img/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#160708">
+
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/pages/faq.css">
+    <link rel="stylesheet" href="css/akku.css">
+</head>
+<body class="dark-theme" data-page="faq">
+    <div class="akku-preview-bar" role="note"><i class="fas fa-eye"></i> Preview of the Akku.GG store: sample products and prices. Orders placed here are not sent to the store.</div>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="header">
+        <div class="header__main">
+            <div class="container">
+                <a href="index.html" class="header__logo" aria-label="Akku.GG home">
+                    <img src="assets/img/logo.svg" alt="Akku.GG" width="85" height="32"><span class="header__logo-suffix">.GG</span>
+                </a>
+
+                <form class="header__search" action="search-results.html" method="GET" role="search">
+                    <input type="text" name="q" id="searchInput" placeholder="Search for products, brands and more..." aria-label="Search products" autocomplete="off">
+                    <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+                </form>
+
+                <div class="header__actions">
+                    <button class="header__settings-btn" id="openSettingsModal" type="button" aria-haspopup="dialog">
+                        <i class="fas fa-globe"></i>
+                        <span data-pref-label>EN / NPR</span>
+                    </button>
+                    <a href="wishlist.html" class="header__action-item" aria-label="Wishlist" title="Wishlist">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge" data-count="wishlist" hidden>0</span>
+                    </a>
+                    <a href="cart.html" class="header__action-item" aria-label="Shopping cart" title="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" data-count="cart">0</span>
+                    </a>
+                    <a href="login.html" class="header__login-btn" data-account-link>
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span data-account-name>Login</span>
+                    </a>
+                </div>
+
+                <button class="header__menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <nav class="header__nav" id="mainNav" aria-label="Main">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="has-dropdown">
+                    <a href="laptops.html">Laptops</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Laptops menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="laptops.html#gaming-laptops" class="dropdown-item">Gaming Laptops</a>
+                        <a href="laptops.html#business-laptops" class="dropdown-item">Business Laptops</a>
+                        <a href="laptops.html#student-laptops" class="dropdown-item">Student Laptops</a>
+                        <a href="laptops.html#ultrabooks" class="dropdown-item">Ultrabooks</a>
+                    </div>
+                </li>
+                <li class="has-dropdown">
+                    <a href="desktops.html">Desktop PCs</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Desktop PCs menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="desktops.html#gaming-pcs" class="dropdown-item">Gaming PCs</a>
+                        <a href="desktops.html#workstations" class="dropdown-item">Workstations</a>
+                        <a href="desktops.html#all-in-one" class="dropdown-item">All-in-One PCs</a>
+                        <a href="desktops.html#mini-pcs" class="dropdown-item">Mini PCs</a>
+                    </div>
+                </li>
+                <li><a href="pc-builder.html">Custom PC Build</a></li>
+                <li class="has-dropdown">
+                    <a href="mobiles.html">Mobile Phones</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Mobile Phones menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="mobiles.html#smartphones" class="dropdown-item">Smartphones</a>
+                        <a href="mobiles.html#tablets" class="dropdown-item">Tablets</a>
+                    </div>
+                </li>
+                <li class="has-dropdown">
+                    <a href="peripherals.html">Peripherals</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Peripherals menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="peripherals.html#keyboards" class="dropdown-item">Keyboards</a>
+                        <a href="peripherals.html#mice" class="dropdown-item">Mice</a>
+                        <a href="peripherals.html#headsets" class="dropdown-item">Headsets</a>
+                        <a href="peripherals.html#microphones" class="dropdown-item">Microphones</a>
+                        <a href="peripherals.html#webcams" class="dropdown-item">Webcams</a>
+                        <a href="monitors.html" class="dropdown-item">Monitors</a>
+                    </div>
+                </li>
+                <li><a href="deals.html">Deals</a></li>
+                <li class="has-dropdown">
+                    <a href="contact-us.html" class="active">Help</a>
+                    <button class="dropdown-toggle" type="button" aria-label="Toggle Help menu" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="contact-us.html" class="dropdown-item">Contact Us</a>
+                        <a href="faq.html" class="dropdown-item">FAQs</a>
+                        <a href="warranty.html" class="dropdown-item">Warranty</a>
+                        <a href="track-order.html" class="dropdown-item">Track Order</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="header__nav-extra">
+                <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist <span data-count="wishlist" hidden>0</span></a>
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span data-count="cart">0</span></a>
+                <a href="my-orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                <a href="login.html" data-account-link><i class="fas fa-sign-in-alt"></i> <span data-account-name>Login</span></a>
+                <button type="button" data-open-settings><i class="fas fa-globe"></i> <span data-pref-label>EN / NPR</span></button>
+            </div>
+        </nav>
+    </header>
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <span class="current">FAQs</span>
+        </div>
+    </div>
+
+    <main id="main" class="faq-page">
+<div class="container"><div class="akku-notice akku-notice--page" role="note"><i class="fas fa-pen"></i><div><strong>Draft FAQ.</strong> This text came from the design prototype. Check every term (return window, warranty, delivery, payment) against how Akku.GG actually works before launch.</div></div></div><div class="container">
+<div class="faq-header">
+<h1>Frequently Asked Questions</h1>
+<p>Find answers to common questions about our products and services</p>
+</div>
+<div class="faq-search">
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input id="faqSearchInput" placeholder="Search for answers..." type="text"/>
+</div>
+</div>
+<div class="faq-categories">
+<button class="category-btn active" data-category="all">
+<i class="fas fa-th"></i>
+<span>All Questions</span>
+</button>
+<button class="category-btn" data-category="orders">
+<i class="fas fa-shopping-bag"></i>
+<span>Orders</span>
+</button>
+<button class="category-btn" data-category="shipping">
+<i class="fas fa-shipping-fast"></i>
+<span>Shipping</span>
+</button>
+<button class="category-btn" data-category="payment">
+<i class="fas fa-credit-card"></i>
+<span>Payment</span>
+</button>
+<button class="category-btn" data-category="returns">
+<i class="fas fa-undo"></i>
+<span>Returns</span>
+</button>
+<button class="category-btn" data-category="account">
+<i class="fas fa-user"></i>
+<span>Account</span>
+</button>
+</div>
+<div class="faq-content">
+<section class="faq-section" data-category="orders">
+<h2><i class="fas fa-shopping-bag"></i> Orders &amp; Purchasing</h2>
+<div class="faq-accordion">
+<div class="faq-item">
+<button class="faq-question">
+<span>How do I place an order?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Placing an order is simple! Browse our products, add items to your cart, proceed to checkout, fill in your delivery details, select a payment method, and confirm your order. You'll receive a confirmation email once your order is placed.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Can I modify or cancel my order?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>You can modify or cancel your order within 2 hours of placing it. Go to "My Orders" in your account, select the order, and click "Cancel Order" or "Modify Order". After this period, please contact our customer support for assistance.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>How can I track my order?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>You can track your order by visiting the <a href="track-order.html">Track Order</a> page or through your account's "My Orders" section. You'll also receive tracking updates via email and SMS at each stage of delivery.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>What is your minimum order value?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>There is no minimum order value at Akku.GG. You can purchase any product regardless of price. However, free shipping is available on orders above NPR 5,000 within Kathmandu Valley.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="faq-section" data-category="shipping">
+<h2><i class="fas fa-shipping-fast"></i> Shipping &amp; Delivery</h2>
+<div class="faq-accordion">
+<div class="faq-item">
+<button class="faq-question">
+<span>What are the delivery charges?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Delivery charges vary by location:</p>
+<ul>
+<li>Kathmandu Valley: NPR 100 (Free on orders above NPR 5,000)</li>
+<li>Outside Valley (Major Cities): NPR 200</li>
+<li>Remote Areas: NPR 300-500 depending on location</li>
+</ul>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>How long does delivery take?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Delivery times depend on your location:</p>
+<ul>
+<li>Kathmandu Valley: 1-2 business days (same-day delivery available for select products)</li>
+<li>Major Cities: 3-5 business days</li>
+<li>Remote Areas: 5-10 business days</li>
+</ul>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Do you deliver outside Nepal?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Currently, we only deliver within Nepal. We're working on expanding our services internationally. Stay tuned for updates!</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>What if I'm not available at the delivery address?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Our delivery partner will attempt to contact you via phone. If you're unavailable, they will make 2 more delivery attempts. You can also reschedule delivery through your order tracking page or contact customer support.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="faq-section" data-category="payment">
+<h2><i class="fas fa-credit-card"></i> Payment &amp; Pricing</h2>
+<div class="faq-accordion">
+<div class="faq-item">
+<button class="faq-question">
+<span>What payment methods do you accept?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>We accept multiple payment methods:</p>
+<ul>
+<li>Cash on Delivery (COD)</li>
+<li>eSewa</li>
+<li>Khalti</li>
+<li>Credit/Debit Cards (Visa, Mastercard)</li>
+<li>Net Banking</li>
+<li>Mobile Banking</li>
+</ul>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Is Cash on Delivery (COD) available?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Yes, COD is available for all orders. However, COD may not be available for high-value items (above NPR 100,000) or in certain remote areas due to security reasons.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Are online payments secure?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Absolutely! We use industry-standard SSL encryption for all transactions. We don't store your card details on our servers. All payments are processed through secure, PCI-DSS compliant payment gateways.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Can I get an invoice for my purchase?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Yes, an invoice is included with every order. You can also download a digital invoice from your account's "My Orders" section after the order is delivered.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="faq-section" data-category="returns">
+<h2><i class="fas fa-undo"></i> Returns &amp; Refunds</h2>
+<div class="faq-accordion">
+<div class="faq-item">
+<button class="faq-question">
+<span>What is your return policy?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>We offer a 30-day return policy for most products. Items must be unused, in original packaging, with all accessories and tags intact. Some products like software, opened electronics, and personal care items may have restrictions.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>How do I return a product?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>To return a product, go to "My Orders", select the order, click "Return Item", choose the reason for return, and submit. Our team will arrange pickup within 2-3 business days. You can also visit our store with the product and invoice.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>When will I receive my refund?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Refunds are processed within 7-10 business days after we receive and inspect the returned item. The amount will be credited to your original payment method. For COD orders, you can choose bank transfer or store credit.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Can I exchange a product instead of returning it?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Yes, exchanges are available for the same product (different size/color) or a different product of equal or higher value. Contact our customer support to arrange an exchange.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="faq-section" data-category="account">
+<h2><i class="fas fa-user"></i> Account &amp; Profile</h2>
+<div class="faq-accordion">
+<div class="faq-item">
+<button class="faq-question">
+<span>How do I create an account?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Click on "Login" in the top right corner, then select "Create Account". Fill in your details including name, email, phone number, and password. You'll receive a verification email to activate your account.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>I forgot my password. What should I do?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Click on "Login", then select "Forgot Password". Enter your registered email address, and we'll send you a password reset link. Follow the instructions in the email to create a new password.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Can I change my email or phone number?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>Yes, go to "My Account" &gt; "Profile Settings" to update your email or phone number. You'll need to verify the new email/phone number through an OTP sent to your device.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">
+<span>How do I delete my account?</span>
+<i class="fas fa-chevron-down"></i>
+</button>
+<div class="faq-answer">
+<p>To delete your account, contact our customer support with your request. Please note that account deletion is permanent and you'll lose access to your order history, wishlist, and saved addresses.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<div class="faq-contact">
+<div class="contact-card">
+<i class="fas fa-headset"></i>
+<h3>Still have questions?</h3>
+<p>Can't find the answer you're looking for? Our customer support team is here to help.</p>
+<a class="btn-contact" href="contact-us.html">
+<i class="fas fa-envelope"></i>
+<span>Contact Support</span>
+</a>
+</div>
+</div>
+</div>
+
+    </main>
+
+    <footer class="footer-v2">
+        <div class="footer-v2__main">
+            <div class="container">
+                <div class="footer-v2__grid">
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">CUSTOMER SERVICE</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="contact-us.html">Contact Us</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="warranty.html">Warranty</a></li>
+                            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+                            <li><a href="refund-policy.html">Refund Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">HELP &amp; SUPPORT</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="track-order.html">Track Order</a></li>
+                            <li><a href="compare.html">Compare Products</a></li>
+                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">COMPANY INFO</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="blog.html">Our Blog</a></li>
+                            <li><a href="store-locations.html">Store Location</a></li>
+                            <li><a href="categories.html">All Categories</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">OUR SHOP</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="gaming.html">Gaming Gear</a></li>
+                            <li><a href="components.html">PC Components</a></li>
+                            <li><a href="laptops.html">Laptops</a></li>
+                            <li><a href="mobiles.html">Smartphones</a></li>
+                            <li><a href="audio.html">Audio &amp; Wearables</a></li>
+                            <li><a href="deals.html">Deals</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-v2__column">
+                        <h3 class="footer-v2__title">MY ACCOUNT</h3>
+                        <ul class="footer-v2__links">
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="register.html">Register</a></li>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                            <li><a href="my-orders.html">My Orders</a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-v2__bottom">
+            <div class="container">
+                <div class="footer-v2__bottom-grid">
+                    <div class="footer-v2__social-section">
+                        <h4 class="footer-v2__bottom-title">Visit Us:</h4>
+                        <p class="footer-v2__address"><i class="fas fa-map-marker-alt"></i> Putalisadak, Kathmandu, Nepal</p>
+                    </div>
+
+                    <div class="footer-v2__payment-section">
+                        <h4 class="footer-v2__bottom-title">We Accept:</h4>
+                        <div class="footer-v2__payment-methods">
+                            <img src="assets/img/pay/esewa.png" alt="eSewa" class="payment-logo" loading="lazy">
+                            <img src="assets/img/pay/khalti.png" alt="Khalti" class="payment-logo" loading="lazy">
+                            <img src="assets/img/pay/connectips.png" alt="ConnectIPS" class="payment-logo" loading="lazy">
+                            <img src="assets/img/pay/fonepay.png" alt="Fonepay" class="payment-logo" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="footer-v2__newsletter-section">
+                        <h4 class="footer-v2__bottom-title">Get the Latest Deals:</h4>
+                        <form class="footer-v2__newsletter-form" data-newsletter novalidate>
+                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="footer-v2__contact-info">
+                    <div class="footer-v2__copyright">
+                        <i class="far fa-copyright"></i>
+                        <span>2026 Akku.GG, Nepal.</span>
+                        <span>All rights reserved.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="settings-modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+        <div class="settings-modal__overlay" data-close-settings></div>
+        <div class="settings-modal__content">
+            <div class="settings-modal__header">
+                <h3 id="settingsModalTitle"><i class="fas fa-globe"></i> Preferences</h3>
+                <button class="close-btn" type="button" data-close-settings aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-modal__body">
+                <div class="settings-section">
+                    <h4><i class="fas fa-language"></i> Language</h4>
+                    <div class="settings-options">
+                        <label class="settings-option active">
+                            <input type="radio" name="language" value="en" checked>
+                            <span class="option-content"><span class="option-flag">EN</span><span class="option-label">English</span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                        <label class="settings-option is-disabled" title="Nepali is coming soon">
+                            <input type="radio" name="language" value="ne" disabled>
+                            <span class="option-content"><span class="option-flag">ने</span><span class="option-label">नेपाली <small>soon</small></span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h4><i class="fas fa-coins"></i> Currency</h4>
+                    <div class="settings-options">
+                        <label class="settings-option active">
+                            <input type="radio" name="currency" value="NPR" checked>
+                            <span class="option-content"><span class="option-currency">रु</span><span class="option-label">NPR</span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                        <label class="settings-option">
+                            <input type="radio" name="currency" value="USD">
+                            <span class="option-content"><span class="option-currency">$</span><span class="option-label">USD <small>approx.</small></span><i class="fas fa-check-circle"></i></span>
+                        </label>
+                    </div>
+                    <p class="settings-note">USD prices are an estimate at Rs. 140 per dollar. Orders are charged in NPR.</p>
+                </div>
+            </div>
+            <div class="settings-modal__footer">
+                <button class="btn-secondary" type="button" data-close-settings>Cancel</button>
+                <button class="btn-apply" type="button" data-apply-settings><i class="fas fa-check"></i> Apply</button>
+            </div>
+        </div>
+    </div>
+    <div class="akku-toasts" id="akkuToasts" role="status" aria-live="polite"></div>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://akku.gg/"},{"@type":"ListItem","position":2,"name":"FAQs","item":"https://akku.gg/faq.html"}]}</script>
+    <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script src="js/data.js" defer></script>
+    <script src="js/core.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <script src="js/pages/faq.js" defer></script>
+</body>
+</html>
