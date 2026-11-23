@@ -70,21 +70,23 @@
     subtotal: function () { return cart.lines().reduce(function (n, l) { return n + l.total; }, 0); },
     add: function (id, qty, options) {
       var p = A.product(id);
-      if (!p || p.stock === 'out') return false;
+      if (!p || p.stock === 'out' || p.ask) return false;
       options = options || A.defaultOptions(p);
       var lines = cart.raw(), key = lineKey(id, options), hit = lines.filter(function (l) { return l.key === key; })[0];
       if (hit) hit.qty = Math.min(MAX_QTY, hit.qty + (qty || 1));
       else lines.push({ key: key, id: id, qty: Math.min(MAX_QTY, qty || 1), options: options });
       cart.save(lines);
+      A.track('AddToCart', { items: [{ id: p.id, name: p.name, price: A.variant ? A.variant(p, options).price : p.price, brand: p.brand, qty: qty || 1 }] });
       return true;
     },
     /* a configured PC from the builder goes in as one line made of catalogue parts */
     addBuild: function (name, partIds) {
       var parts = partIds.map(A.product).filter(Boolean);
-      if (!parts.length) return false;
+      if (!parts.length || parts.some(function (p) { return p.ask; })) return false;
       var lines = cart.raw();
       lines.push({ key: 'build-' + Date.now(), custom: true, name: name, parts: parts.map(function (p) { return p.id; }), qty: 1, price: parts.reduce(function (n, p) { return n + p.price; }, 0) });
       cart.save(lines);
+      A.track('AddToCart', { items: [{ id: 'custom-build', name: name, price: parts.reduce(function (n, p) { return n + p.price; }, 0), qty: 1 }] });
       return true;
     },
     setQty: function (key, qty) {
@@ -539,7 +541,7 @@
       '<h3>' + A.esc(p.name) + '</h3>' +
       ((p.chips || []).length ? '<ul class="akku-quickview__chips">' + p.chips.map(function (c) { return '<li>' + A.esc(c) + '</li>'; }).join('') + '</ul>' : '') +
       '<div class="akku-quickview__price">' + A.render.prices(p, 'price-current', 'price-original') + '</div>' +
-      '<div class="akku-quickview__actions"><button type="button" class="btn btn-primary" data-action="add-to-cart" data-pid="' + p.id + '"' + (p.stock === 'out' ? ' disabled' : '') + '><i class="fas fa-shopping-cart"></i> ' + (p.stock === 'out' ? 'Sold out' : 'Add to Cart') + '</button>' +
+      '<div class="akku-quickview__actions"><button type="button" class="btn btn-primary" data-action="add-to-cart" data-pid="' + p.id + '"' + (p.stock === 'out' && !p.ask ? ' disabled' : '') + '><i class="fas ' + (p.ask ? 'fa-comment-dollar' : 'fa-shopping-cart') + '"></i> ' + (p.ask ? 'Ask for price' : p.stock === 'out' ? 'Sold out' : 'Add to Cart') + '</button>' +
       '<a class="btn btn-secondary" href="' + A.productUrl(p) + '">View Details</a></div></div></div>';
     doc.body.appendChild(wrap);
     doc.body.style.overflow = 'hidden';
@@ -559,11 +561,13 @@
     var action = btn.getAttribute('data-action'), id = btn.getAttribute('data-pid'), p = id && A.product(id);
     if (action === 'add-to-cart' && p) {
       e.preventDefault();
+      if (p.ask) { window.location.href = A.productUrl(p) + '#ask'; return; }
       if (p.options && p.options.length && !btn.hasAttribute('data-options')) { window.location.href = A.productUrl(p); return; }
       if (cart.add(id, Number(btn.getAttribute('data-qty')) || 1)) A.toast(A.shortName(p) + ' added to your cart', { href: A.root + 'cart.html', linkText: 'View cart' });
     } else if (action === 'wishlist' && p) {
       e.preventDefault();
       var on = A.wishlist.toggle(id);
+      if (on) A.track('AddToWishlist', { items: [{ id: p.id, name: p.name, price: p.ask ? 0 : p.price, brand: p.brand }] });
       A.toast(on ? 'Saved to your wishlist' : 'Removed from your wishlist', { type: on ? 'success' : 'info', href: on ? A.root + 'wishlist.html' : '', linkText: 'View' });
     } else if (action === 'compare' && p) {
       e.preventDefault();
@@ -574,6 +578,37 @@
       e.preventDefault(); quickView(p);
     }
   });
+
+  /* ------------------------------------------------------------------ marketing: where visitors came from, and events for the ad tags */
+  /* first and latest arrival from an ad, a link or another site (utm tags, ad click ids, referrer); sent with orders and quotes */
+  (function rememberArrival() {
+    try {
+      var qs = new URLSearchParams(location.search), t = {}, has = false;
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'ttclid', 'msclkid'].forEach(function (k) { var v = qs.get(k); if (v) { t[k] = v.slice(0, 300); has = true; } });
+      var ref = doc.referrer && doc.referrer.indexOf(location.origin) !== 0 ? doc.referrer.slice(0, 300) : '';
+      if (!has && !ref) return;
+      if (ref) t.referrer = ref;
+      t.landing = (location.pathname + location.search).slice(0, 300); t.at = new Date().toISOString();
+      var a = store.get('attr', {}) || {};
+      if (!a.first) a.first = t;
+      a.last = t; store.set('attr', a);
+    } catch (e) {}
+  })();
+  A.attribution = function () { return store.get('attr', null); };
+  /* the ids the ad tags keep in cookies, so the server can match its events to this visitor */
+  A.trackingIds = function () {
+    var c = {}, out = {};
+    String(doc.cookie || '').split(';').forEach(function (x) { var i = x.indexOf('='); if (i > 0) c[x.slice(0, i).trim()] = decodeURIComponent(x.slice(i + 1).trim()); });
+    var g = /^GA\d\.\d\.(\d+\.\d+)$/.exec(c._ga || ''); if (g) out.ga = g[1];
+    if (c._fbp) out.fbp = c._fbp;
+    var last = (store.get('attr', {}) || {}).last || {};
+    if (c._fbc) out.fbc = c._fbc; else if (last.fbclid) out.fbc = 'fb.1.' + (Date.parse(last.at) || Date.now()) + '.' + last.fbclid;
+    if (c._ttp) out.ttp = c._ttp;
+    if (last.ttclid) out.ttclid = last.ttclid;
+    return out;
+  };
+  /* replaced by js/analytics.js when an ad or analytics tag is set up */
+  A.track = function () {};
 
   /* ------------------------------------------------------------------ server API (when the store runs on the Akku.GG server) */
   A.api = function (method, path, body) {
@@ -659,9 +694,60 @@
     });
   }
 
+  /* ------------------------------------------------------------------ quotation and back-in-stock requests */
+  function formMsg(form, text, ok) { var m = $('[data-form-msg]', form); if (m) { m.textContent = text; m.className = 'akku-form-msg ' + (ok ? 'is-ok' : 'is-error'); } }
+  A.formMsg = formMsg;
+  A.whatsappLink = function (text) { var n = String((A.site.contact || {}).whatsapp || '').replace(/\D/g, ''); return n ? 'https://wa.me/' + (n.length === 10 ? '977' + n : n) + '?text=' + encodeURIComponent(text) : ''; };
+  /* body: { items: [{ id, qty }] } or { build: { name, parts } }; waText: the same request as a WhatsApp message (used when there is no server) */
+  A.requestQuote = function (form, body, waText) {
+    var get = function (n) { var el = form.elements[n]; return el ? el.value.trim() : ''; };
+    if (get('website')) return Promise.resolve(null);
+    body.name = get('name'); body.phone = get('phone'); body.email = get('email'); body.note = get('note');
+    if (body.name.length < 2) { formMsg(form, 'Please enter your name.'); form.elements.name.focus(); return Promise.resolve(null); }
+    if (!A.validPhone(body.phone)) { formMsg(form, 'Enter a valid phone number, for example 98XXXXXXXX.'); form.elements.phone.focus(); return Promise.resolve(null); }
+    if (!A.site.backend) {
+      var link = A.whatsappLink(waText + '\nName: ' + body.name + '\nPhone: ' + body.phone + (body.note ? '\nNote: ' + body.note : ''));
+      if (link) { window.open(link, '_blank', 'noopener'); formMsg(form, 'WhatsApp opened with your request. Send the message to reach us.', true); }
+      else formMsg(form, 'Quotation requests are not connected yet. Please call or message us.');
+      return Promise.resolve(null);
+    }
+    body.attribution = A.attribution(); body.analytics = A.trackingIds(); body.url = location.href;
+    var btn = $('[type="submit"]', form); if (btn) btn.disabled = true;
+    return A.api('POST', 'quotes', body).then(function (r) {
+      form.reset(); formMsg(form, r.message, true);
+      if (r.whatsapp) $('[data-form-msg]', form).insertAdjacentHTML('beforeend', ' <a href="' + A.esc(r.whatsapp) + '" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Send it on WhatsApp too</a>');
+      A.track('Lead', { eventId: 'lead-' + r.id, value: 0, label: 'quotation' });
+      return r;
+    }, function (err) { formMsg(form, err.message); return null; }).then(function (r) { if (btn) btn.disabled = false; return r; });
+  };
+  function initForms() {
+    doc.addEventListener('submit', function (e) {
+      var f = e.target;
+      if (f.matches && f.matches('[data-quote-form]')) {
+        e.preventDefault();
+        var p = A.product(f.getAttribute('data-pid'));
+        A.requestQuote(f, { items: [{ id: f.getAttribute('data-pid'), qty: 1 }] }, 'Hi ' + A.site.brand.name + ', what is the price of ' + (p ? p.name : 'this product') + '?\n' + location.href);
+      }
+      if (f.matches && f.matches('[data-stock-alert]')) {
+        e.preventDefault();
+        var v = f.elements.contact.value.trim(), email = v.indexOf('@') > 0, pr = A.product(f.getAttribute('data-pid'));
+        if (!v || (email ? !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) : !A.validPhone(v))) { formMsg(f, 'Enter your phone number (98XXXXXXXX) or email.'); f.elements.contact.focus(); return; }
+        if (!A.site.backend) {
+          var link = A.whatsappLink('Hi ' + A.site.brand.name + ', please tell me when ' + (pr ? pr.name : 'this product') + ' is back in stock.\n' + location.href);
+          if (link) { window.open(link, '_blank', 'noopener'); formMsg(f, 'WhatsApp opened with your request.', true); } else formMsg(f, 'Stock alerts are not connected yet. Please call us.');
+          return;
+        }
+        var b = $('[type="submit"]', f); b.disabled = true;
+        A.api('POST', 'stock-alerts', { productId: f.getAttribute('data-pid'), email: email ? v : '', phone: email ? '' : v })
+          .then(function (r) { formMsg(f, r.message, true); f.elements.contact.value = ''; }, function (err) { formMsg(f, err.message); })
+          .then(function () { b.disabled = false; });
+      }
+    });
+  }
+
   /* ------------------------------------------------------------------ boot */
   function boot() {
-    initHeader(); initSettings(); initSearch(); initNewsletter();
+    initHeader(); initSettings(); initSearch(); initNewsletter(); initForms();
     A.initCarousels(); initScrollers(); initCountdowns();
     updateBadges(); A.refresh();
     ['cart', 'wishlist', 'compare', 'orders'].forEach(function (n) { doc.addEventListener('akku:' + n, function () { updateBadges(); markStates(); }); });

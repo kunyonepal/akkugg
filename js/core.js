@@ -162,6 +162,7 @@
   var R = A.render = {};
 
   R.prices = function (p, curCls, oldCls) {
+    if (p.ask) return '<span class="' + (curCls || 'price__current') + ' price-ask">Ask for price</span>';
     return A.priceSpan(curCls || 'price__current', p.price) + (A.discount(p) ? A.priceSpan(oldCls || 'price__old', p.oldPrice) : '');
   };
 
@@ -256,7 +257,7 @@
         '<h3 class="product-title"><a href="' + A.productUrl(p) + '">' + A.esc(p.name) + '</a></h3>' +
         (chips ? '<div class="product-specs">' + chips + '</div>' : '') +
         '<div class="product-price">' + R.prices(p, 'price-current', 'price-original') + '</div>' +
-        '<button type="button" class="product-card__cart" data-action="add-to-cart" data-pid="' + p.id + '"' + (p.stock === 'out' ? ' disabled' : '') + '><i class="fas fa-shopping-cart"></i> ' + (p.stock === 'out' ? 'Sold out' : 'Add to Cart') + '</button>' +
+        '<button type="button" class="product-card__cart" data-action="add-to-cart" data-pid="' + p.id + '"' + (p.stock === 'out' && !p.ask ? ' disabled' : '') + '><i class="fas ' + (p.ask ? 'fa-comment-dollar' : 'fa-shopping-cart') + '"></i> ' + (p.ask ? 'Ask for price' : p.stock === 'out' ? 'Sold out' : 'Add to Cart') + '</button>' +
       '</div></div>';
   };
 
@@ -281,7 +282,7 @@
     return '<a href="' + A.productUrl(p) + '" class="result-card">' +
       '<span class="result-image ' + A.mediaClass(p) + '">' + A.media(p, 160, 160) + '</span>' +
       '<div class="result-content"><h4 class="result-title">' + A.esc(A.shortName(p)) + '</h4>' +
-      '<div class="result-price" data-price="' + p.price + '">' + A.money(p.price, 'NPR') + '</div>' +
+      (p.ask ? '<div class="result-price">Ask for price</div>' : '<div class="result-price" data-price="' + p.price + '">' + A.money(p.price, 'NPR') + '</div>') +
       '<div class="result-rating"><span class="count">' + A.esc(p.brand) + ' · ' + A.esc(A.categoryName(p)) + '</span></div></div></a>';
   };
 

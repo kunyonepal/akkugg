@@ -17,6 +17,14 @@
     if (!$('.builder-interface')) return;
     var build = A.store.get('build', {});
     Object.keys(build).forEach(function (k) { if (!A.product(build[k])) delete build[k]; });
+    /* a shared build: pc-builder.html#parts=id1,id2,... */
+    var shared = /(?:^#|&)parts=([^&]+)/.exec(location.hash);
+    if (shared) {
+      var got = {};
+      decodeURIComponent(shared[1]).split(',').forEach(function (id) { var p = A.product(id.trim()); var s = p && SLOTS.filter(function (x) { return x.sub === p.subcategory; })[0]; if (s && !got[s.id]) got[s.id] = p.id; });
+      if (Object.keys(got).length) { build = got; A.store.set('build', build); setTimeout(function () { A.toast('Shared build loaded. Change any part you like.'); }, 300); }
+      if (window.history.replaceState) window.history.replaceState(null, '', location.pathname + location.search);
+    }
     var modal = $('#componentModal'), openSlot = null, modalBrand = 'all', lastFocus = null;
 
     function slot(id) { return SLOTS.filter(function (s) { return s.id === id; })[0]; }
@@ -41,7 +49,8 @@
 
     function render() {
       var picked = SLOTS.filter(function (s) { return part(s.id); });
-      var total = picked.reduce(function (n, s) { return n + part(s.id).price; }, 0);
+      var total = picked.reduce(function (n, s) { return n + (part(s.id).ask ? 0 : part(s.id).price); }, 0);
+      var asks = picked.filter(function (s) { return part(s.id).ask; });
       var missing = SLOTS.filter(function (s) { return s.required && !part(s.id); });
       var issues = problems();
       SLOTS.forEach(function (s) {
@@ -49,7 +58,7 @@
         card.classList.toggle('selected', !!p);
         $('.component-status', card).textContent = p ? A.shortName(p) : 'Not selected';
         var btn = $('.component-select-action', card);
-        btn.innerHTML = p ? '<i class="fas fa-check"></i><span>' + A.esc(A.money(p.price)) + ' &middot; Change</span>' : '<i class="fas fa-plus"></i><span>Select ' + s.label.replace(/ \(.*/, '') + '</span>';
+        btn.innerHTML = p ? '<i class="fas fa-check"></i><span>' + (p.ask ? 'Ask price' : A.esc(A.money(p.price))) + ' &middot; Change</span>' : '<i class="fas fa-plus"></i><span>Select ' + s.label.replace(/ \(.*/, '') + '</span>';
         btn.classList.toggle('is-picked', !!p);
         $('[data-clear-slot]', card).hidden = !p;
       });
@@ -57,10 +66,11 @@
       $('[data-progress-fill]').style.width = pct + '%';
       $('[data-progress-count]').textContent = picked.length + '/' + SLOTS.length + ' Components';
       $('[data-progress-pct]').textContent = pct + '%';
-      var lines = picked.map(function (s) { var p = part(s.id); return '<div class="price-row"><span><i class="fas ' + s.icon + '"></i> ' + A.esc(A.shortName(p)) + '</span><span class="price" data-price="' + p.price + '">' + A.money(p.price) + '</span></div>'; }).join('');
+      var lines = picked.map(function (s) { var p = part(s.id); return '<div class="price-row"><span><i class="fas ' + s.icon + '"></i> ' + A.esc(A.shortName(p)) + '</span>' + (p.ask ? '<span class="price">Ask price</span>' : '<span class="price" data-price="' + p.price + '">' + A.money(p.price) + '</span>') + '</div>'; }).join('');
       var note = (A.site.builder && A.site.builder.assemblyNote) || '';
       $('[data-build-lines]').innerHTML = (lines || '<div class="price-row akku-muted"><span>No parts selected yet</span><span class="price">' + A.money(0) + '</span></div>') +
-        '<div class="price-row akku-build-total"><span>Total</span><span class="price" data-price="' + total + '">' + A.money(total) + '</span></div>' + (note ? '<p class="akku-build-note">' + A.esc(note) + '</p>' : '');
+        '<div class="price-row akku-build-total"><span>Total' + (asks.length ? ' (without ask-price parts)' : '') + '</span><span class="price" data-price="' + total + '">' + A.money(total) + '</span></div>' +
+        (asks.length ? '<p class="akku-build-note">' + A.esc(asks.map(function (s) { return A.shortName(part(s.id)); }).join(', ')) + ': price on request. Use "Get a Quote".</p>' : '') + (note ? '<p class="akku-build-note">' + A.esc(note) + '</p>' : '');
       var tot = $('[data-build-total]'); tot.setAttribute('data-price', total); tot.textContent = A.money(total);
       var compatText = $('[data-compat-text]'), dot = $('[data-compat-dot]'), inline = $('[data-compat-inline]');
       dot.className = 'compatibility-status ' + (issues.length ? 'error' : (picked.length ? 'success' : 'pending'));
@@ -68,7 +78,7 @@
       else if (missing.length) { compatText.textContent = picked.length ? 'No conflicts so far' : 'Select parts to check compatibility'; inline.innerHTML = '<i class="fas fa-info-circle"></i><span>Still needed: ' + A.esc(missing.map(function (s) { return s.label; }).join(', ')) + '</span>'; }
       else { compatText.textContent = 'All selected parts fit together'; inline.innerHTML = '<i class="fas fa-check-circle"></i><span>All components compatible</span>'; }
       inline.className = 'compatibility-status-inline' + (issues.length ? ' is-error' : missing.length ? ' is-pending' : ' is-ok');
-      $('[data-build-cart]').disabled = !!(issues.length || missing.length);
+      $('[data-build-cart]').disabled = !!(issues.length || missing.length || asks.length);
       var kase = part('case'), img = $('#pcCaseBg');
       var want = kase && kase.image ? A.img(kase.image, 900, 900) : img.getAttribute('data-default');
       if (img.getAttribute('src') !== want) img.setAttribute('src', want);
@@ -99,7 +109,7 @@
           '<div class="component-option-card__image ' + A.mediaClass(p) + '">' + (p.image ? A.media(p, 200, 200) : '<i class="fas ' + s.icon + '"></i>') + '</div>' +
           '<div class="component-option-card__info"><h4>' + A.esc(p.name) + '</h4><div class="specs">' + (p.specs && p.specs.Summary ? p.specs.Summary.split(', ') : p.chips || []).map(function (x) { return '<span>' + A.esc(x) + '</span>'; }).join('') + '</div>' +
           (p.recommended ? '<span class="akku-reco"><i class="fas fa-thumbs-up"></i> Recommended</span>' : '') + (bad ? '<span class="akku-clash"><i class="fas fa-exclamation-triangle"></i> Does not fit your other parts</span>' : '') + '</div>' +
-          '<div class="component-option-card__footer"><div class="price" data-price="' + p.price + '">' + A.money(p.price) + '</div>' +
+          '<div class="component-option-card__footer">' + (p.ask ? '<div class="price price-ask">Ask price</div>' : '<div class="price" data-price="' + p.price + '">' + A.money(p.price) + '</div>') +
           '<button class="btn-select-component' + (sel ? ' selected-btn' : '') + '" type="button" data-pick="' + p.id + '"' + (p.stock === 'out' ? ' disabled' : '') + '>' + (sel ? '<i class="fas fa-check-circle"></i> Selected' : (p.stock === 'out' ? 'Out of stock' : '<i class="fas fa-check"></i> Select')) + '</button></div></div>';
       }).join('') || '<p class="akku-muted">No parts in this category yet.</p>';
       A.applyCurrency(modal);
@@ -161,10 +171,34 @@
     $('[data-build-copy]').addEventListener('click', function () {
       var picked = SLOTS.filter(function (s) { return part(s.id); });
       if (!picked.length) { A.toast('Pick some parts first.', { type: 'info' }); return; }
-      var total = picked.reduce(function (n, s) { return n + part(s.id).price; }, 0);
-      var text = A.site.brand.name + ' custom PC build\n' + picked.map(function (s) { var p = part(s.id); return s.label + ': ' + p.name + ' - ' + A.money(p.price, 'NPR'); }).join('\n') + '\nTotal: ' + A.money(total, 'NPR');
+      var text = buildText(picked);
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { A.toast('Parts list copied'); }, function () { A.toast('Copy is blocked here. Select and copy the list from the summary instead.', { type: 'info' }); });
       else A.toast('Copy is not available in this browser.', { type: 'info' });
+    });
+    function buildText(picked) {
+      var total = picked.reduce(function (n, s) { return n + (part(s.id).ask ? 0 : part(s.id).price); }, 0);
+      return A.site.brand.name + ' custom PC build\n' + picked.map(function (s) { var p = part(s.id); return s.label + ': ' + p.name + ' - ' + (p.ask ? 'ask price' : A.money(p.price, 'NPR')); }).join('\n') + '\nTotal: ' + A.money(total, 'NPR');
+    }
+    function shareUrl() { return location.origin + location.pathname + '#parts=' + SLOTS.map(function (s) { return build[s.id]; }).filter(Boolean).join(','); }
+    $('[data-build-share]').addEventListener('click', function () {
+      if (!SLOTS.some(function (s) { return part(s.id); })) { A.toast('Pick some parts first.', { type: 'info' }); return; }
+      var url = shareUrl();
+      A.track('ShareBuild', { value: 0, label: 'pc build' });
+      if (navigator.share) { navigator.share({ title: A.site.brand.name + ' PC build', text: 'My PC build', url: url }).catch(function () {}); return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { A.toast('Link copied. Anyone who opens it sees this build.'); }, function () { window.prompt('Copy this link:', url); });
+      else window.prompt('Copy this link:', url);
+    });
+    var qf = $('[data-build-quote-form]');
+    $('[data-build-quote]').addEventListener('click', function () {
+      if (!SLOTS.some(function (s) { return part(s.id); })) { A.toast('Pick some parts first, then ask for a quote.', { type: 'info' }); return; }
+      qf.hidden = !qf.hidden;
+      if (!qf.hidden) { var saved = A.store.get('customer', {}) || {}; if (saved.fullName && !qf.elements.name.value) qf.elements.name.value = saved.fullName; if (saved.phone && !qf.elements.phone.value) qf.elements.phone.value = saved.phone; qf.elements.name.focus(); }
+    });
+    qf.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var picked = SLOTS.filter(function (s) { return part(s.id); });
+      if (!picked.length) { A.formMsg(qf, 'Pick some parts first.'); return; }
+      A.requestQuote(qf, { build: { name: 'Custom PC build', parts: picked.map(function (s) { return build[s.id]; }) } }, 'Hi ' + A.site.brand.name + ', please quote this build:\n' + buildText(picked) + '\n' + shareUrl());
     });
     document.addEventListener('akku:prefs', render);
     render();

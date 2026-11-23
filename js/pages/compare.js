@@ -15,7 +15,7 @@
           '<button class="remove-product-btn" type="button" data-c-remove aria-label="Remove ' + A.esc(A.shortName(p)) + '"><i class="fas fa-times"></i></button>' +
           '<div class="slot-content"><div class="product-image-wrapper ' + A.mediaClass(p) + '">' + A.media(p, 300, 300) + '</div>' +
           '<div class="product-info"><div class="product-brand">' + A.esc(p.brand) + '</div><div class="product-name">' + A.esc(p.name) + '</div>' +
-          '<div class="product-price" data-price="' + p.price + '">' + A.money(p.price) + '</div>' +
+          (p.ask ? '<div class="product-price">Ask for price</div>' : '<div class="product-price" data-price="' + p.price + '">' + A.money(p.price) + '</div>') +
           '<a class="view-product-btn" href="' + A.productUrl(p) + '">View Product</a>' +
           '<button class="view-product-btn akku-compare-cart" type="button" data-action="add-to-cart" data-pid="' + p.id + '"' + (p.stock === 'out' ? ' disabled' : '') + '><i class="fas fa-shopping-cart"></i> Add to Cart</button></div></div></div>';
       }).join('');

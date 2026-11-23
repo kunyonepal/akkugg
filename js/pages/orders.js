@@ -61,6 +61,33 @@
     }).join('') + '</div>';
   }
 
+  /* bank transfer / QR: how to pay, and a form to send us the transaction id (and a screenshot) */
+  function manualPanel(o) {
+    var ps = A.site.payments || {}, b = ps.bank || {}, q = ps.qr || {}, amount = A.money(o.payNow || o.due || o.total, 'NPR');
+    var how = o.payment.id === 'bank'
+      ? '<dl class="akku-bank">' + [['Bank', b.bankName], ['Account name', b.accountName], ['Account number', b.accountNumber], ['Branch', b.branch], ['Amount', amount], ['Remark', o.id]].filter(function (r) { return r[1]; })
+          .map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + A.esc(r[1]) + (r[0] === 'Account number' || r[0] === 'Remark' ? ' <button type="button" class="akku-link-btn" data-copy="' + A.esc(r[1]) + '">Copy</button>' : '') + '</dd>'; }).join('') + '</dl>'
+      : '<div class="akku-qr">' + (q.image ? '<img src="' + A.esc(A.url(q.image)) + '" alt="Payment QR code" width="220" height="220">' : '') + '<p><strong>' + A.esc(q.label || 'Scan with any bank or wallet app') + '</strong><br>Pay <strong>' + amount + '</strong> and write <strong>' + A.esc(o.id) + '</strong> as the remark.</p></div>';
+    var pr = o.proof, state = pr && pr.status === 'submitted' ? '<p class="akku-proof-state is-ok"><i class="fas fa-clock"></i> You sent ' + (pr.reference ? 'reference <strong>' + A.esc(pr.reference) + '</strong>' : 'a screenshot') + ' on ' + when(pr.at) + '. We are checking it and will confirm your order.</p>'
+      : pr && pr.status === 'rejected' ? '<p class="akku-proof-state is-error"><i class="fas fa-exclamation-circle"></i> ' + A.esc(pr.note || 'We could not find this payment yet.') + '</p>' : '';
+    return '<h3>' + (o.payment.id === 'bank' ? 'Transfer ' : 'Scan and pay ') + amount + '</h3>' + how + state +
+      '<form class="akku-proof-form" data-proof-form novalidate><label for="proofRef">Transaction ID or reference</label><input id="proofRef" name="reference" type="text" maxlength="80" autocomplete="off" placeholder="From your bank or wallet app">' +
+      '<label for="proofImg">Screenshot of the payment (optional)</label><input id="proofImg" name="image" type="file" accept="image/jpeg,image/png,image/webp">' +
+      '<button type="submit" class="btn btn-primary">' + (pr && pr.status === 'submitted' ? 'Send again' : 'I have paid') + '</button><p class="akku-form-msg" data-form-msg role="status"></p></form>';
+  }
+  function shrink(file) {
+    return new Promise(function (res, rej) {
+      var img = new Image();
+      img.onload = function () {
+        var k = Math.min(1, 1600 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', 0.85));
+      };
+      img.onerror = function () { rej(new Error('That file is not a picture we can read.')); };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
   /* ---------- order confirmation ---------- */
   function render(view, o, pay) {
     $('[data-order-found]', view).hidden = false;
@@ -74,7 +101,12 @@
         : 'Your order is saved. Pay now to confirm it' + (o.expiresAt ? ' (we hold it until ' + when(o.expiresAt) + ')' : '') + '.';
       if (icon) icon.className = 'fas fa-hourglass-half';
       view.classList.add('is-awaiting');
-      panel.innerHTML = '<h3>Choose how to pay</h3>' + payButtons(o, 'Pay with') + (pay === 'pending' ? '<p class="akku-pay-panel__note">If you already paid, the payment may still be on its way. Refresh this page in a minute.</p>' : '');
+      if (o.payment.manual && API) {
+        title.textContent = o.proof && o.proof.status === 'submitted' ? 'We are checking your payment' : 'One step left: pay for your order';
+        lead.textContent = 'Your order is saved. Pay ' + A.money(o.payNow || o.total, 'NPR') + ', then send us the transaction ID below. We confirm the order when the money reaches us' + (o.expiresAt ? ' (we hold it until ' + when(o.expiresAt) + ')' : '') + '.';
+        var others = (o.methods || []).filter(function (m) { return m.id !== o.payment.id; });
+        panel.innerHTML = manualPanel(o) + (others.length ? '<h3 class="akku-mt">Or pay another way</h3>' + payButtons({ methods: others }, 'Pay with') : '');
+      } else panel.innerHTML = '<h3>Choose how to pay</h3>' + payButtons(o, 'Pay with') + (pay === 'pending' ? '<p class="akku-pay-panel__note">If you already paid, the payment may still be on its way. Refresh this page in a minute.</p>' : '');
       panel.hidden = false;
     } else if (o.status === 'cancelled') {
       title.textContent = 'Order cancelled'; lead.textContent = 'This order is cancelled. ' + (o.paymentStatus === 'paid' ? 'Your payment will be refunded; we will contact you.' : 'No payment was taken.');
@@ -85,6 +117,10 @@
       lead.textContent = 'Thank you' + (first ? ', ' + first : '') + '! ' + (o.paymentStatus === 'paid' && o.payment.id !== 'cod' ? 'Your ' + o.payment.name + ' payment is confirmed. ' : '') +
         (o.status === 'placed' ? 'We will call ' + ((o.customer || {}).phone || 'you') + ' to confirm your order.' : 'Your order is ' + statusLabel(o).toLowerCase() + '.');
       panel.hidden = true;
+      if (o.canPay && API && o.due > 0) {
+        panel.innerHTML = '<h3>' + A.money(o.paid, 'NPR') + ' paid. Pay the rest (' + A.money(o.due, 'NPR') + ') now, or when the order arrives</h3>' + payButtons(o, 'Pay with');
+        panel.hidden = false;
+      }
     }
     if (o.payment && o.payment.test && o.paymentStatus === 'paid') lead.textContent += ' (Test payment: no real money was taken.)';
     if (o.canCancel && API) {
@@ -100,6 +136,7 @@
       '<p class="info-phone"><i class="fas fa-phone"></i> ' + A.esc(c.phone) + '</p>' + (c.email ? '<p><i class="fas fa-envelope"></i> ' + A.esc(c.email) + '</p>' : '');
     var payText = o.paymentStatus === 'paid' ? (o.payment.id === 'cod' ? 'Paid on delivery.' : 'Paid' + (o.payment.ref ? ' · ref ' + A.esc(o.payment.ref) : '') + '.')
       : o.paymentStatus === 'refunded' ? 'Refunded.' : o.payment.id === 'cod' ? 'Pay when your order arrives.' : o.status === 'pending_payment' ? 'Waiting for payment.' : API ? 'Payment not completed.' : 'We send the payment details when we confirm your order.';
+    if (o.paymentStatus === 'partial') payText = A.money(o.paid, 'NPR') + ' paid' + (o.payment.plan === 'deposit' ? ' (deposit)' : '') + '. ' + A.money(o.due, 'NPR') + ' still to pay' + (o.payment.plan === 'deposit' ? ' when the order arrives.' : '.');
     $('[data-o-pay]', view).innerHTML = '<p><strong>' + A.esc(o.payment.name) + '</strong></p><p>' + payText + '</p>';
     var count = o.items.reduce(function (n, i) { return n + i.qty; }, 0);
     $('[data-o-breakdown]', view).innerHTML = '<div class="summary-row"><span>Subtotal (' + count + ' item' + (count === 1 ? '' : 's') + ')</span><span data-price="' + o.subtotal + '">' + A.money(o.subtotal) + '</span></div>' +
@@ -127,17 +164,29 @@
         function () { $('[data-order-found]', view).hidden = true; $('[data-order-missing]', view).hidden = false; });
     }
     load();
+    view.addEventListener('submit', function (e) {
+      var f = e.target.closest('[data-proof-form]'); if (!f) return;
+      e.preventDefault();
+      var ref = f.elements.reference.value.trim(), file = f.elements.image.files && f.elements.image.files[0];
+      if (!ref && !file) { A.formMsg(f, 'Enter the transaction ID, or add a screenshot.'); f.elements.reference.focus(); return; }
+      var btn = $('[type="submit"]', f); btn.disabled = true; A.formMsg(f, 'Sending...', true);
+      (file ? shrink(file) : Promise.resolve(null)).then(function (image) {
+        return A.api('POST', 'orders/' + encodeURIComponent(id) + '/proof', { key: key, reference: ref, image: image });
+      }).then(function () { A.toast('Thank you. We will confirm your order when the payment reaches us.'); load(); }, function (err) { btn.disabled = false; A.formMsg(f, err.message); });
+    });
     view.addEventListener('click', function (e) {
       var b = e.target.closest('[data-pay-method]');
       if (b) {
         $$('[data-pay-method]', view).forEach(function (x) { x.disabled = true; });
         b.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Opening...</span>';
         A.api('POST', 'orders/' + encodeURIComponent(id) + '/pay', { key: key, method: b.getAttribute('data-pay-method') }).then(function (r) {
-          if (r.next.type === 'done') { pay = null; load(); return; }
+          if (r.next.type === 'done' || r.next.type === 'manual') { pay = null; load(); return; }
           if (r.next.type === 'error') { A.toast(r.next.message, { type: 'error', duration: 8000 }); load(); return; }
           A.goPay(r.next);
         }, function (err) { A.toast(err.message, { type: 'error' }); load(); });
       }
+      var cp = e.target.closest('[data-copy]');
+      if (cp) { if (navigator.clipboard) navigator.clipboard.writeText(cp.getAttribute('data-copy')).then(function () { A.toast('Copied'); }, function () {}); return; }
       var c = e.target.closest('[data-cancel-order]');
       if (c) {
         if (!c.hasAttribute('data-armed')) { c.setAttribute('data-armed', ''); c.textContent = 'Tap again to cancel the order'; setTimeout(function () { c.removeAttribute('data-armed'); c.textContent = 'Cancel this order'; }, 4000); return; }

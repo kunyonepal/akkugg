@@ -245,10 +245,21 @@
                                     <div class="final-actions-buttons">
                                         <button class="btn-add-to-cart" type="button" data-build-cart disabled><i class="fas fa-shopping-cart"></i> Add Complete Build to Cart</button>
                                         <div class="secondary-actions-inline">
+                                            <button class="btn-outline" type="button" data-build-quote><i class="fas fa-file-invoice"></i> Get a Quote</button>
+                                            <button class="btn-outline" type="button" data-build-share><i class="fas fa-share-alt"></i> Share Build</button>
                                             <button class="btn-outline" type="button" data-build-copy><i class="fas fa-copy"></i> Copy Parts List</button>
                                             <button class="btn-outline" type="button" data-build-reset><i class="fas fa-redo"></i> Start Over</button>
                                         </div>
                                     </div>
+                                    <form class="akku-quote-form akku-build-quote" data-build-quote-form hidden novalidate>
+                                        <p><strong>Get a quotation for this build</strong><br><small>We check stock and today's prices, then call or WhatsApp you.</small></p>
+                                        <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+                                        <input type="tel" name="phone" placeholder="Phone, 98XXXXXXXX" autocomplete="tel" inputmode="tel" required>
+                                        <input type="text" name="note" placeholder="Budget, use (gaming, editing) or a question (optional)">
+                                        <input type="text" name="website" class="akku-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                                        <button class="btn btn-primary" type="submit">Send request</button>
+                                        <p class="akku-form-msg" data-form-msg role="status"></p>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -313,6 +324,7 @@
                             <li><a href="mobiles.html">Smartphones</a></li>
                             <li><a href="audio.html">Audio &amp; Wearables</a></li>
                             <li><a href="deals.html">Deals</a></li>
+                            <li><a href="price-list.html">Price List</a></li>
                         </ul>
                     </div>
                     <div class="footer-v2__column">

@@ -41,6 +41,7 @@
       $('[data-co-subtotal]').setAttribute('data-price', subtotal);
       var del = $('[data-co-delivery]'); del.textContent = q.label; del.removeAttribute('data-price'); if (q.fee > 0) del.setAttribute('data-price', q.fee);
       $('[data-co-total]').setAttribute('data-price', Math.max(0, subtotal - discount + (q.fee || 0)));
+      updateDeposit();
       var note = $('[data-co-note]'); note.hidden = !q.note; note.textContent = q.note || '';
       var sv = $('[data-co-savings]'); sv.hidden = !savings; $('span', sv).textContent = 'You save ' + A.money(savings) + ' on this order';
       A.deliveryAreas().forEach(function (a) {
@@ -146,7 +147,10 @@
       if (api) {
         busy = true;
         var b = $('#placeOrderBtn'); b.disabled = true; b.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (pay.id === 'cod' ? 'Placing order...' : 'Opening ' + A.esc(pay.name) + '...');
-        A.api('POST', 'orders', { items: serverItems(), customer: customer, delivery: { method: m }, payment: { id: pay.id }, coupon: coupon && coupon.ok ? coupon.code : '', note: get('note') })
+        var plan = ($('input[name="payPlan"]:checked', form) || {}).value === 'deposit' && depositBox && !depositBox.hidden ? 'deposit' : 'full';
+        A.track('AddPaymentInfo', { value: subtotal, label: pay.name, items: A.cart.lines().map(function (l) { return { id: l.custom ? 'custom-build' : l.id, name: l.name, price: l.price, qty: l.qty }; }) });
+        A.api('POST', 'orders', { items: serverItems(), customer: customer, delivery: { method: m }, payment: { id: pay.id, plan: plan }, coupon: coupon && coupon.ok ? coupon.code : '', note: get('note'),
+          attribution: A.attribution(), analytics: A.trackingIds() })
           .then(function (res) {
             var o = res.order; o.key = res.key; o.mode = 'api';
             A.orders.save(o); A.store.set('lastOrder', o.id); A.cart.clear();
@@ -182,6 +186,16 @@
       finish();
     });
 
+    /* part payment: offered for online, bank and QR payments when it is switched on */
+    var depositBox = $('[data-deposit]', form);
+    function updateDeposit() {
+      if (!depositBox) return;
+      var dp = A.site.payments.deposit || {}, payId = ($('input[name="payment"]:checked', form) || {}).value, tEl = $('[data-co-total]'), total = Number(tEl && tEl.getAttribute('data-price')) || A.cart.subtotal();
+      depositBox.hidden = !api || payId === 'cod' || !payId || total < (Number(dp.minTotal) || 0);
+      var amt = $('[data-deposit-amount]', depositBox); if (amt) amt.textContent = A.money(Math.max(1, Math.round(total * (Number(dp.percent) || 20) / 100)));
+    }
+    form.addEventListener('change', function (e) { if (e.target.name === 'payment') updateDeposit(); });
+    updateDeposit();
     document.addEventListener('akku:prefs', render);
     render();
   }
