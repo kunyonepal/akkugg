@@ -88,6 +88,47 @@
     });
   }
 
+  /* warranty dates, open claims, and a form to ask for a return or a warranty repair (delivered orders) */
+  function afterSale(view, o) {
+    var box = $('[data-o-after]', view); if (!box || !API) return;
+    var claims = o.claims || [], w = o.warranty || [];
+    if (o.status !== 'delivered' && !claims.length) { box.hidden = true; return; }
+    var day = function (iso) { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kathmandu' }); };
+    var html = '';
+    if (w.some(function (x) { return x.until; })) html += '<ul class="akku-warranty">' + w.filter(function (x) { return x.until; }).map(function (x) { return '<li><strong>' + A.esc(x.name) + '</strong>: shop warranty until ' + day(x.until) + '</li>'; }).join('') + '</ul>';
+    if (claims.length) html += '<div class="akku-claims">' + claims.map(function (c) {
+      return '<div class="akku-claim"><p><strong>' + A.esc(c.id) + '</strong> · ' + A.esc(c.item) + ' · ' + (c.kind === 'return' ? 'Return' : 'Warranty') + '<br><span class="badge-status--pending">' + A.esc(c.statusLabel) + '</span>' + (c.outcomeLabel ? ' · ' + A.esc(c.outcomeLabel) : '') + '</p>' +
+        (c.history || []).filter(function (h) { return h.note; }).map(function (h) { return '<p class="akku-claim__note">' + day(h.at) + ': ' + A.esc(h.note) + '</p>'; }).join('') + '</div>';
+    }).join('') + '</div>';
+    if (o.status === 'delivered') {
+      var items = o.items.map(function (i, n) { return i.service ? '' : '<option value="' + n + '">' + A.esc(i.name) + '</option>'; }).join('');
+      var reasons = o.claimReasons || { return: [], warranty: [] };
+      html += '<details class="akku-claim-open"><summary>Ask for a return or a warranty repair</summary><form class="akku-proof-form" data-claim-form novalidate>' +
+        '<label for="clItem">Item</label><select id="clItem" name="item">' + items + '</select>' +
+        '<label for="clKind">What do you need?</label><select id="clKind" name="kind"><option value="warranty">Warranty: it has a fault</option><option value="return">Return it (within ' + (o.returnDays || 7) + ' days of delivery)</option></select>' +
+        '<label for="clReason">Reason</label><select id="clReason" name="reason">' + reasons.warranty.map(function (r) { return '<option>' + A.esc(r) + '</option>'; }).join('') + '</select>' +
+        '<label for="clDesc">What happened?</label><textarea id="clDesc" name="description" rows="3" maxlength="2000"></textarea>' +
+        '<label for="clSerial">Serial number (optional, on the box or the product)</label><input id="clSerial" name="serial" maxlength="80">' +
+        '<button type="submit" class="btn btn-primary">Send request</button><p class="akku-form-msg" data-form-msg role="status"></p></form></details>';
+    }
+    $('[data-o-after-body]', box).innerHTML = html;
+    box.hidden = false;
+    var f = $('[data-claim-form]', box);
+    if (f) {
+      f.elements.kind.addEventListener('change', function () { f.elements.reason.innerHTML = (reasons[f.elements.kind.value] || []).map(function (r) { return '<option>' + A.esc(r) + '</option>'; }).join(''); });
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var body = { key: o.key, item: f.elements.item.value, kind: f.elements.kind.value, reason: f.elements.reason.value, description: f.elements.description.value.trim(), serial: f.elements.serial.value.trim() };
+        if (body.description.length < 10) { A.formMsg(f, 'Tell us what happened (a sentence or two).'); f.elements.description.focus(); return; }
+        var b = $('[type="submit"]', f); b.disabled = true;
+        A.api('POST', 'orders/' + encodeURIComponent(o.id) + '/claims', body).then(function (c) {
+          A.toast('Request ' + c.id + ' sent. We will contact you.', { type: 'success' });
+          o.claims = (o.claims || []).concat([c]); afterSale(view, o);
+        }, function (err) { b.disabled = false; A.formMsg(f, err.message); });
+      });
+    }
+  }
+
   /* ---------- order confirmation ---------- */
   function render(view, o, pay) {
     $('[data-order-found]', view).hidden = false;
@@ -101,7 +142,14 @@
         : 'Your order is saved. Pay now to confirm it' + (o.expiresAt ? ' (we hold it until ' + when(o.expiresAt) + ')' : '') + '.';
       if (icon) icon.className = 'fas fa-hourglass-half';
       view.classList.add('is-awaiting');
-      if (o.payment.manual && API) {
+      if (o.qrPay && API) {
+        title.textContent = 'Scan to pay with Fonepay';
+        lead.textContent = 'Open a bank or wallet app that pays Fonepay QR, scan this code and pay ' + A.money(o.qrPay.amount, 'NPR') + '. This page updates by itself when the payment goes through.';
+        var rest = (o.methods || []).filter(function (m) { return m.id !== 'fonepay'; });
+        panel.innerHTML = '<div class="akku-fonepay-qr">' + o.qrPay.svg + '<p class="akku-fonepay-qr__amount">' + A.money(o.qrPay.amount, 'NPR') + '</p><p class="akku-pay-panel__note"><i class="fas fa-spinner fa-spin"></i> Waiting for the payment…</p>' +
+          '<p class="akku-pay-panel__note">Paying from this phone? Take a screenshot of the code and open it from your gallery in the banking app.</p><button type="button" class="akku-link-btn" data-pay-method="fonepay">Get a new code</button></div>' +
+          (rest.length ? '<h3 class="akku-mt">Or pay another way</h3>' + payButtons({ methods: rest }, 'Pay with') : '');
+      } else if (o.payment.manual && API) {
         title.textContent = o.proof && o.proof.status === 'submitted' ? 'We are checking your payment' : 'One step left: pay for your order';
         lead.textContent = 'Your order is saved. Pay ' + A.money(o.payNow || o.total, 'NPR') + ', then send us the transaction ID below. We confirm the order when the money reaches us' + (o.expiresAt ? ' (we hold it until ' + when(o.expiresAt) + ')' : '') + '.';
         var others = (o.methods || []).filter(function (m) { return m.id !== o.payment.id; });
@@ -146,6 +194,9 @@
     var savings = o.items.reduce(function (n, i) { return n + (i.oldPrice > i.price ? (i.oldPrice - i.price) * i.qty : 0); }, 0) + (o.discount || 0);
     var sv = $('[data-o-savings]', view); sv.hidden = !savings; sv.innerHTML = '<i class="fas fa-tags"></i> You saved ' + A.money(savings) + ' on this order!';
     $('[data-o-track]', view).setAttribute('href', A.root + 'track-order.html#' + o.id);
+    var inv = $('[data-o-invoice]', view);
+    if (inv && API && o.invoiceNo && o.key) { inv.href = A.root + 'api/orders/' + encodeURIComponent(o.id) + '/invoice?key=' + encodeURIComponent(o.key); inv.innerHTML = '<i class="fas fa-file-invoice"></i> Invoice ' + A.esc(o.invoiceNo); inv.hidden = false; }
+    afterSale(view, o);
     document.title = 'Order ' + o.id + ' | ' + A.site.brand.name;
     A.refresh(view);
   }
@@ -160,8 +211,19 @@
     if (qs.get('key') && window.history.replaceState) window.history.replaceState(null, '', location.pathname + '#' + encodeURIComponent(id));
     if (!id || !key) { $('[data-order-missing]', view).hidden = false; return; }
     function load() {
-      return A.api('GET', 'orders/' + encodeURIComponent(id) + '?key=' + encodeURIComponent(key)).then(function (o) { remember(o, key); render(view, o, pay); return o; },
+      return A.api('GET', 'orders/' + encodeURIComponent(id) + '?key=' + encodeURIComponent(key)).then(function (o) { o.key = key; remember(o, key); render(view, o, pay); watchQr(o); return o; },
         function () { $('[data-order-found]', view).hidden = true; $('[data-order-missing]', view).hidden = false; });
+    }
+    /* a Fonepay QR on the page: ask the store every 4 seconds (for up to 20 minutes) whether it was paid */
+    var poll = null, pollUntil = 0;
+    function watchQr(o) {
+      if (!o.qrPay) { if (poll) { clearInterval(poll); poll = null; } return; }
+      pollUntil = Date.now() + 20 * 60e3;
+      if (poll) return;
+      poll = setInterval(function () {
+        if (Date.now() > pollUntil || document.hidden) { if (Date.now() > pollUntil) { clearInterval(poll); poll = null; } return; }
+        A.api('GET', 'orders/' + encodeURIComponent(id) + '/pay-status?key=' + encodeURIComponent(key)).then(function (r) { if (r.paid) { clearInterval(poll); poll = null; pay = 'paid'; load(); } }, function () {});
+      }, 4000);
     }
     load();
     view.addEventListener('submit', function (e) {
@@ -180,7 +242,7 @@
         $$('[data-pay-method]', view).forEach(function (x) { x.disabled = true; });
         b.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Opening...</span>';
         A.api('POST', 'orders/' + encodeURIComponent(id) + '/pay', { key: key, method: b.getAttribute('data-pay-method') }).then(function (r) {
-          if (r.next.type === 'done' || r.next.type === 'manual') { pay = null; load(); return; }
+          if (r.next.type === 'done' || r.next.type === 'manual' || r.next.type === 'qr') { pay = null; load(); return; }
           if (r.next.type === 'error') { A.toast(r.next.message, { type: 'error', duration: 8000 }); load(); return; }
           A.goPay(r.next);
         }, function (err) { A.toast(err.message, { type: 'error' }); load(); });

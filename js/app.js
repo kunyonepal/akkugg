@@ -721,8 +721,32 @@
     }, function (err) { formMsg(form, err.message); return null; }).then(function (r) { if (btn) btn.disabled = false; return r; });
   };
   function initForms() {
+    /* "Pairs well with": add the product and its partners in one go */
+    doc.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-bundle]');
+      if (!b) return;
+      var ids = b.getAttribute('data-bundle').split(','), added = ids.filter(function (id) { return cart.add(id, 1); });
+      A.toast(added.length ? added.length + ' products added to your cart' : 'These products are not available right now.', { type: added.length ? 'success' : 'info', href: A.root + 'cart.html', linkText: 'View cart' });
+    });
     doc.addEventListener('submit', function (e) {
       var f = e.target;
+      if (f.matches && f.matches('[data-question-form]')) {
+        e.preventDefault();
+        var name = f.elements.name.value.trim(), q = f.elements.question.value.trim(), contact = f.elements.contact.value.trim();
+        if (f.elements.website.value) return;
+        if (name.length < 2) { formMsg(f, 'Please enter your name.'); f.elements.name.focus(); return; }
+        if (q.length < 8) { formMsg(f, 'Write your question (a sentence is enough).'); f.elements.question.focus(); return; }
+        if (!A.site.backend) {
+          var link = A.whatsappLink('Hi ' + A.site.brand.name + ', a question about ' + ((A.product(f.getAttribute('data-pid')) || {}).name || 'a product') + ': ' + q);
+          if (link) { window.open(link, '_blank', 'noopener'); formMsg(f, 'WhatsApp opened with your question.', true); } else formMsg(f, 'Questions are not connected yet. Please contact us.');
+          return;
+        }
+        var qb = $('[type="submit"]', f); qb.disabled = true;
+        A.api('POST', 'questions', { productId: f.getAttribute('data-pid'), name: name, contact: contact, question: q })
+          .then(function (r) { f.reset(); formMsg(f, r.message, true); }, function (err) { formMsg(f, err.message); })
+          .then(function () { qb.disabled = false; });
+        return;
+      }
       if (f.matches && f.matches('[data-quote-form]')) {
         e.preventDefault();
         var p = A.product(f.getAttribute('data-pid'));

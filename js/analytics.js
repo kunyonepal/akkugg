@@ -13,9 +13,31 @@
   function load(src) { var s = doc.createElement('script'); s.async = true; s.src = src; doc.head.appendChild(s); }
   function phone977(p) { var d = String(p || '').replace(/\D/g, ''); if (!d) return ''; if (d.indexOf('977') === 0) return d; if (d.charAt(0) === '0') d = d.slice(1); return '977' + d; }
 
+  /* ---------- cookie notice: off, a notice, or tags only after the visitor agrees (Settings → Cookie notice) ---------- */
+  var mode = (A.site.consent && A.site.consent.mode) || 'off', started = false;
+  function choice() { return A.store.get('consent', ''); }
+  function allowed() { return mode !== 'optin' || choice() === 'yes'; }
+  function banner() {
+    if (doc.querySelector('.akku-consent')) return;
+    var el = doc.createElement('div'); el.className = 'akku-consent'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Cookies');
+    el.innerHTML = '<p>' + A.esc((A.site.consent && A.site.consent.text) || (mode === 'optin' ? 'We would like to use cookies from Google, Meta and TikTok to count visits and measure our ads.' : 'This site uses cookies from Google, Meta and TikTok to count visits and measure our ads.')) +
+      ' <a href="' + A.root + 'cookie-policy.html">Cookie policy</a></p><div class="akku-consent__buttons">' +
+      (mode === 'optin' ? '<button type="button" class="btn btn-primary" data-consent="yes">Accept</button><button type="button" class="btn btn-secondary" data-consent="no">No, thanks</button>' : '<button type="button" class="btn btn-primary" data-consent="ok">OK</button>') + '</div>';
+    doc.body.appendChild(el);
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-consent]'); if (!b) return;
+      A.store.set('consent', b.getAttribute('data-consent')); el.remove();
+      if (allowed()) startTags();
+    });
+  }
+  doc.addEventListener('click', function (e) { var l = e.target.closest && e.target.closest('a[href$="#cookie-settings"]'); if (l && mode !== 'off') { e.preventDefault(); A.store.set('consent', ''); banner(); } });
+
   /* ---------- the tags ---------- */
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
+  function startTags() {
+  if (started) return;
+  started = true;
   if (ga || aw) {
     window.gtag = gtag;
     gtag('js', new Date());
@@ -55,6 +77,9 @@
     if (saved.email || saved.phone) q.identify({ email: saved.email || undefined, phone_number: saved.phone ? '+' + phone977(saved.phone) : undefined });
     q.page();
   }
+  }
+  if (allowed()) startTags();
+  if (mode !== 'off' && !choice()) { if (doc.body) banner(); else doc.addEventListener('DOMContentLoaded', banner); }
 
   /* ---------- one shop event to every tag ---------- */
   var GA = { ViewContent: 'view_item', ViewCategory: 'view_item_list', AddToCart: 'add_to_cart', InitiateCheckout: 'begin_checkout', AddPaymentInfo: 'add_payment_info', Purchase: 'purchase', Lead: 'generate_lead', Contact: 'contact', Search: 'search', AddToWishlist: 'add_to_wishlist', ShareBuild: 'share' };
@@ -64,6 +89,7 @@
   var TO_SERVER = { ViewContent: 1, AddToCart: 1, InitiateCheckout: 1, AddPaymentInfo: 1, Contact: 1, Search: 1 };
   function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
   function fire(name, d) {
+    if (!allowed()) return;
     d = d || {};
     var items = (d.items || []).filter(Boolean), cur = 'NPR', id = d.eventId || (name.toLowerCase() + '-' + uid());
     var value = d.value != null ? d.value : items.reduce(function (n, i) { return n + (i.price || 0) * (i.qty || 1); }, 0);
