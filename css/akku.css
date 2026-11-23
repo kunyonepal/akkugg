@@ -548,3 +548,102 @@ section.container.akku-service-page { padding: 30px 15px 50px; max-width: 760px;
 .akku-wa:hover, .akku-wa:focus-visible { color: #fff; transform: scale(1.07); }
 @media (max-width: 991px) { body[data-page="product"] .akku-wa { bottom: 88px; } }
 @media print { .akku-wa { display: none; } }
+
+/* ---------- legal round: business details, policies, complaints, privacy tools, consent ---------- */
+.legal-sidebar .sidebar-sticky .legal-sidebar__title { font-size: 1.2rem; font-weight: 600; color: var(--text-primary); margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,.1); }
+.legal-section a, .header-notice a { color: #ff8a8d; text-decoration: underline; text-underline-offset: 2px; }
+.legal-section h3 { font-size: 1.15rem; }
+.contact-card h2 { font-size: 2rem; font-weight: 600; color: var(--text-primary); margin-bottom: 15px; }
+.akku-business { margin-top: 8px; }
+.akku-business h2, .akku-business h3 { font-size: 1.3rem; margin-bottom: 14px; }
+.akku-business dl { display: grid; gap: 0; margin: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; overflow: hidden; }
+.akku-business dl > div { display: grid; grid-template-columns: minmax(150px, 34%) 1fr; gap: 12px; padding: 10px 14px; border-top: 1px solid rgba(255,255,255,.08); }
+.akku-business dl > div:first-child { border-top: 0; }
+.akku-business dt { color: var(--akku-muted); font-weight: 500; }
+.akku-business dd { margin: 0; color: #fff; overflow-wrap: anywhere; }
+.akku-business a { color: #ff8a8d; }
+.akku-business-section { max-width: 900px; margin: 48px auto 0; }
+@media (max-width: 575px) { .akku-business dl > div { grid-template-columns: 1fr; gap: 2px; } }
+.akku-officer p { color: var(--text-secondary); margin: 0 0 10px; overflow-wrap: anywhere; }
+.akku-officer i { color: var(--akku-red); width: 18px; }
+.akku-officer a { color: #fff; }
+.akku-request-form .akku-form__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+@media (max-width: 767px) { .akku-request-form .akku-form__grid { grid-template-columns: 1fr; } }
+.akku-request-form label { display: block; margin-bottom: 6px; color: #fff; font-weight: 500; }
+.akku-request-form input, .akku-request-form select, .akku-request-form textarea { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2); background: rgba(0,0,0,.35); color: #fff; font: inherit; }
+.akku-request-form select option { color: #111; }
+.akku-request-form .form-group { margin-bottom: 16px; }
+.akku-request-form .form-note { color: var(--text-secondary); font-size: .95rem; }
+.akku-request-form .error-message { display: none; color: #ff8a8d; font-size: .9rem; margin-top: 4px; }
+.akku-request-done { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 12px; background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.45); }
+.akku-request-done i { color: #4ade80; font-size: 1.6rem; margin-top: 2px; }
+.akku-request-done strong { font-size: 1.2rem; letter-spacing: .5px; }
+.akku-request-done p { margin: 4px 0 0; color: #fff; }
+.akku-map__ask { height: 100%; min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; background: rgba(255,255,255,.03); border: 1px dashed rgba(255,255,255,.2); border-radius: 12px; }
+.akku-map__ask i { font-size: 2.4rem; color: var(--akku-red); }
+.akku-map__ask p { margin: 0; color: var(--text-secondary); max-width: 420px; }
+.akku-map.is-loaded iframe { width: 100%; min-height: 360px; border: 0; border-radius: 12px; }
+.gaming-essentials__icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: 8%; font-size: 6.5rem; color: rgba(255,255,255,.2); z-index: 0; pointer-events: none; }
+.gaming-essentials__banner .banner__content { position: relative; z-index: 1; }
+.akku-price-note { margin: 6px 0 0; font-size: 13px; color: var(--akku-muted); }
+.akku-legal-note { margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: var(--akku-muted); }
+.akku-legal-note a, .footer-v2__fineprint a { color: #ff8a8d; text-decoration: underline; }
+.akku-remember { margin-top: 14px; font-size: 13px; color: rgba(255,255,255,.8); }
+.footer-v2__fineprint { margin: 8px 0 0; font-size: 12px; color: rgba(255,255,255,.6); }
+.footer-v2__legal { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 13px; }
+.footer-v2__legal a { color: rgba(255,255,255,.75); text-decoration: none; }
+.footer-v2__legal a:hover, .footer-v2__legal a:focus-visible { color: #fff; text-decoration: underline; }
+.akku-privacy-tools { display: grid; gap: 18px; }
+.akku-privacy-tool { padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.02); }
+.akku-privacy-tool h3 { font-size: 1.05rem; margin: 0 0 6px; }
+.akku-privacy-tool p { color: var(--text-secondary); font-size: 14px; }
+.akku-privacy-tool p a { color: #ff8a8d; }
+.akku-danger-zone { border-color: rgba(237,50,55,.45); }
+.btn-danger { background: #b91c1c; border: 1px solid #ef4444; color: #fff; }
+.btn-danger:hover, .btn-danger:focus-visible { background: #dc2626; color: #fff; }
+.akku-consent__buttons .btn { min-width: 110px; }
+.optional { color: var(--akku-muted); font-weight: 400; font-size: .9em; }
+
+/* ---------- colour contrast (WCAG 2.1 AA: 4.5:1 for normal text, 3:1 for large text) ----------
+   White text sits on a deeper red (#c8171d) or orange (#b4410b) than the logo colours; bright orange and gold
+   badges get dark text instead; red text on dark cards uses a lighter red. */
+.skip-link { background: #c8171d !important; color: #fff !important; }
+.btn-primary { background-color: #c8171d; border-color: #c8171d; --bs-btn-bg: #c8171d; --bs-btn-border-color: #c8171d; --bs-btn-hover-bg: #a90f15; --bs-btn-hover-border-color: #a90f15; --bs-btn-active-bg: #940d12; }
+.btn-primary:hover, .btn-primary:focus-visible, .btn-primary:active { background-color: #a90f15; border-color: #a90f15; }
+.header__action-item .badge, .footer-v2__newsletter-form button, .settings-modal .btn-apply, .settings-modal .option-currency,
+.step-number, .step .step-number, .deal-card .grab-deal-btn, .product-detail__badge, .error-actions .btn-primary, .contact-card .btn-contact,
+.view-all-results .btn-view-all, .promo-tag { background: linear-gradient(135deg, #c8171d 0%, #a8350a 100%); color: #fff; }
+.settings-modal .settings-option:not(.active) .option-currency { background: rgba(237, 50, 55, .12); }
+.pagination .page-btn.active { background: linear-gradient(135deg, #c8171d 0%, #a8350a 100%); border-color: #c8171d; }
+.badge-btn--primary, .component-card__link, .product-detail__options .option-group .option-buttons .option-btn.active, .deal-filters-section .deal-categories__tab.active { background-color: #c8171d; border-color: #c8171d; color: #fff; }
+.badge-discount, .deal__badge, .top-selling__badge, .deal-card .deal-badge, .product-card .product-image .badge-discount, .product-card .product-image .product-badges .badge.badge-discount,
+.product__badge.hot-deal, .product-badges .badge.badge-bestseller, .cart-item .bestseller-ribbon { color: #1a0d00 !important; }
+.product-card .product-image .badge-hot, .product-card .product-image .product-badges .badge.badge-hot { background: linear-gradient(135deg, #c8171d 0%, #a8350a 100%); }
+.product-card .product-image .badge-new, .deal-card__image .best-price-badge { background: linear-gradient(135deg, #1e7e34 0%, #0f766e 100%); }
+.product-card .product-image .badge-gaming { background: linear-gradient(135deg, #7b1fa2 0%, #ad1457 100%); }
+.badge-stock.in-stock, .product__badge.best-seller { background: linear-gradient(135deg, #1e8449 0%, #196f3d 100%); }
+.badge-stock.out-of-stock, .badge-product.discount { background: linear-gradient(135deg, #c0392b 0%, #a93226 100%); }
+.hero__banner--medium.hero__banner--accessories { background: linear-gradient(135deg, #1f7a49 0%, #070406 100%); }
+.hero__banner--secondary.hero__banner--smartphones { background: linear-gradient(135deg, #4a5fb3 0%, #070406 100%); }
+.price__current { color: #ff5a5f; }
+.input-hint { color: #a3a3a3; }
+.product-detail__rating .separator { color: #8a8a8a; }
+/* keyboard focus is always visible */
+a:focus-visible, button:focus-visible, [role="button"]:focus-visible, [tabindex]:focus-visible, summary:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid #ff8a8d !important; outline-offset: 2px; }
+.auth-form input:focus, .error-search input:focus { outline: 2px solid #ff8a8d; outline-offset: 1px; }
+.price__current { color: #ff5a5f !important; }
+.gaming-product__badge { color: #1a0d00 !important; }
+body .product-card__image .badge-discount { color: #fff !important; background: linear-gradient(135deg, #c0392b 0%, #a93226 100%); }
+.product-detail__actions .btn-primary, .summary-actions .btn-primary, .btn-checkout, .header__login-btn, .contact-form .btn-submit:not(.btn-submit--wa),
+.product-card .product-content .btn-add-cart:hover, .trending-item .product-info .product-actions .btn-add-cart:hover { background: linear-gradient(135deg, #c8171d 0%, #a8350a 100%); color: #fff; }
+.btn-checkout.glow-button:hover, .header__login-btn:hover { background: linear-gradient(135deg, #a90f15 0%, #8f2c08 100%); }
+.pricing-info__actions .btn-primary, .mobile-sticky-cart .actions .btn-cart, .btn-track, .category-btn.active, .error-search .search-input-wrapper button,
+.component-card--dark-red .promo-tag, .component-card .promo-tag { background: linear-gradient(135deg, #c8171d 0%, #a8350a 100%); border-color: #c8171d; color: #fff; }
+.pc-part-card--red { background: #c8171d; }
+.pc-part-card--red-gradient { background: linear-gradient(135deg, #a8141a 0%, #c8171d 100%); }
+.pc-part-card--orange { background: linear-gradient(135deg, #8f3600 0%, #b4410b 100%); }
+.pricing-info__actions .btn.btn-primary { background: linear-gradient(135deg, #c8171d 0%, #a90f15 100%); }
+.pricing-info__actions .btn.btn-primary:hover { background: linear-gradient(135deg, #a90f15 0%, #8f0c11 100%); }
+.akku-form-note { font-size: 12px; color: var(--akku-muted); margin: 6px 0 8px; }
+.akku-form-note a { color: #ff8a8d; }

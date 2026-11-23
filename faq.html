@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frequently Asked Questions | Akku.GG</title>
-    <meta name="description" content="Akku.GG is an online store in Kathmandu for gaming PCs, laptops, smartphones, PC components and peripherals.">
+    <meta name="description" content="Answers about ordering, delivery, payment, returns, warranty and your account.">
     <meta name="robots" content="noindex, nofollow">
     <meta property="og:site_name" content="Akku.GG">
     <meta property="og:title" content="Frequently Asked Questions | Akku.GG">
-    <meta property="og:description" content="Akku.GG is an online store in Kathmandu for gaming PCs, laptops, smartphones, PC components and peripherals.">
+    <meta property="og:description" content="Answers about ordering, delivery, payment, returns, warranty and your account.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akku.gg/faq.html">
     <meta property="og:image" content="https://akku.gg/assets/img/og-image.jpg">
@@ -18,9 +18,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/bai-jamjuree-400.woff" as="font" type="font/woff" crossorigin>
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/pages/faq.css">
@@ -110,263 +108,272 @@
     </div>
 
     <main id="main" class="faq-page">
-<div class="container"><div class="akku-notice akku-notice--page" role="note"><i class="fas fa-pen"></i><div><strong>Draft FAQ.</strong> This text came from the design prototype. Check every term (return window, warranty, delivery, payment) against how Akku.GG actually works before launch.</div></div></div><div class="container">
+<div class="container"><div class="akku-notice akku-notice--page" role="note"><i class="fas fa-pen" aria-hidden="true"></i><div><strong>Draft FAQ.</strong> This text is written to match how Akku.GG works and fills in the details from the shop's settings, but it has not been checked by a lawyer yet.</div></div></div><div class="container">
 <div class="faq-header">
 <h1>Frequently Asked Questions</h1>
-<p>Find answers to common questions about our products and services</p>
+<p>Orders, delivery, payment, returns and your account</p>
 </div>
 <div class="faq-search">
 <div class="search-box">
-<i class="fas fa-search"></i>
-<input id="faqSearchInput" placeholder="Search for answers..." type="text"/>
+<i class="fas fa-search" aria-hidden="true"></i>
+<input id="faqSearchInput" placeholder="Search the questions..." type="search" aria-label="Search the questions"/>
 </div>
 </div>
-<div class="faq-categories">
-<button class="category-btn active" data-category="all">
-<i class="fas fa-th"></i>
+<div class="faq-categories" role="group" aria-label="Question topics">
+<button class="category-btn active" data-category="all" type="button">
+<i class="fas fa-th" aria-hidden="true"></i>
 <span>All Questions</span>
 </button>
-<button class="category-btn" data-category="orders">
-<i class="fas fa-shopping-bag"></i>
+<button class="category-btn" data-category="orders" type="button">
+<i class="fas fa-shopping-bag" aria-hidden="true"></i>
 <span>Orders</span>
 </button>
-<button class="category-btn" data-category="shipping">
-<i class="fas fa-shipping-fast"></i>
-<span>Shipping</span>
+<button class="category-btn" data-category="shipping" type="button">
+<i class="fas fa-shipping-fast" aria-hidden="true"></i>
+<span>Delivery</span>
 </button>
-<button class="category-btn" data-category="payment">
-<i class="fas fa-credit-card"></i>
+<button class="category-btn" data-category="payment" type="button">
+<i class="fas fa-credit-card" aria-hidden="true"></i>
 <span>Payment</span>
 </button>
-<button class="category-btn" data-category="returns">
-<i class="fas fa-undo"></i>
+<button class="category-btn" data-category="returns" type="button">
+<i class="fas fa-undo" aria-hidden="true"></i>
 <span>Returns</span>
 </button>
-<button class="category-btn" data-category="account">
-<i class="fas fa-user"></i>
+<button class="category-btn" data-category="account" type="button">
+<i class="fas fa-user" aria-hidden="true"></i>
 <span>Account</span>
 </button>
 </div>
 <div class="faq-content">
 <section class="faq-section" data-category="orders">
-<h2><i class="fas fa-shopping-bag"></i> Orders &amp; Purchasing</h2>
+<h2><i class="fas fa-shopping-bag" aria-hidden="true"></i> Orders</h2>
 <div class="faq-accordion">
 <div class="faq-item">
-<button class="faq-question">
+<button class="faq-question" type="button">
 <span>How do I place an order?</span>
-<i class="fas fa-chevron-down"></i>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Placing an order is simple! Browse our products, add items to your cart, proceed to checkout, fill in your delivery details, select a payment method, and confirm your order. You'll receive a confirmation email once your order is placed.</p>
+<p>Add products to your cart and open <a href="checkout.html">Checkout</a>. Enter your name and mobile number (email is optional), choose delivery or store pickup and a payment method, then press "Place Order". You get an order number on the screen, and an email if you gave your address. We then call you to confirm the order.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>Can I modify or cancel my order?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Do I need an account to order?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>You can modify or cancel your order within 2 hours of placing it. Go to "My Orders" in your account, select the order, and click "Cancel Order" or "Modify Order". After this period, please contact our customer support for assistance.</p>
+<p>No. You can order as a guest.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>How can I track my order?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Can I cancel my order?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>You can track your order by visiting the <a href="track-order.html">Track Order</a> page or through your account's "My Orders" section. You'll also receive tracking updates via email and SMS at each stage of delivery.</p>
+<p>You can cancel an unpaid order yourself on its order page until we have confirmed it. After that, or if you have already paid, contact us before the order is sent and we cancel it at no cost. Any payment is refunded in full within 7 days.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>What is your minimum order value?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>How do I track my order?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>There is no minimum order value at Akku.GG. You can purchase any product regardless of price. However, free shipping is available on orders above NPR 5,000 within Kathmandu Valley.</p>
+<p>Open <a href="track-order.html">Track order</a> and enter your order number and the phone number you used. We also send text messages when the order moves on.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question" type="button">
+<span>Can I get a quotation for a custom PC?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
+</button>
+<div class="faq-answer">
+<p>Yes. Choose your parts in the <a href="pc-builder.html">PC Builder</a> and send it as a quotation request, or ask on any product page. We reply by phone or message.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question" type="button">
+<span>Can I get a business invoice with my company name and PAN?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
+</button>
+<div class="faq-answer">
+<p>Yes. Tell us the company name and PAN when we call to confirm the order, or contact us before it is delivered.</p>
 </div>
 </div>
 </div>
 </section>
 <section class="faq-section" data-category="shipping">
-<h2><i class="fas fa-shipping-fast"></i> Shipping &amp; Delivery</h2>
+<h2><i class="fas fa-shipping-fast" aria-hidden="true"></i> Delivery</h2>
 <div class="faq-accordion">
 <div class="faq-item">
-<button class="faq-question">
-<span>What are the delivery charges?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Where do you deliver and what does it cost?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Delivery charges vary by location:</p>
-<ul>
-<li>Kathmandu Valley: NPR 100 (Free on orders above NPR 5,000)</li>
-<li>Outside Valley (Major Cities): NPR 200</li>
-<li>Remote Areas: NPR 300-500 depending on location</li>
-</ul>
+<ul><li><strong>Inside Kathmandu Valley</strong>: delivery charge told to you before dispatch</li><li><strong>Outside Kathmandu Valley</strong>: delivery charge told to you before dispatch</li><li><strong>Store Pickup</strong>: free (Putalisadak, Kathmandu, Nepal)</li></ul><p>Full details are in the <a href="delivery-policy.html">delivery policy</a>.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
+<button class="faq-question" type="button">
 <span>How long does delivery take?</span>
-<i class="fas fa-chevron-down"></i>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Delivery times depend on your location:</p>
-<ul>
-<li>Kathmandu Valley: 1-2 business days (same-day delivery available for select products)</li>
-<li>Major Cities: 3-5 business days</li>
-<li>Remote Areas: 5-10 business days</li>
-</ul>
+<p>The usual time for each area is shown at checkout and in the <a href="delivery-policy.html">delivery policy</a>. It is an estimate; we tell you if there is a delay, and if we cannot deliver in the time we told you, you can cancel for a full refund.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>Do you deliver outside Nepal?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Can I collect my order from the store?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Currently, we only deliver within Nepal. We're working on expanding our services internationally. Stay tuned for updates!</p>
-</div>
-</div>
-<div class="faq-item">
-<button class="faq-question">
-<span>What if I'm not available at the delivery address?</span>
-<i class="fas fa-chevron-down"></i>
-</button>
-<div class="faq-answer">
-<p>Our delivery partner will attempt to contact you via phone. If you're unavailable, they will make 2 more delivery attempts. You can also reschedule delivery through your order tracking page or contact customer support.</p>
+<p>Yes, store pickup is free from Putalisadak, Kathmandu, Nepal. Choose it at checkout and we tell you when the order is ready.</p>
 </div>
 </div>
 </div>
 </section>
 <section class="faq-section" data-category="payment">
-<h2><i class="fas fa-credit-card"></i> Payment &amp; Pricing</h2>
+<h2><i class="fas fa-credit-card" aria-hidden="true"></i> Payment</h2>
 <div class="faq-accordion">
 <div class="faq-item">
-<button class="faq-question">
-<span>What payment methods do you accept?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Which payment methods can I use?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>We accept multiple payment methods:</p>
-<ul>
-<li>Cash on Delivery (COD)</li>
-<li>eSewa</li>
-<li>Khalti</li>
-<li>Credit/Debit Cards (Visa, Mastercard)</li>
-<li>Net Banking</li>
-<li>Mobile Banking</li>
-</ul>
+<ul><li><strong>Cash on Delivery</strong>: Pay when your order arrives</li><li><strong>eSewa</strong></li><li><strong>Khalti</strong></li><li><strong>ConnectIPS</strong></li><li><strong>Fonepay</strong></li></ul>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>Is Cash on Delivery (COD) available?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Is it safe to pay online?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Yes, COD is available for all orders. However, COD may not be available for high-value items (above NPR 100,000) or in certain remote areas due to security reasons.</p>
+<p>Online payments are made on the payment service's own page (for example eSewa or Khalti), so we never see your wallet PIN or bank password. The whole website uses an encrypted connection (HTTPS).</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>Are online payments secure?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Do prices include VAT?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Absolutely! We use industry-standard SSL encryption for all transactions. We don't store your card details on our servers. All payments are processed through secure, PCI-DSS compliant payment gateways.</p>
+<p>We are not registered for VAT, so no VAT is added. Every order gets an invoice. The delivery charge is shown separately at checkout.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>Can I get an invoice for my purchase?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Where do I find my invoice?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Yes, an invoice is included with every order. You can also download a digital invoice from your account's "My Orders" section after the order is delivered.</p>
+<p>Once your order is confirmed, open it from <a href="track-order.html">Track order</a> and use the invoice link.</p>
 </div>
 </div>
 </div>
 </section>
 <section class="faq-section" data-category="returns">
-<h2><i class="fas fa-undo"></i> Returns &amp; Refunds</h2>
+<h2><i class="fas fa-undo" aria-hidden="true"></i> Returns &amp; warranty</h2>
 <div class="faq-accordion">
 <div class="faq-item">
-<button class="faq-question">
-<span>What is your return policy?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Can I return a product?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>We offer a 30-day return policy for most products. Items must be unused, in original packaging, with all accessories and tags intact. Some products like software, opened electronics, and personal care items may have restrictions.</p>
+<p>Yes, ask within 7 days of delivery. Wrong, damaged or not-as-described items are returned at our cost. For a change of mind, the item must be unused and complete in its box. See <a href="refund-policy.html">returns and refunds</a>.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>How do I return a product?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>How do I ask for a return or a warranty repair?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>To return a product, go to "My Orders", select the order, click "Return Item", choose the reason for return, and submit. Our team will arrange pickup within 2-3 business days. You can also visit our store with the product and invoice.</p>
+<p>Open your order and use "Ask for a return or a warranty repair". Pick the item and the reason, and tell us what happened. You get a reference number and we contact you about the next step.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>When will I receive my refund?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>When do I get my refund?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Refunds are processed within 7-10 business days after we receive and inspect the returned item. The amount will be credited to your original payment method. For COD orders, you can choose bank transfer or store credit.</p>
+<p>Within 7 days after we accept the return, back to the way you paid where possible.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>Can I exchange a product instead of returning it?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>What warranty do products have?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Yes, exchanges are available for the same product (different size/color) or a different product of equal or higher value. Contact our customer support to arrange an exchange.</p>
+<p>Each product page shows its warranty. You can check an item by its serial number on the <a href="warranty-check.html">warranty check</a> page. See <a href="warranty.html">warranty information</a>.</p>
 </div>
 </div>
 </div>
 </section>
 <section class="faq-section" data-category="account">
-<h2><i class="fas fa-user"></i> Account &amp; Profile</h2>
+<h2><i class="fas fa-user" aria-hidden="true"></i> Account &amp; privacy</h2>
 <div class="faq-accordion">
 <div class="faq-item">
-<button class="faq-question">
+<button class="faq-question" type="button">
 <span>How do I create an account?</span>
-<i class="fas fa-chevron-down"></i>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Click on "Login" in the top right corner, then select "Create Account". Fill in your details including name, email, phone number, and password. You'll receive a verification email to activate your account.</p>
+<p>Customer accounts are not available yet. You can order as a guest.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>I forgot my password. What should I do?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>I forgot my password. What do I do?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Click on "Login", then select "Forgot Password". Enter your registered email address, and we'll send you a password reset link. Follow the instructions in the email to create a new password.</p>
+<p>Customer accounts are not available yet, so there is no password to reset.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>Can I change my email or phone number?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>Can I change my details?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>Yes, go to "My Account" &gt; "Profile Settings" to update your email or phone number. You'll need to verify the new email/phone number through an OTP sent to your device.</p>
+<p>Contact us with your order number and we will correct them.</p>
 </div>
 </div>
 <div class="faq-item">
-<button class="faq-question">
-<span>How do I delete my account?</span>
-<i class="fas fa-chevron-down"></i>
+<button class="faq-question" type="button">
+<span>How do I get a copy of my data or delete it?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
 </button>
 <div class="faq-answer">
-<p>To delete your account, contact our customer support with your request. Please note that account deletion is permanent and you'll lose access to your order history, wishlist, and saved addresses.</p>
+<p>You can send a request through the <a href="complaints.html">complaints and privacy requests</a> page. See the <a href="privacy-policy.html">privacy policy</a>.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question" type="button">
+<span>How do I stop offers by email?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
+</button>
+<div class="faq-answer">
+<p>Use the unsubscribe link in any newsletter.</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-question" type="button">
+<span>How do I make a complaint?</span>
+<i class="fas fa-chevron-down" aria-hidden="true"></i>
+</button>
+<div class="faq-answer">
+<p>Use the <a href="complaints.html">complaints page</a>. You get a reference number straight away and a decision within 15 days.</p>
 </div>
 </div>
 </div>
@@ -374,13 +381,10 @@
 </div>
 <div class="faq-contact">
 <div class="contact-card">
-<i class="fas fa-headset"></i>
-<h3>Still have questions?</h3>
-<p>Can't find the answer you're looking for? Our customer support team is here to help.</p>
-<a class="btn-contact" href="contact-us.html">
-<i class="fas fa-envelope"></i>
-<span>Contact Support</span>
-</a>
+<i class="fas fa-headset" aria-hidden="true"></i>
+<h2>Still have a question?</h2>
+<p>Contact us and we will help.</p>
+<a class="btn-contact" href="contact-us.html">Contact us <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 </div>
 </div>
 </div>
@@ -392,17 +396,18 @@
             <div class="container">
                 <div class="footer-v2__grid">
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">CUSTOMER SERVICE</h3>
+                        <h2 class="footer-v2__title">CUSTOMER SERVICE</h2>
                         <ul class="footer-v2__links">
                             <li><a href="contact-us.html">Contact Us</a></li>
                             <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="delivery-policy.html">Delivery Policy</a></li>
+                            <li><a href="refund-policy.html">Returns &amp; Refunds</a></li>
                             <li><a href="warranty.html">Warranty</a></li>
-                            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
-                            <li><a href="refund-policy.html">Refund Policy</a></li>
+                            <li><a href="complaints.html">Complaints</a></li>
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">HELP &amp; SUPPORT</h3>
+                        <h2 class="footer-v2__title">HELP &amp; SUPPORT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="track-order.html">Track Order</a></li>
                             <li><a href="warranty-check.html">Warranty Check</a></li>
@@ -412,7 +417,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">COMPANY INFO</h3>
+                        <h2 class="footer-v2__title">COMPANY INFO</h2>
                         <ul class="footer-v2__links">
                             <li><a href="about-us.html">About Us</a></li>
                             <li><a href="blog.html">Our Blog</a></li>
@@ -421,7 +426,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">OUR SHOP</h3>
+                        <h2 class="footer-v2__title">OUR SHOP</h2>
                         <ul class="footer-v2__links">
                             <li><a href="gaming.html">Gaming Gear</a></li>
                             <li><a href="components.html">PC Components</a></li>
@@ -433,7 +438,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">MY ACCOUNT</h3>
+                        <h2 class="footer-v2__title">MY ACCOUNT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="login.html">Login</a></li>
                             <li><a href="register.html">Register</a></li>
@@ -450,12 +455,12 @@
             <div class="container">
                 <div class="footer-v2__bottom-grid">
                     <div class="footer-v2__social-section">
-                        <h4 class="footer-v2__bottom-title">Visit Us:</h4>
+                        <h2 class="footer-v2__bottom-title">Visit Us:</h2>
                         <p class="footer-v2__address"><i class="fas fa-map-marker-alt"></i> Putalisadak, Kathmandu, Nepal</p>
                     </div>
 
                     <div class="footer-v2__payment-section">
-                        <h4 class="footer-v2__bottom-title">We Accept:</h4>
+                        <h2 class="footer-v2__bottom-title">We Accept:</h2>
                         <div class="footer-v2__payment-methods">
                             <img src="assets/img/pay/esewa.png" alt="eSewa" class="payment-logo" loading="lazy">
                             <img src="assets/img/pay/khalti.png" alt="Khalti" class="payment-logo" loading="lazy">
@@ -465,20 +470,24 @@
                     </div>
 
                     <div class="footer-v2__newsletter-section">
-                        <h4 class="footer-v2__bottom-title">Get the Latest Deals:</h4>
+                        <h2 class="footer-v2__bottom-title">Get the Latest Deals:</h2>
                         <form class="footer-v2__newsletter-form" data-newsletter novalidate>
-                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required>
+                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address for offers and news" autocomplete="email" required>
                             <button type="submit">Subscribe</button>
                         </form>
+                        <p class="footer-v2__fineprint">Offers and news by email. Unsubscribe any time. <a href="privacy-policy.html">Privacy policy</a></p>
                     </div>
                 </div>
 
                 <div class="footer-v2__contact-info">
                     <div class="footer-v2__copyright">
-                        <i class="far fa-copyright"></i>
-                        <span>2026 Akku.GG, Nepal.</span>
+                        <i class="far fa-copyright" aria-hidden="true"></i>
+                        <span>2026 Akku.GG, Putalisadak, Kathmandu, Nepal.</span>
                         <span>All rights reserved.</span>
                     </div>
+                    <nav class="footer-v2__legal" aria-label="Legal">
+                        <a href="terms-conditions.html">Terms</a><a href="privacy-policy.html">Privacy</a><a href="cookie-policy.html">Cookies</a><a href="complaints.html">Complaints</a>
+                    </nav>
                 </div>
             </div>
         </div>

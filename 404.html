@@ -18,9 +18,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/bai-jamjuree-400.woff" as="font" type="font/woff" crossorigin>
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/pages/404.css">
@@ -103,7 +101,6 @@
     </header>
 
     <main id="main" class="error-404-page">
-<a class="skip-link" href="#main-content">Skip to main content</a>
 <div aria-hidden="true" class="error-bg-pattern"></div>
 <div class="container">
 <div class="error-404" id="main-content">
@@ -119,8 +116,8 @@
 </div>
 </div>
 <div class="error-message">
-<h1>Oops! This Page Took a Wrong Turn</h1>
-<p>We couldn't find the page you're looking for. Don't worry though—let's get you back on track!</p>
+<h1>We could not find that page</h1>
+<p>The link may be old or mistyped. Try a search, or use one of the links below.</p>
 </div>
 <div class="helpful-suggestions">
 <h2>Here's what you can try:</h2>
@@ -131,7 +128,7 @@
 </li>
 <li>
 <i aria-hidden="true" class="fas fa-check-circle"></i>
-<span>Browse our popular products and categories</span>
+<span>Browse the shop by category</span>
 </li>
 <li>
 <i aria-hidden="true" class="fas fa-check-circle"></i>
@@ -154,71 +151,10 @@
 <i aria-hidden="true" class="fas fa-home"></i>
 <span>Go to Homepage</span>
 </a>
-<button aria-label="Go back to previous page" class="btn-secondary" onclick="window.history.back()">
+<button aria-label="Go back to previous page" class="btn-secondary" type="button" data-go-back>
 <i aria-hidden="true" class="fas fa-arrow-left"></i>
 <span>Go Back</span>
 </button>
-</div>
-<div class="popular-products">
-<h2>Deals of the Week</h2>
-<div class="products-grid">
-<a class="deal__card" href="products.html">
-<div class="deal__badge">Hot</div>
-<div class="deal__image">
-<img alt="Dell XPS 15 Laptop" loading="lazy" src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=300&amp;h=300&amp;fit=crop"/>
-</div>
-<div class="deal__info">
-<p class="deal__category">Laptops</p>
-<h3 class="deal__title">Dell XPS 15</h3>
-<div class="deal__price">
-<span class="price__current">NPR 2,45,000</span>
-<span class="price__old">NPR 2,89,000</span>
-</div>
-</div>
-</a>
-<a class="deal__card" href="products.html">
-<div class="deal__badge">Trending</div>
-<div class="deal__image">
-<img alt="Lenovo ThinkPad Laptop" loading="lazy" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=300&amp;h=300&amp;fit=crop"/>
-</div>
-<div class="deal__info">
-<p class="deal__category">Laptops</p>
-<h3 class="deal__title">Lenovo ThinkPad X1</h3>
-<div class="deal__price">
-<span class="price__current">NPR 2,75,000</span>
-<span class="price__old">NPR 3,25,000</span>
-</div>
-</div>
-</a>
-<a class="deal__card" href="products.html">
-<div class="deal__badge">Popular</div>
-<div class="deal__image">
-<img alt="HP Pavilion Laptop" loading="lazy" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300&amp;h=300&amp;fit=crop"/>
-</div>
-<div class="deal__info">
-<p class="deal__category">Laptops</p>
-<h3 class="deal__title">HP Pavilion 15</h3>
-<div class="deal__price">
-<span class="price__current">NPR 1,85,000</span>
-<span class="price__old">NPR 2,15,000</span>
-</div>
-</div>
-</a>
-<a class="deal__card" href="products.html">
-<div class="deal__badge">New</div>
-<div class="deal__image">
-<img alt="MacBook Pro Laptop" loading="lazy" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300&amp;h=300&amp;fit=crop"/>
-</div>
-<div class="deal__info">
-<p class="deal__category">Laptops</p>
-<h3 class="deal__title">MacBook Pro 14"</h3>
-<div class="deal__price">
-<span class="price__current">NPR 3,25,000</span>
-<span class="price__old">NPR 3,75,000</span>
-</div>
-</div>
-</a>
-</div>
 </div>
 <div class="quick-links">
 <h2>Explore Our Store</h2>
@@ -229,7 +165,7 @@
 </div>
 <span>Products</span>
 </a>
-<a aria-label="Browse categories" class="link-item" href="products.html">
+<a aria-label="Browse categories" class="link-item" href="categories.html">
 <div class="link-icon">
 <i aria-hidden="true" class="fas fa-th-large"></i>
 </div>
@@ -261,12 +197,6 @@
 </a>
 </div>
 </div>
-<div class="report-issue">
-<button aria-label="Report broken link" class="btn-report" onclick="reportBrokenLink()">
-<i aria-hidden="true" class="fas fa-flag"></i>
-<span>Report Broken Link</span>
-</button>
-<p class="help-text">Help us improve by reporting this issue</p>
 </div>
 </div>
 </div>
@@ -279,17 +209,18 @@
             <div class="container">
                 <div class="footer-v2__grid">
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">CUSTOMER SERVICE</h3>
+                        <h2 class="footer-v2__title">CUSTOMER SERVICE</h2>
                         <ul class="footer-v2__links">
                             <li><a href="contact-us.html">Contact Us</a></li>
                             <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="delivery-policy.html">Delivery Policy</a></li>
+                            <li><a href="refund-policy.html">Returns &amp; Refunds</a></li>
                             <li><a href="warranty.html">Warranty</a></li>
-                            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
-                            <li><a href="refund-policy.html">Refund Policy</a></li>
+                            <li><a href="complaints.html">Complaints</a></li>
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">HELP &amp; SUPPORT</h3>
+                        <h2 class="footer-v2__title">HELP &amp; SUPPORT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="track-order.html">Track Order</a></li>
                             <li><a href="warranty-check.html">Warranty Check</a></li>
@@ -299,7 +230,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">COMPANY INFO</h3>
+                        <h2 class="footer-v2__title">COMPANY INFO</h2>
                         <ul class="footer-v2__links">
                             <li><a href="about-us.html">About Us</a></li>
                             <li><a href="blog.html">Our Blog</a></li>
@@ -308,7 +239,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">OUR SHOP</h3>
+                        <h2 class="footer-v2__title">OUR SHOP</h2>
                         <ul class="footer-v2__links">
                             <li><a href="gaming.html">Gaming Gear</a></li>
                             <li><a href="components.html">PC Components</a></li>
@@ -320,7 +251,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">MY ACCOUNT</h3>
+                        <h2 class="footer-v2__title">MY ACCOUNT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="login.html">Login</a></li>
                             <li><a href="register.html">Register</a></li>
@@ -337,12 +268,12 @@
             <div class="container">
                 <div class="footer-v2__bottom-grid">
                     <div class="footer-v2__social-section">
-                        <h4 class="footer-v2__bottom-title">Visit Us:</h4>
+                        <h2 class="footer-v2__bottom-title">Visit Us:</h2>
                         <p class="footer-v2__address"><i class="fas fa-map-marker-alt"></i> Putalisadak, Kathmandu, Nepal</p>
                     </div>
 
                     <div class="footer-v2__payment-section">
-                        <h4 class="footer-v2__bottom-title">We Accept:</h4>
+                        <h2 class="footer-v2__bottom-title">We Accept:</h2>
                         <div class="footer-v2__payment-methods">
                             <img src="assets/img/pay/esewa.png" alt="eSewa" class="payment-logo" loading="lazy">
                             <img src="assets/img/pay/khalti.png" alt="Khalti" class="payment-logo" loading="lazy">
@@ -352,20 +283,24 @@
                     </div>
 
                     <div class="footer-v2__newsletter-section">
-                        <h4 class="footer-v2__bottom-title">Get the Latest Deals:</h4>
+                        <h2 class="footer-v2__bottom-title">Get the Latest Deals:</h2>
                         <form class="footer-v2__newsletter-form" data-newsletter novalidate>
-                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required>
+                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address for offers and news" autocomplete="email" required>
                             <button type="submit">Subscribe</button>
                         </form>
+                        <p class="footer-v2__fineprint">Offers and news by email. Unsubscribe any time. <a href="privacy-policy.html">Privacy policy</a></p>
                     </div>
                 </div>
 
                 <div class="footer-v2__contact-info">
                     <div class="footer-v2__copyright">
-                        <i class="far fa-copyright"></i>
-                        <span>2026 Akku.GG, Nepal.</span>
+                        <i class="far fa-copyright" aria-hidden="true"></i>
+                        <span>2026 Akku.GG, Putalisadak, Kathmandu, Nepal.</span>
                         <span>All rights reserved.</span>
                     </div>
+                    <nav class="footer-v2__legal" aria-label="Legal">
+                        <a href="terms-conditions.html">Terms</a><a href="privacy-policy.html">Privacy</a><a href="cookie-policy.html">Cookies</a><a href="complaints.html">Complaints</a>
+                    </nav>
                 </div>
             </div>
         </div>

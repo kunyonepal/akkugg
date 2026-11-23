@@ -18,9 +18,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/bai-jamjuree-400.woff" as="font" type="font/woff" crossorigin>
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/pages/home.css">
@@ -177,59 +175,59 @@
             <div class="categories__carousel">
                 <div class="owl-carousel owl-theme categories__owl" id="categoriesCarousel" data-carousel='{"margin":8,"responsive":{"0":2,"480":3,"768":4,"992":6,"1200":10}}'>
                     <a href="laptops.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-laptop" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300&h=300&fit=crop&q=80&auto=format" alt="Laptops" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media"><i class="akku-ph fas fa-laptop" aria-hidden="true"></i><img src="assets/img/hero-laptop.webp" alt="Laptops" loading="lazy" width="300" height="300"></div>
                         <h3 class="category__title">Laptops</h3>
                     </a>
                     <a href="desktops.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-desktop" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1587202372616-b43abea06c2a?w=300&h=300&fit=crop&q=80&auto=format" alt="Gaming PCs" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media"><i class="akku-ph fas fa-desktop" aria-hidden="true"></i><img src="assets/img/hero-custom-pc.webp" alt="Gaming PCs" loading="lazy" width="300" height="300"></div>
                         <h3 class="category__title">Gaming PCs</h3>
                     </a>
                     <a href="mobiles.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-mobile-alt" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=300&h=300&fit=crop&q=80&auto=format" alt="Smartphones" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media"><i class="akku-ph fas fa-mobile-alt" aria-hidden="true"></i><img src="assets/img/hero-phones.webp" alt="Smartphones" loading="lazy" width="300" height="300"></div>
                         <h3 class="category__title">Smartphones</h3>
                     </a>
                     <a href="peripherals.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-keyboard" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=300&h=300&fit=crop&q=80&auto=format" alt="Peripherals" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media"><i class="akku-ph fas fa-keyboard" aria-hidden="true"></i><img src="assets/img/hero-gear.webp" alt="Peripherals" loading="lazy" width="300" height="300"></div>
                         <h3 class="category__title">Peripherals</h3>
                     </a>
                     <a href="peripherals.html#keyboards" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-keyboard" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=300&h=300&fit=crop&q=80&auto=format" alt="Keyboards" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-keyboard" aria-hidden="true"></i></div>
                         <h3 class="category__title">Keyboards</h3>
                     </a>
                     <a href="peripherals.html#mice" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-mouse" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&h=300&fit=crop&q=80&auto=format" alt="Gaming Mouse" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-mouse" aria-hidden="true"></i></div>
                         <h3 class="category__title">Gaming Mouse</h3>
                     </a>
                     <a href="peripherals.html#headsets" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-headset" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop&q=80&auto=format" alt="Headphones" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-headset" aria-hidden="true"></i></div>
                         <h3 class="category__title">Headphones</h3>
                     </a>
                     <a href="peripherals.html#webcams" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-video" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=300&h=300&fit=crop&q=80&auto=format" alt="Webcams" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-video" aria-hidden="true"></i></div>
                         <h3 class="category__title">Webcams</h3>
                     </a>
                     <a href="monitors.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-tv" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&h=300&fit=crop&q=80&auto=format" alt="Monitors" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-tv" aria-hidden="true"></i></div>
                         <h3 class="category__title">Monitors</h3>
                     </a>
                     <a href="components.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-microchip" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=300&h=300&fit=crop&q=80&auto=format" alt="PC Components" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media"><i class="akku-ph fas fa-microchip" aria-hidden="true"></i><img src="assets/img/parts/motherboard.webp" alt="PC Components" loading="lazy" width="300" height="300"></div>
                         <h3 class="category__title">PC Components</h3>
                     </a>
                     <a href="components.html#graphics-cards" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-tv" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1585790050230-5dd28404f869?w=300&h=300&fit=crop&q=80&auto=format" alt="Graphics Cards" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-tv" aria-hidden="true"></i></div>
                         <h3 class="category__title">Graphics Cards</h3>
                     </a>
                     <a href="components.html#storage" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-hdd" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?w=300&h=300&fit=crop&q=80&auto=format" alt="SSDs" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-hdd" aria-hidden="true"></i></div>
                         <h3 class="category__title">SSDs</h3>
                     </a>
                     <a href="gaming.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-gamepad" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=300&h=300&fit=crop&q=80&auto=format" alt="Game Controllers" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-gamepad" aria-hidden="true"></i></div>
                         <h3 class="category__title">Game Controllers</h3>
                     </a>
                     <a href="audio.html" class="category__card">
-                        <div class="category__image akku-media"><i class="akku-ph fas fa-headphones" aria-hidden="true"></i><img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=300&h=300&fit=crop&q=80&auto=format" alt="Smartwatches" loading="lazy" width="300" height="300"></div>
+                        <div class="category__image akku-media is-empty"><i class="akku-ph fas fa-headphones" aria-hidden="true"></i></div>
                         <h3 class="category__title">Smartwatches</h3>
                     </a>
                 </div>
@@ -243,17 +241,18 @@
             <div class="container">
                 <div class="footer-v2__grid">
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">CUSTOMER SERVICE</h3>
+                        <h2 class="footer-v2__title">CUSTOMER SERVICE</h2>
                         <ul class="footer-v2__links">
                             <li><a href="contact-us.html">Contact Us</a></li>
                             <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="delivery-policy.html">Delivery Policy</a></li>
+                            <li><a href="refund-policy.html">Returns &amp; Refunds</a></li>
                             <li><a href="warranty.html">Warranty</a></li>
-                            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
-                            <li><a href="refund-policy.html">Refund Policy</a></li>
+                            <li><a href="complaints.html">Complaints</a></li>
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">HELP &amp; SUPPORT</h3>
+                        <h2 class="footer-v2__title">HELP &amp; SUPPORT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="track-order.html">Track Order</a></li>
                             <li><a href="warranty-check.html">Warranty Check</a></li>
@@ -263,7 +262,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">COMPANY INFO</h3>
+                        <h2 class="footer-v2__title">COMPANY INFO</h2>
                         <ul class="footer-v2__links">
                             <li><a href="about-us.html">About Us</a></li>
                             <li><a href="blog.html">Our Blog</a></li>
@@ -272,7 +271,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">OUR SHOP</h3>
+                        <h2 class="footer-v2__title">OUR SHOP</h2>
                         <ul class="footer-v2__links">
                             <li><a href="gaming.html">Gaming Gear</a></li>
                             <li><a href="components.html">PC Components</a></li>
@@ -284,7 +283,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">MY ACCOUNT</h3>
+                        <h2 class="footer-v2__title">MY ACCOUNT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="login.html">Login</a></li>
                             <li><a href="register.html">Register</a></li>
@@ -301,12 +300,12 @@
             <div class="container">
                 <div class="footer-v2__bottom-grid">
                     <div class="footer-v2__social-section">
-                        <h4 class="footer-v2__bottom-title">Visit Us:</h4>
+                        <h2 class="footer-v2__bottom-title">Visit Us:</h2>
                         <p class="footer-v2__address"><i class="fas fa-map-marker-alt"></i> Putalisadak, Kathmandu, Nepal</p>
                     </div>
 
                     <div class="footer-v2__payment-section">
-                        <h4 class="footer-v2__bottom-title">We Accept:</h4>
+                        <h2 class="footer-v2__bottom-title">We Accept:</h2>
                         <div class="footer-v2__payment-methods">
                             <img src="assets/img/pay/esewa.png" alt="eSewa" class="payment-logo" loading="lazy">
                             <img src="assets/img/pay/khalti.png" alt="Khalti" class="payment-logo" loading="lazy">
@@ -316,20 +315,24 @@
                     </div>
 
                     <div class="footer-v2__newsletter-section">
-                        <h4 class="footer-v2__bottom-title">Get the Latest Deals:</h4>
+                        <h2 class="footer-v2__bottom-title">Get the Latest Deals:</h2>
                         <form class="footer-v2__newsletter-form" data-newsletter novalidate>
-                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required>
+                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address for offers and news" autocomplete="email" required>
                             <button type="submit">Subscribe</button>
                         </form>
+                        <p class="footer-v2__fineprint">Offers and news by email. Unsubscribe any time. <a href="privacy-policy.html">Privacy policy</a></p>
                     </div>
                 </div>
 
                 <div class="footer-v2__contact-info">
                     <div class="footer-v2__copyright">
-                        <i class="far fa-copyright"></i>
-                        <span>2026 Akku.GG, Nepal.</span>
+                        <i class="far fa-copyright" aria-hidden="true"></i>
+                        <span>2026 Akku.GG, Putalisadak, Kathmandu, Nepal.</span>
                         <span>All rights reserved.</span>
                     </div>
+                    <nav class="footer-v2__legal" aria-label="Legal">
+                        <a href="terms-conditions.html">Terms</a><a href="privacy-policy.html">Privacy</a><a href="cookie-policy.html">Cookies</a><a href="complaints.html">Complaints</a>
+                    </nav>
                 </div>
             </div>
         </div>

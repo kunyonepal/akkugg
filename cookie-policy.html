@@ -18,9 +18,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/bai-jamjuree-400.woff" as="font" type="font/woff" crossorigin>
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/pages/legal.css">
@@ -110,41 +108,62 @@
     </div>
 
     <main id="main" class="legal-page">
-<div class="container"><div class="akku-notice akku-notice--page" role="note"><i class="fas fa-pen"></i><div><strong>Draft cookie policy.</strong> This text came from the design prototype. Check every term (return window, warranty, delivery, payment) against how Akku.GG actually works before launch.</div></div></div><div class="container">
+<div class="container"><div class="akku-notice akku-notice--page" role="note"><i class="fas fa-pen" aria-hidden="true"></i><div><strong>Draft cookie policy.</strong> This text is written to match how Akku.GG works and fills in the details from the shop's settings, but it has not been checked by a lawyer yet.</div></div></div><div class="container">
 <div class="legal-layout">
+<aside class="legal-sidebar">
+<div class="sidebar-sticky">
+<h2 class="legal-sidebar__title">On this page</h2>
+<nav class="legal-nav" aria-label="Cookie policy sections">
+<a class="nav-link" href="#store">Kept by the shop</a>
+<a class="nav-link" href="#cookies">Cookies set by the shop</a>
+<a class="nav-link" href="#others">Ad and analytics cookies</a>
+<a class="nav-link" href="#cookie-settings">Your settings</a>
+</nav>
+</div>
+</aside>
 <div class="legal-content">
 <div class="legal-header">
 <h1>Cookie Policy</h1>
+<p class="update-date"><i class="fas fa-calendar-alt" aria-hidden="true"></i> Last updated: 24 November 2026</p>
 <div class="header-notice">
-<i class="fas fa-cookie-bite"></i>
-<p>This page lists what this website keeps in your browser and why. You can clear it at any time in your browser's settings; the cart, wishlist and saved details on this device are then emptied.</p>
+<i class="fas fa-cookie-bite" aria-hidden="true"></i>
+<p>This page lists what akku.gg keeps in your browser and why. The shop does not use advertising or analytics cookies at the moment.</p>
 </div>
 </div>
+
 <section class="legal-section" id="store">
-<h2><i class="fas fa-store"></i> 1. Kept by the shop on your device</h2>
-<p>These stay in your browser's storage (not cookies) and are not sent to anyone else:</p>
+<h2><i class="fas fa-store" aria-hidden="true"></i> 1. Kept by the shop on your device</h2>
+<p>These are kept in your browser's own storage (not cookies). They stay on your device and are not sent to anyone else, except where noted:</p>
 <ul>
-<li><strong>Cart, wishlist, compare list, PC build and recently viewed products</strong>, so they are there when you come back.</li>
-<li><strong>Your delivery details</strong> from your last order, to fill in the checkout form next time.</li>
-<li><strong>Your recent orders</strong> on this device, so you can open and track them.</li>
-<li><strong>Currency and display choices.</strong></li>
-<li><strong>How you reached us</strong> (for example a Google or Facebook ad, or a link from another site), sent with your order or quotation request so we know which of our ads work.</li>
-<li><strong>Your answer to the cookie notice</strong>, if one is shown.</li>
+<li><strong>Cart, wishlist, compare list, PC build and recently viewed products</strong>, so they are still there when you come back.</li>
+<li><strong>Recent searches</strong> and your choice of grid or list view.</li>
+<li><strong>Currency choice</strong> (NPR or USD).</li>
+<li><strong>Orders placed from this browser</strong>, with the private link to each one, so you can open and track them.</li>
+<li><strong>Your delivery details</strong>, only if you tick "Save my details on this device" at checkout.</li>
+<li><strong>How you reached us</strong> (for example an ad, or a link from another website). This is sent with an order or quotation request so we know which of our ads work.</li>
+<li><strong>Your answer to the cookie notice</strong>, and which promotion popups you have already seen.</li>
 </ul>
 </section>
+
 <section class="legal-section" id="cookies">
-<h2><i class="fas fa-key"></i> 2. Cookies set by the shop</h2>
+<h2><i class="fas fa-key" aria-hidden="true"></i> 2. Cookies set by the shop</h2>
+<p>These are only set when you use the part of the site that needs them, and the site cannot work without them:</p>
 <ul>
-<li><strong>akku_sid</strong>: keeps you signed in to your account (up to 30 days). Only set when you sign in.</li>
+
+<li><code>akku_staff</code> and <code>akku_dev</code>: keep shop staff signed in to the admin pages (up to 12 hours) and recognise their devices, so the owner is warned about sign-ins from new ones. Customers never get them.</li>
 </ul>
 </section>
+
 <section class="legal-section" id="others">
-<h2><i class="fas fa-chart-line"></i> 3. Analytics and advertising tags</h2>
-<p>When the shop switches them on, the website loads tags from Google (Analytics, Ads, Tag Manager), Meta (Facebook and Instagram) and TikTok. They set their own cookies, for example <code>_ga</code> (Google Analytics), <code>_gcl_au</code> (Google Ads), <code>_fbp</code> and <code>_fbc</code> (Meta) and <code>_ttp</code> (TikTok), to count visits and to measure and show ads. Their own policies explain these cookies. When you place an order or ask for a quotation, the shop may also send the order value and a scrambled (hashed) copy of your email and phone number to these companies to measure its ads.</p>
+<h2><i class="fas fa-chart-line" aria-hidden="true"></i> 3. Advertising and analytics cookies</h2>
+<p>The shop does not load advertising or analytics tags at the moment. If that changes, this section will list them, and they will only run if you agree.</p>
 </section>
-<section class="legal-section" id="contact">
-<h2><i class="fas fa-envelope"></i> 4. Questions</h2>
-<p>Contact us through the <a href="contact-us.html">contact page</a>.</p>
+
+<section class="legal-section" id="cookie-settings">
+<h2><i class="fas fa-sliders-h" aria-hidden="true"></i> 4. Your settings</h2>
+
+<p>To remove everything this website has saved in this browser (cart, wishlist, saved details, the list of your orders on this device and your cookie choice), use the button below. Your account and orders on our side are not affected.</p>
+<p><button type="button" class="btn btn-secondary" data-clear-storage>Clear what this site saved in this browser</button> <span class="akku-form-msg" data-clear-storage-msg role="status"></span></p>
 </section>
 </div>
 </div>
@@ -157,17 +176,18 @@
             <div class="container">
                 <div class="footer-v2__grid">
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">CUSTOMER SERVICE</h3>
+                        <h2 class="footer-v2__title">CUSTOMER SERVICE</h2>
                         <ul class="footer-v2__links">
                             <li><a href="contact-us.html">Contact Us</a></li>
                             <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="delivery-policy.html">Delivery Policy</a></li>
+                            <li><a href="refund-policy.html">Returns &amp; Refunds</a></li>
                             <li><a href="warranty.html">Warranty</a></li>
-                            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
-                            <li><a href="refund-policy.html">Refund Policy</a></li>
+                            <li><a href="complaints.html">Complaints</a></li>
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">HELP &amp; SUPPORT</h3>
+                        <h2 class="footer-v2__title">HELP &amp; SUPPORT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="track-order.html">Track Order</a></li>
                             <li><a href="warranty-check.html">Warranty Check</a></li>
@@ -177,7 +197,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">COMPANY INFO</h3>
+                        <h2 class="footer-v2__title">COMPANY INFO</h2>
                         <ul class="footer-v2__links">
                             <li><a href="about-us.html">About Us</a></li>
                             <li><a href="blog.html">Our Blog</a></li>
@@ -186,7 +206,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">OUR SHOP</h3>
+                        <h2 class="footer-v2__title">OUR SHOP</h2>
                         <ul class="footer-v2__links">
                             <li><a href="gaming.html">Gaming Gear</a></li>
                             <li><a href="components.html">PC Components</a></li>
@@ -198,7 +218,7 @@
                         </ul>
                     </div>
                     <div class="footer-v2__column">
-                        <h3 class="footer-v2__title">MY ACCOUNT</h3>
+                        <h2 class="footer-v2__title">MY ACCOUNT</h2>
                         <ul class="footer-v2__links">
                             <li><a href="login.html">Login</a></li>
                             <li><a href="register.html">Register</a></li>
@@ -215,12 +235,12 @@
             <div class="container">
                 <div class="footer-v2__bottom-grid">
                     <div class="footer-v2__social-section">
-                        <h4 class="footer-v2__bottom-title">Visit Us:</h4>
+                        <h2 class="footer-v2__bottom-title">Visit Us:</h2>
                         <p class="footer-v2__address"><i class="fas fa-map-marker-alt"></i> Putalisadak, Kathmandu, Nepal</p>
                     </div>
 
                     <div class="footer-v2__payment-section">
-                        <h4 class="footer-v2__bottom-title">We Accept:</h4>
+                        <h2 class="footer-v2__bottom-title">We Accept:</h2>
                         <div class="footer-v2__payment-methods">
                             <img src="assets/img/pay/esewa.png" alt="eSewa" class="payment-logo" loading="lazy">
                             <img src="assets/img/pay/khalti.png" alt="Khalti" class="payment-logo" loading="lazy">
@@ -230,20 +250,24 @@
                     </div>
 
                     <div class="footer-v2__newsletter-section">
-                        <h4 class="footer-v2__bottom-title">Get the Latest Deals:</h4>
+                        <h2 class="footer-v2__bottom-title">Get the Latest Deals:</h2>
                         <form class="footer-v2__newsletter-form" data-newsletter novalidate>
-                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required>
+                            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address for offers and news" autocomplete="email" required>
                             <button type="submit">Subscribe</button>
                         </form>
+                        <p class="footer-v2__fineprint">Offers and news by email. Unsubscribe any time. <a href="privacy-policy.html">Privacy policy</a></p>
                     </div>
                 </div>
 
                 <div class="footer-v2__contact-info">
                     <div class="footer-v2__copyright">
-                        <i class="far fa-copyright"></i>
-                        <span>2026 Akku.GG, Nepal.</span>
+                        <i class="far fa-copyright" aria-hidden="true"></i>
+                        <span>2026 Akku.GG, Putalisadak, Kathmandu, Nepal.</span>
                         <span>All rights reserved.</span>
                     </div>
+                    <nav class="footer-v2__legal" aria-label="Legal">
+                        <a href="terms-conditions.html">Terms</a><a href="privacy-policy.html">Privacy</a><a href="cookie-policy.html">Cookies</a><a href="complaints.html">Complaints</a>
+                    </nav>
                 </div>
             </div>
         </div>

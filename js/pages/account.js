@@ -3,6 +3,46 @@
   'use strict';
   var A = window.Akku, $ = A.$, $$ = A.$$;
   function clear(form) { $$('.is-invalid', form).forEach(function (el) { el.classList.remove('is-invalid'); }); $$('[data-error-for]', form).forEach(function (s) { s.textContent = ''; s.style.display = 'none'; }); }
+  /* download my data, delete my account, sign out other devices */
+  function privacyTools() {
+    var rv = $('[data-revoke-others]');
+    if (rv) rv.addEventListener('click', function () {
+      rv.disabled = true;
+      A.api('POST', 'account/sessions/revoke-others').then(function () { $('[data-revoke-msg]').textContent = 'Done. Every other device is signed out.'; },
+        function (err) { $('[data-revoke-msg]').textContent = err.message; }).then(function () { rv.disabled = false; });
+    });
+    var xf = $('#exportForm');
+    if (xf) xf.addEventListener('submit', function (ev) {
+      ev.preventDefault(); clear(xf);
+      var btn = $('button[type="submit"]', xf); btn.disabled = true;
+      fetch(A.root + 'api/account/data', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: xf.elements.password.value }) })
+        .then(function (res) {
+          if (!res.ok) return res.json().catch(function () { return {}; }).then(function (d) { var e = new Error(d.error || 'Something went wrong.'); e.data = d; throw e; });
+          return res.blob().then(function (blob) {
+            var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-data.json'; document.body.appendChild(a); a.click();
+            setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+            xf.reset(); A.toast('Your data file is downloading.', { type: 'success' });
+          });
+        })
+        .catch(function (err) { A.formErrors(xf, err, { password: 'p_xpassword' }); })
+        .then(function () { btn.disabled = false; });
+    });
+    var df = $('#deleteForm');
+    if (df) df.addEventListener('submit', function (ev) {
+      ev.preventDefault(); clear(df);
+      if (!df.elements.sure.checked) { A.toast('Tick the box to confirm that you want to delete your account.', { type: 'error' }); df.elements.sure.focus(); return; }
+      var btn = $('button[type="submit"]', df); btn.disabled = true;
+      A.api('POST', 'account/delete', { password: df.elements.password.value, forfeitCredit: df.elements.forfeitCredit.checked })
+        .then(function (r) {
+          ['customer', 'orders', 'lastOrder', 'wishlist'].forEach(function (k) { if (A.store.remove) A.store.remove(k); });
+          A.me = null; document.querySelector('[data-account-panel]').innerHTML = '<div class="akku-empty"><h3>Your account has been deleted</h3><p>' + A.esc(r.message) + ' We have emailed you a confirmation.</p><a class="btn btn-primary" href="' + A.root + 'index.html">Back to the shop</a></div>';
+        }, function (err) {
+          if (err.data && err.data.code === 'credit') { var box = $('[data-forfeit]', df); box.hidden = false; $('[data-forfeit-amount]', df).textContent = A.money(err.data.credit, 'NPR'); }
+          A.formErrors(df, err, { password: 'p_dpassword' });
+        })
+        .then(function () { btn.disabled = false; });
+    });
+  }
   function boot() {
     var guest = $('[data-account-guest]'), panel = $('[data-account-panel]');
     if (!guest) return;
@@ -30,6 +70,7 @@
             function (err) { A.formErrors(pf, err, { name: 'p_name', phone: 'p_phone' }); })
           .then(function () { btn.disabled = false; });
       });
+      privacyTools();
       var wf = $('#passwordForm');
       wf.addEventListener('submit', function (ev) {
         ev.preventDefault(); clear(wf);

@@ -13,24 +13,49 @@
   function load(src) { var s = doc.createElement('script'); s.async = true; s.src = src; doc.head.appendChild(s); }
   function phone977(p) { var d = String(p || '').replace(/\D/g, ''); if (!d) return ''; if (d.indexOf('977') === 0) return d; if (d.charAt(0) === '0') d = d.slice(1); return '977' + d; }
 
-  /* ---------- cookie notice: off, a notice, or tags only after the visitor agrees (Settings → Cookie notice) ---------- */
-  var mode = (A.site.consent && A.site.consent.mode) || 'off', started = false;
+  /* ---------- cookie notice (Settings → Cookie notice): "optin" (default) loads the tags only after "Accept";
+     "notice" loads them at once and lets the visitor turn them off; "off" shows nothing. Both buttons look the same,
+     so saying no is as easy as saying yes. The choice can be changed at any time from "Cookie settings". */
+  var mode = (A.site.consent && A.site.consent.mode) || 'optin', started = false;
   function choice() { return A.store.get('consent', ''); }
-  function allowed() { return mode !== 'optin' || choice() === 'yes'; }
+  function allowed() { return mode === 'off' || (mode === 'optin' ? choice() === 'yes' : choice() !== 'no'); }
+  /* first-party cookies the tags set on this site's own domain, removed when the visitor says no */
+  function clearTagCookies() {
+    var host = location.hostname, parts = host.split('.'), domains = [''];
+    for (var i = 0; i < parts.length - 1; i++) domains.push('; domain=.' + parts.slice(i).join('.'));
+    String(doc.cookie || '').split(';').forEach(function (c) {
+      var name = c.split('=')[0].trim();
+      if (!/^(_ga|_ga_.*|_gid|_gat.*|_gcl_.*|_fbp|_fbc|_ttp|_tt_.*)$/.test(name)) return;
+      domains.forEach(function (d) { doc.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d; });
+    });
+  }
   function banner() {
-    if (doc.querySelector('.akku-consent')) return;
-    var el = doc.createElement('div'); el.className = 'akku-consent'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Cookies');
-    el.innerHTML = '<p>' + A.esc((A.site.consent && A.site.consent.text) || (mode === 'optin' ? 'We would like to use cookies from Google, Meta and TikTok to count visits and measure our ads.' : 'This site uses cookies from Google, Meta and TikTok to count visits and measure our ads.')) +
-      ' <a href="' + A.root + 'cookie-policy.html">Cookie policy</a></p><div class="akku-consent__buttons">' +
-      (mode === 'optin' ? '<button type="button" class="btn btn-primary" data-consent="yes">Accept</button><button type="button" class="btn btn-secondary" data-consent="no">No, thanks</button>' : '<button type="button" class="btn btn-primary" data-consent="ok">OK</button>') + '</div>';
+    if (mode === 'off' || doc.querySelector('.akku-consent')) return;
+    var el = doc.createElement('div'); el.className = 'akku-consent'; el.setAttribute('role', 'region'); el.setAttribute('aria-label', 'Cookie choice');
+    var text = (A.site.consent && A.site.consent.text) || (mode === 'optin'
+      ? 'May we use cookies from Google, Meta and TikTok to count visits and measure our ads? The shop works the same either way.'
+      : 'This site uses cookies from Google, Meta and TikTok to count visits and measure our ads. You can turn them off.');
+    el.innerHTML = '<p>' + A.esc(text) + ' <a href="' + A.root + 'cookie-policy.html">Cookie policy</a></p><div class="akku-consent__buttons">' +
+      (mode === 'optin'
+        ? '<button type="button" class="btn btn-secondary" data-consent="yes">Accept</button><button type="button" class="btn btn-secondary" data-consent="no">Reject</button>'
+        : '<button type="button" class="btn btn-secondary" data-consent="ok">OK</button><button type="button" class="btn btn-secondary" data-consent="no">Turn off</button>') + '</div>';
     doc.body.appendChild(el);
     el.addEventListener('click', function (e) {
       var b = e.target.closest('[data-consent]'); if (!b) return;
-      A.store.set('consent', b.getAttribute('data-consent')); el.remove();
+      var was = allowed(), v = b.getAttribute('data-consent');
+      A.store.set('consent', v); el.remove();
       if (allowed()) startTags();
+      else if (was || started) { clearTagCookies(); location.reload(); }   /* tags already ran on this page: reload without them */
+      else clearTagCookies();
     });
+    var first = el.querySelector('button'); if (first && location.hash === '#cookie-settings') first.focus();
   }
-  doc.addEventListener('click', function (e) { var l = e.target.closest && e.target.closest('a[href$="#cookie-settings"]'); if (l && mode !== 'off') { e.preventDefault(); A.store.set('consent', ''); banner(); } });
+  function reopen() { if (mode === 'off') return; var old = doc.querySelector('.akku-consent'); if (old) old.remove(); banner(); }
+  doc.addEventListener('click', function (e) {
+    var l = e.target.closest && e.target.closest('[data-cookie-settings], a[href$="#cookie-settings"]');
+    if (l && mode !== 'off') { e.preventDefault(); reopen(); }
+  });
+  if (location.hash === '#cookie-settings') { if (doc.body) reopen(); else doc.addEventListener('DOMContentLoaded', reopen); }
 
   /* ---------- the tags ---------- */
   window.dataLayer = window.dataLayer || [];
@@ -113,7 +138,7 @@
     } catch (e) { /* a tag that failed to load must not break the shop */ }
     if (A.site.backend && a.serverEvents && TO_SERVER[name]) {
       try { fetch(A.root + 'api/events', { method: 'POST', keepalive: true, credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, eventId: id, url: location.href, value: value, items: items.map(function (i) { return { id: i.id, name: i.name, price: i.price, qty: i.qty || 1 }; }), search: d.search, analytics: A.trackingIds() }) }).catch(function () {}); } catch (e) {}
+        body: JSON.stringify({ name: name, eventId: id, adConsent: A.adConsent(), url: location.href, value: value, items: items.map(function (i) { return { id: i.id, name: i.name, price: i.price, qty: i.qty || 1 }; }), search: d.search, analytics: A.trackingIds() }) }).catch(function () {}); } catch (e) {}
     }
   }
   A.track = fire;

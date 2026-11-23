@@ -1,4 +1,6 @@
 /* Akku.GG base: Bootstrap 5.3 + shared header, footer, buttons, search overlay (from the UI prototype) */
+/* Bai Jamjuree (SIL Open Font License, assets/fonts/OFL.txt), served from this site: no request to Google Fonts */
+@font-face{font-family:"Bai Jamjuree";font-style:normal;font-weight:300;font-display:swap;src:url(../assets/fonts/bai-jamjuree-300.woff) format("woff")}@font-face{font-family:"Bai Jamjuree";font-style:normal;font-weight:400;font-display:swap;src:url(../assets/fonts/bai-jamjuree-400.woff) format("woff")}@font-face{font-family:"Bai Jamjuree";font-style:normal;font-weight:500;font-display:swap;src:url(../assets/fonts/bai-jamjuree-500.woff) format("woff")}@font-face{font-family:"Bai Jamjuree";font-style:normal;font-weight:600;font-display:swap;src:url(../assets/fonts/bai-jamjuree-600.woff) format("woff")}@font-face{font-family:"Bai Jamjuree";font-style:normal;font-weight:700;font-display:swap;src:url(../assets/fonts/bai-jamjuree-700.woff) format("woff")}
 /*!
  * Bootstrap  v5.3.8 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors

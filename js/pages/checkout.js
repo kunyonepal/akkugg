@@ -11,7 +11,8 @@
     form.hidden = false;
 
     /* prefill from the last order on this device, then from the signed-in account */
-    var saved = A.store.get('customer', null);
+    var saved = A.store.get('customer', null), remember = $('[data-remember]', form);
+    if (remember) remember.checked = !!saved;   /* only kept on this device if the customer asks (it is off by default) */
     var fill = function (data) { Object.keys(data || {}).forEach(function (k) { var el = form.elements[k]; if (el && !el.value && data[k]) el.value = data[k]; }); };
     fill(saved);
     var api = !!A.site.backend, coupon = null;
@@ -148,7 +149,8 @@
         subtotal: subtotal, total: subtotal + (q.fee || 0), note: get('note')
       };
       order.message = orderText(order);
-      A.store.set('customer', { fullName: customer.name, phone: customer.phone, email: customer.email, street: get('street'), city: get('city'), province: get('province'), landmark: get('landmark') });
+      if (!remember || remember.checked) A.store.set('customer', { fullName: customer.name, phone: customer.phone, email: customer.email, street: get('street'), city: get('city'), province: get('province'), landmark: get('landmark') });
+      else A.store.remove ? A.store.remove('customer') : A.store.set('customer', null);
 
       if (api) {
         busy = true;
@@ -156,7 +158,7 @@
         var plan = ($('input[name="payPlan"]:checked', form) || {}).value === 'deposit' && depositBox && !depositBox.hidden ? 'deposit' : 'full';
         A.track('AddPaymentInfo', { value: subtotal, label: pay.name, items: A.cart.lines().map(function (l) { return { id: l.custom ? 'custom-build' : l.id, name: l.name, price: l.price, qty: l.qty }; }) });
         A.api('POST', 'orders', { items: serverItems(), customer: customer, delivery: { method: m }, payment: { id: pay.id, plan: plan }, coupon: coupon && coupon.ok ? coupon.code : '', note: get('note'),
-          attribution: A.attribution(), analytics: A.trackingIds(), useCredit: !!(form.elements.useCredit && form.elements.useCredit.checked && !$('[data-credit]', form).hidden) })
+          attribution: A.attribution(), analytics: A.trackingIds(), adConsent: A.adConsent(), useCredit: !!(form.elements.useCredit && form.elements.useCredit.checked && !$('[data-credit]', form).hidden) })
           .then(function (res) {
             var o = res.order; o.key = res.key; o.mode = 'api';
             A.orders.save(o); A.store.set('lastOrder', o.id); A.cart.clear();

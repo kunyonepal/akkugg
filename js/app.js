@@ -21,6 +21,17 @@
     set: function (key, value) {
       mem[key] = value;
       try { window.localStorage.setItem('akku.' + key, JSON.stringify(value)); } catch (e) { /* private mode or sandbox: keep in memory */ }
+    },
+    remove: function (key) {
+      delete mem[key];
+      try { window.localStorage.removeItem('akku.' + key); } catch (e) { /* ignore */ }
+    },
+    /* everything this site keeps in this browser (Cookie policy → "Clear what this site saved") */
+    clearAll: function () {
+      Object.keys(mem).forEach(function (k) { delete mem[k]; });
+      [window.localStorage, window.sessionStorage].forEach(function (st) {
+        try { Object.keys(st).filter(function (k) { return k.indexOf('akku.') === 0; }).forEach(function (k) { st.removeItem(k); }); } catch (e) { /* ignore */ }
+      });
     }
   };
   function emit(name, detail) { doc.dispatchEvent(new CustomEvent('akku:' + name, { detail: detail || {} })); }
@@ -136,7 +147,7 @@
     var d = A.site.delivery || {};
     if (method === 'pickup') return { fee: 0, label: 'FREE' };
     var areas = A.deliveryAreas(), area = areas.filter(function (a) { return a.id === method; })[0] || areas[0];
-    if (area.fee === null || area.fee === undefined || area.fee === '') return { fee: null, label: 'Confirmed on call', note: d.feeNote || '' };
+    if (area.fee === null || area.fee === undefined || area.fee === '') return { fee: null, label: 'To be confirmed', note: d.feeNote || 'We tell you the delivery charge when we call to confirm your order, before anything is sent. If you do not accept it, we cancel the order at no cost.' };
     var fee = Number(area.fee) || 0;
     if (d.freeOver > 0 && subtotal >= d.freeOver) fee = 0;
     return { fee: fee, label: fee ? A.money(fee) : 'FREE' };
@@ -350,7 +361,8 @@
     }
     function close() {
       overlay.classList.remove('active'); doc.body.classList.remove('search-overlay-open');
-      if (opener && opener.blur) opener.blur();
+      /* back to the button that opened it (a search box that opens the overlay on focus is just left) */
+      if (opener) { if (opener.tagName === 'INPUT') { if (opener.blur) opener.blur(); } else if (opener.focus) opener.focus(); }
     }
     var timer;
     input.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { run(input.value); }, 140); });
@@ -481,16 +493,34 @@
     });
   }
 
-  /* ------------------------------------------------------------------ countdown */
-  function weekEnd() {
-    /* end of the current week, Saturday 23:59:59 Nepal time (UTC+5:45) */
-    var off = 345 * 60000, now = Date.now(), nepal = new Date(now + off);
-    var end = Date.UTC(nepal.getUTCFullYear(), nepal.getUTCMonth(), nepal.getUTCDate() + (6 - nepal.getUTCDay()), 23, 59, 59);
-    return end - off;
+  /* ------------------------------------------------------------------ small privacy and navigation helpers */
+  function initPrivacyBits() {
+    /* the Google map loads only when asked for (Google sets its own cookies) */
+    $$('[data-map-load]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var box = b.closest('[data-map-src]'); if (!box) return;
+        var f = doc.createElement('iframe');
+        f.src = box.getAttribute('data-map-src'); f.title = box.getAttribute('data-map-title') || 'Map'; f.loading = 'lazy'; f.referrerPolicy = 'no-referrer-when-downgrade';
+        box.innerHTML = ''; box.appendChild(f); box.classList.add('is-loaded'); f.focus();
+      });
+    });
+    /* Cookie policy: remove everything this site saved in this browser (asks for a second click instead of a pop-up) */
+    $$('[data-clear-storage]').forEach(function (b) {
+      var msg = $('[data-clear-storage-msg]');
+      b.addEventListener('click', function () {
+        if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = 'Click again to clear'; if (msg) msg.textContent = 'This empties your cart and wishlist on this device.'; return; }
+        store.clearAll();
+        String(doc.cookie || '').split(';').forEach(function (c) { var n = c.split('=')[0].trim(); if (/^(_ga|_ga_.*|_gid|_gcl_.*|_fbp|_fbc|_ttp)$/.test(n)) doc.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'; });
+        b.textContent = 'Cleared'; b.disabled = true; if (msg) msg.textContent = 'Done. Everything this site saved in this browser is gone.';
+      });
+    });
+    $$('[data-go-back]').forEach(function (b) { b.addEventListener('click', function () { if (window.history.length > 1) window.history.back(); else window.location.href = A.root + 'index.html'; }); });
   }
+
+  /* ------------------------------------------------------------------ countdown */
   function initCountdowns() {
     $$('[data-countdown]').forEach(function (el) {
-      var raw = el.getAttribute('data-countdown'), target = raw === 'week' ? weekEnd() : Date.parse(raw);
+      var raw = el.getAttribute('data-countdown'), target = Date.parse(raw);   /* only a real end date set in Settings: never a timer that restarts */
       if (!target || isNaN(target)) return;
       var section = el.closest('section') || doc;
       var dateEl = $('[data-countdown-date]', section);
@@ -609,6 +639,9 @@
   };
   /* replaced by js/analytics.js when an ad or analytics tag is set up */
   A.track = function () {};
+  /* the visitor's answer to the cookie notice, sent with orders and quotation requests so the server only forwards
+     conversions to the ad platforms when that is allowed: 'yes', 'no' or '' (not answered) */
+  A.adConsent = function () { var c = store.get('consent', ''); return c === 'yes' || c === 'ok' ? 'yes' : c === 'no' ? 'no' : ''; };
 
   /* ------------------------------------------------------------------ server API (when the store runs on the Akku.GG server) */
   A.api = function (method, path, body) {
@@ -711,7 +744,7 @@
       else formMsg(form, 'Quotation requests are not connected yet. Please call or message us.');
       return Promise.resolve(null);
     }
-    body.attribution = A.attribution(); body.analytics = A.trackingIds(); body.url = location.href;
+    body.attribution = A.attribution(); body.analytics = A.trackingIds(); body.adConsent = A.adConsent(); body.url = location.href;
     var btn = $('[type="submit"]', form); if (btn) btn.disabled = true;
     return A.api('POST', 'quotes', body).then(function (r) {
       form.reset(); formMsg(form, r.message, true);
@@ -837,7 +870,7 @@
     initHeader(); initSettings(); initSearch(); initNewsletter(); initForms(); initPromo(); initWhatsAppButton();
     var dayIn = $('[data-booking-form] [name="day"]');
     if (dayIn) { var t0 = new Date(Date.now() + 345 * 60000), days = (A.site.servicing && A.site.servicing.daysAhead) || 30; dayIn.min = t0.toISOString().slice(0, 10); dayIn.max = new Date(t0.getTime() + days * 864e5).toISOString().slice(0, 10); }
-    A.initCarousels(); initScrollers(); initCountdowns();
+    A.initCarousels(); initScrollers(); initCountdowns(); initPrivacyBits();
     updateBadges(); A.refresh();
     ['cart', 'wishlist', 'compare', 'orders'].forEach(function (n) { doc.addEventListener('akku:' + n, function () { updateBadges(); markStates(); }); });
     window.addEventListener('storage', function (e) { if (e.key && e.key.indexOf('akku.') === 0) { updateBadges(); markStates(); emit('sync'); } });

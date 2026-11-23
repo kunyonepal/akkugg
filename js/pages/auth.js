@@ -65,10 +65,11 @@
       if (g('password').value.length < 8) ok = invalid(g('password'), 'Use at least 8 characters.');
       else if (g('confirmPassword').value !== g('password').value) ok = invalid(g('confirmPassword'), 'The passwords do not match.');
       if (!g('agreeTerms').checked) ok = invalid(g('agreeTerms'), 'Please accept the terms to continue.');
+      if (g('ageConfirm') && !g('ageConfirm').checked) ok = invalid(g('ageConfirm'), 'Please confirm your age, or ask a parent or guardian to help.');
       if (!ok) { var f = $('.is-invalid', form); if (f) f.focus(); return; }
       busy(btn, true, 'Creating account...');
-      A.api('POST', 'auth/register', { name: g('fullName').value.trim(), email: g('email').value.trim(), phone: g('phone').value.trim(), password: g('password').value, marketing: g('newsletter').checked })
-        .then(function () { window.location.href = nextUrl(); }, function (err) { busy(btn, false); A.formErrors(form, err, { name: 'fullName' }); });
+      A.api('POST', 'auth/register', { name: g('fullName').value.trim(), email: g('email').value.trim(), phone: g('phone').value.trim(), password: g('password').value, marketing: g('newsletter').checked, terms: g('agreeTerms').checked, adult: !!(g('ageConfirm') && g('ageConfirm').checked) })
+        .then(function () { window.location.href = nextUrl(); }, function (err) { busy(btn, false); A.formErrors(form, err, { name: 'fullName', terms: 'agreeTerms', adult: 'ageConfirm' }); });
     });
   }
 

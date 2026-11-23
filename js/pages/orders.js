@@ -44,7 +44,7 @@
         (it.optionsText ? ' · ' + A.esc(it.optionsText) : '') + (it.parts ? ' · ' + A.esc(it.parts.join(', ')) : '') + '</p></div><strong data-price="' + it.total + '">' + A.money(it.total) + '</strong></div>';
     }).join('');
   }
-  function deliveryLabel(o) { return o.delivery.fee === null || o.delivery.fee === undefined ? 'Confirmed on call' : (o.delivery.fee ? A.money(o.delivery.fee) : 'FREE'); }
+  function deliveryLabel(o) { return o.delivery.fee === null || o.delivery.fee === undefined ? 'To be confirmed' : (o.delivery.fee ? A.money(o.delivery.fee) : 'FREE'); }
   function whatsappLink(o) {
     var num = String((A.site.contact && A.site.contact.whatsapp) || '').replace(/\D/g, '');
     return num ? 'https://wa.me/' + num + '?text=' + encodeURIComponent(o.message || ('Order ' + o.id)) : '';
@@ -295,7 +295,10 @@
     A.session().then(function (me) {
       if (me) {
         if (lead) lead.textContent = 'All orders on your account';
-        return A.api('GET', 'account/orders').then(function (r) { r.orders.forEach(function (o) { remember(o, o.key); }); var ids = r.orders.map(function (o) { return o.id; });
+        /* orders this browser placed before signing in are linked to the account (the browser holds their private keys) */
+        var mine = local.filter(function (o) { return o.mode === 'api' && o.key; }).map(function (o) { return { id: o.id, key: o.key }; });
+        return (mine.length ? A.api('POST', 'account/orders/link', { orders: mine }).catch(function () {}) : Promise.resolve())
+          .then(function () { return A.api('GET', 'account/orders'); }).then(function (r) { r.orders.forEach(function (o) { remember(o, o.key); }); var ids = r.orders.map(function (o) { return o.id; });
           show(r.orders.concat(A.orders.all().filter(function (o) { return ids.indexOf(o.id) < 0; }))); });
       }
       if (lead) lead.innerHTML = 'Orders placed from this browser. <a href="' + A.root + 'login.html?next=my-orders.html">Sign in</a> to see every order on your account.';
