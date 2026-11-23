@@ -9,6 +9,16 @@
     A.session().then(function (me) {
       if (!me) { guest.hidden = false; return; }
       panel.hidden = false;
+      /* store credit (refunds or goodwill put on the account) and a customer group discount, when there are any */
+      A.api('GET', 'account/credit').then(function (r) {
+        if (!r.credit && !r.moves.length && !r.group) return;
+        var sec = $('[data-credit-section]'), body = $('[data-credit-body]');
+        var day = function (iso) { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kathmandu' }); };
+        body.innerHTML = '<p>Balance: <strong data-price="' + r.credit + '">' + A.money(r.credit, 'NPR') + '</strong>' + (r.credit ? '. You can use it at checkout.' : '') + '</p>' +
+          (r.group ? '<p>You are in our <strong>' + A.esc(r.group.name) + '</strong> group: ' + r.group.discount + '% off is taken at checkout while you are signed in.</p>' : '') +
+          (r.moves.length ? '<div class="akku-credit-moves">' + r.moves.map(function (m) { return '<div><span>' + day(m.at) + '</span><span>' + A.esc(m.reason || '') + '</span><strong>' + (m.change > 0 ? '+' : '−') + A.money(Math.abs(m.change), 'NPR') + '</strong></div>'; }).join('') + '</div>' : '');
+        sec.hidden = false;
+      }).catch(function () { /* older server */ });
       var pf = $('#profileForm'), e = pf.elements, a = me.address || {};
       e.name.value = me.name; e.email.value = me.email; e.phone.value = me.phone || '';
       e.street.value = a.street || ''; e.city.value = a.city || ''; e.province.value = a.province || ''; e.landmark.value = a.landmark || ''; e.marketing.checked = !!me.marketing;

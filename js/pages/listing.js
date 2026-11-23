@@ -264,6 +264,8 @@
         if (title) title.textContent = 'Results for "' + q + '"';
         if (summary) summary.textContent = found.length ? found.length + ' product' + (found.length === 1 ? '' : 's') + ' found' : 'Nothing matched. Check the spelling or try a more general word.';
         document.title = 'Search: ' + q + ' | ' + A.site.brand.name;
+        /* searches (and how many results they found) go to Reports, so missing products show up */
+        if (A.site.backend) { try { var key = 'akku.logged:' + q.toLowerCase(); if (!window.sessionStorage.getItem(key)) { window.sessionStorage.setItem(key, '1'); A.api('POST', 'searches', { q: q, results: found.length }).catch(function () {}); } } catch (e) { /* storage blocked */ } }
         if (sortSel) sortSel.value = 'relevance';
       } else if (sortSel) {
         var rel = $('option[value="relevance"]', sortSel); if (rel) rel.remove();

@@ -515,3 +515,36 @@ a.view-product-btn { text-decoration: none; display: inline-flex; align-items: c
 .akku-fonepay-qr { text-align: center; }
 .akku-fonepay-qr svg { width: 240px; height: 240px; max-width: 100%; background: #fff; padding: 10px; border-radius: 12px; }
 .akku-fonepay-qr__amount { font-size: 22px; font-weight: 700; margin: 10px 0 4px; }
+.akku-variants { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+.akku-variant { display: inline-flex; flex-direction: column; padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2); color: inherit; text-decoration: none; font-weight: 600; font-size: 14px; line-height: 1.3; }
+.akku-variant small { font-weight: 400; color: var(--akku-muted); font-size: 12px; }
+.akku-variant.is-on { border-color: var(--akku-red); background: rgba(237,50,55,.12); }
+a.akku-variant:hover { border-color: rgba(255,255,255,.5); }
+.akku-landing { padding-top: 16px; }
+.akku-landing__hero { padding: 48px 32px; border-radius: 18px; background: linear-gradient(120deg, #2a0a0c, #12090a); background-size: cover; background-position: center; border: 1px solid var(--akku-line); }
+.akku-landing__hero h1 { font-size: clamp(28px, 4vw, 44px); margin: 0 0 8px; }
+.akku-landing__hero p { max-width: 640px; color: rgba(255,255,255,.85); margin: 0; }
+.akku-landing__kicker { color: var(--akku-orange) !important; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 13px; margin-bottom: 8px !important; }
+.akku-landing__body { margin: 18px 0 0; max-width: 760px; color: var(--akku-muted); }
+section.container.akku-service-page { padding: 30px 15px 50px; max-width: 760px; margin: 0 auto; }
+.akku-booking-form label { display: grid; gap: 4px; font-size: 13px; color: var(--akku-muted); }
+.akku-booking-form select, .akku-booking-form textarea, .akku-quote-form select { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,.18); background: rgba(0,0,0,.25); color: #fff; font: inherit; }
+.akku-form-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 560px) { .akku-form-2 { grid-template-columns: 1fr; } }
+.akku-warranty-result { margin-top: 6px; padding: 12px; border-radius: 10px; background: rgba(255,255,255,.05); }
+/* promo popup */
+.akku-promo { position: fixed; inset: 0; z-index: 16000; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.akku-promo__box { position: relative; max-width: 460px; width: 100%; border-radius: 16px; overflow: hidden; background: #1c1517; border: 1px solid rgba(255,255,255,.15); color: #fff; text-align: center; }
+.akku-promo__box img { width: 100%; display: block; max-height: 300px; object-fit: cover; }
+.akku-promo__body { padding: 18px 20px 22px; }
+.akku-promo__body h2 { font-size: 22px; margin: 0 0 8px; }
+.akku-promo__body p { color: rgba(255,255,255,.8); margin: 0 0 14px; }
+.akku-promo__close { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(0,0,0,.6); color: #fff; font-size: 22px; cursor: pointer; }
+.akku-credit-moves { display: grid; gap: 6px; margin-top: 8px; font-size: 14px; }
+.akku-credit-moves div { display: grid; grid-template-columns: 110px 1fr auto; gap: 10px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.08); }
+.akku-credit-moves span:first-child { color: var(--akku-muted, #a1a1aa); }
+/* floating WhatsApp button */
+.akku-wa { position: fixed; right: 18px; bottom: 18px; z-index: 1100; width: 54px; height: 54px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 6px 18px rgba(0,0,0,.45); text-decoration: none; transition: transform .15s; }
+.akku-wa:hover, .akku-wa:focus-visible { color: #fff; transform: scale(1.07); }
+@media (max-width: 991px) { body[data-page="product"] .akku-wa { bottom: 88px; } }
+@media print { .akku-wa { display: none; } }

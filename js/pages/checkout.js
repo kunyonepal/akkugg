@@ -25,10 +25,16 @@
       lines = A.cart.lines();
       if (!lines.length) { if (!busy) window.location.href = A.root + 'cart.html'; return; }
       var count = A.cart.count(), subtotal = A.cart.subtotal(), q = A.deliveryQuote(subtotal, method());
-      var discount = coupon && coupon.ok ? coupon.discount : 0;
+      var grp = A.me && A.me.group && A.me.group.discount > 0 ? Math.floor(subtotal * Math.min(90, A.me.group.discount) / 100) : 0;
+      var discount = grp + (coupon && coupon.ok ? coupon.discount : 0);
       if (coupon && coupon.ok && coupon.freeDelivery && method() !== 'pickup') q = { fee: 0, label: 'FREE' };
       var dr = $('[data-co-discount-row]');
-      if (dr) { dr.hidden = !discount; $('[data-co-coupon]', dr).textContent = coupon && coupon.ok ? '(' + coupon.code + ')' : ''; $('[data-co-discount]', dr).textContent = '− ' + A.money(discount); }
+      if (dr) { dr.hidden = !discount; $('[data-co-coupon]', dr).textContent = [grp ? '(' + A.me.group.name + ' price, ' + A.me.group.discount + '%)' : '', coupon && coupon.ok ? '(' + coupon.code + ')' : ''].filter(Boolean).join(' '); $('[data-co-discount]', dr).textContent = '− ' + A.money(discount); }
+      var cr = $('[data-credit]', form), totalNow = Math.max(0, subtotal - discount + (q.fee || 0));
+      if (cr) { cr.hidden = !(api && A.me && A.me.credit > 0); }
+      var crAmt = cr && !cr.hidden && form.elements.useCredit && form.elements.useCredit.checked ? Math.min(A.me.credit, totalNow) : 0, cn = $('[data-co-credit-note]');
+      if (cn) { cn.hidden = !crAmt; cn.textContent = crAmt ? 'Store credit pays ' + A.money(crAmt) + (crAmt >= totalNow ? ', so there is nothing more to pay.' : '; ' + A.money(totalNow - crAmt) + ' is left to pay.') : ''; }
+      if (cr && !cr.hidden) { $('[data-credit-amount]', cr).textContent = A.money(Math.min(A.me.credit, totalNow)) + (A.me.credit >= totalNow ? ' (pays the whole order)' : ' of ' + A.money(A.me.credit)); }
       var savings = lines.reduce(function (n, l) { return n + (l.oldPrice > l.price ? (l.oldPrice - l.price) * l.qty : 0); }, 0);
       $('[data-co-count]').textContent = count;
       var prev = lines.slice(0, 3).map(function (l) { var m = A.lineMedia(l, 120, 120); return '<span class="' + m.cls + ' akku-thumb">' + m.html + '</span>'; }).join('');
@@ -150,7 +156,7 @@
         var plan = ($('input[name="payPlan"]:checked', form) || {}).value === 'deposit' && depositBox && !depositBox.hidden ? 'deposit' : 'full';
         A.track('AddPaymentInfo', { value: subtotal, label: pay.name, items: A.cart.lines().map(function (l) { return { id: l.custom ? 'custom-build' : l.id, name: l.name, price: l.price, qty: l.qty }; }) });
         A.api('POST', 'orders', { items: serverItems(), customer: customer, delivery: { method: m }, payment: { id: pay.id, plan: plan }, coupon: coupon && coupon.ok ? coupon.code : '', note: get('note'),
-          attribution: A.attribution(), analytics: A.trackingIds() })
+          attribution: A.attribution(), analytics: A.trackingIds(), useCredit: !!(form.elements.useCredit && form.elements.useCredit.checked && !$('[data-credit]', form).hidden) })
           .then(function (res) {
             var o = res.order; o.key = res.key; o.mode = 'api';
             A.orders.save(o); A.store.set('lastOrder', o.id); A.cart.clear();
@@ -191,12 +197,14 @@
     function updateDeposit() {
       if (!depositBox) return;
       var dp = A.site.payments.deposit || {}, payId = ($('input[name="payment"]:checked', form) || {}).value, tEl = $('[data-co-total]'), total = Number(tEl && tEl.getAttribute('data-price')) || A.cart.subtotal();
-      depositBox.hidden = !api || payId === 'cod' || !payId || total < (Number(dp.minTotal) || 0);
+      var credit = form.elements.useCredit && form.elements.useCredit.checked && !$('[data-credit]', form).hidden;   /* part payment is not combined with store credit */
+      depositBox.hidden = !api || payId === 'cod' || !payId || credit || total < (Number(dp.minTotal) || 0);
       var amt = $('[data-deposit-amount]', depositBox); if (amt) amt.textContent = A.money(Math.max(1, Math.round(total * (Number(dp.percent) || 20) / 100)));
     }
-    form.addEventListener('change', function (e) { if (e.target.name === 'payment') updateDeposit(); });
+    form.addEventListener('change', function (e) { if (e.target.name === 'payment') updateDeposit(); if (e.target.name === 'useCredit') { render(); updateDeposit(); } });
     updateDeposit();
     document.addEventListener('akku:prefs', render);
+    document.addEventListener('akku:session', render);
     render();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

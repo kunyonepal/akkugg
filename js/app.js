@@ -752,6 +752,34 @@
         var p = A.product(f.getAttribute('data-pid'));
         A.requestQuote(f, { items: [{ id: f.getAttribute('data-pid'), qty: 1 }] }, 'Hi ' + A.site.brand.name + ', what is the price of ' + (p ? p.name : 'this product') + '?\n' + location.href);
       }
+      if (f.matches && f.matches('[data-booking-form]')) {
+        e.preventDefault();
+        var bd = {}; ['name', 'phone', 'address', 'area', 'day', 'slot', 'pcs', 'problem', 'website'].forEach(function (k) { if (f.elements[k]) bd[k] = f.elements[k].value.trim(); });
+        if (bd.website) return;
+        if (bd.name.length < 2) { formMsg(f, 'Please enter your name.'); f.elements.name.focus(); return; }
+        if (!A.validPhone(bd.phone)) { formMsg(f, 'Enter a valid phone number, for example 98XXXXXXXX.'); f.elements.phone.focus(); return; }
+        if (!bd.day) { formMsg(f, 'Choose a day.'); f.elements.day.focus(); return; }
+        if (!A.site.backend) { var wl = A.whatsappLink('Hi ' + A.site.brand.name + ', I would like a home servicing visit on ' + bd.day + ' (' + bd.slot + ').\nName: ' + bd.name + '\nAddress: ' + bd.address + '\n' + bd.problem); if (wl) window.open(wl, '_blank', 'noopener'); formMsg(f, wl ? 'WhatsApp opened with your request.' : 'Bookings are not connected yet. Please call us.', !!wl); return; }
+        var bb = $('[type="submit"]', f); bb.disabled = true;
+        A.api('POST', 'bookings', bd).then(function (r) { f.reset(); formMsg(f, r.message, true); A.track('Lead', { eventId: 'lead-' + r.id, value: 0, label: 'home servicing' }); }, function (err) { formMsg(f, err.message); })
+          .then(function () { bb.disabled = false; });
+        return;
+      }
+      if (f.matches && f.matches('[data-warranty-form]')) {
+        e.preventDefault();
+        var sn = f.elements.serial.value.trim();
+        if (sn.length < 3) { formMsg(f, 'Type the serial number.'); return; }
+        if (!A.site.backend) { formMsg(f, 'The warranty check is not connected yet. Please contact us with your serial number.'); return; }
+        A.api('GET', 'warranty/' + encodeURIComponent(sn)).then(function (r) {
+          var m = $('[data-form-msg]', f);
+          if (!r.found) { formMsg(f, 'We could not find that serial number. Check it, or contact us with your invoice.'); return; }
+          var day = function (d) { return new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); };
+          m.className = 'akku-form-msg akku-warranty-result';
+          m.innerHTML = '<strong>' + A.esc(r.product) + '</strong><br>' + (r.status === 'sold' ? (r.soldOn ? 'Sold on ' + day(r.soldOn) + (r.deliveredOn && r.deliveredOn !== r.soldOn ? ', delivered on ' + day(r.deliveredOn) : '') + '. ' : '') +
+            (r.until ? (r.covered ? 'Covered by our warranty until <strong>' + day(r.until) + '</strong>.' : 'Our warranty ended on ' + day(r.until) + '.') : r.deliveredOn ? 'Contact us about its warranty.' : 'Its warranty starts when it is delivered.') : r.status === 'in_stock' ? 'This unit has not been sold yet.' : 'Contact us about this unit.');
+        }, function (err) { formMsg(f, err.message); });
+        return;
+      }
       if (f.matches && f.matches('[data-stock-alert]')) {
         e.preventDefault();
         var v = f.elements.contact.value.trim(), email = v.indexOf('@') > 0, pr = A.product(f.getAttribute('data-pid'));
@@ -769,9 +797,46 @@
     });
   }
 
+  /* ------------------------------------------------------------------ floating WhatsApp button (Settings → Shop) */
+  function initWhatsAppButton() {
+    if (!(A.site.features && A.site.features.whatsappButton)) return;
+    var page = doc.body.getAttribute('data-page') || '';
+    if (['checkout', 'cart'].indexOf(page) !== -1) return;
+    var h1 = doc.querySelector('h1'), name = h1 ? h1.textContent.replace(/\s+/g, ' ').trim() : '';
+    var link = A.whatsappLink('Hi ' + A.site.brand.name + (page === 'product' && name ? ', I have a question about ' + name + ': ' + location.href.split('#')[0] : ', I have a question.'));
+    if (!link) return;
+    var a = doc.createElement('a'); a.className = 'akku-wa'; a.href = link; a.target = '_blank'; a.rel = 'noopener'; a.setAttribute('aria-label', 'Chat with us on WhatsApp'); a.title = 'Chat with us on WhatsApp';
+    a.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i>';
+    doc.body.appendChild(a);
+  }
+
+  /* ------------------------------------------------------------------ promo popup: once per campaign (Settings → Promo popup) */
+  function initPromo() {
+    var p = A.site.promo;
+    if (!p || !p.enabled || !(p.title || p.image)) return;
+    var page = doc.body.getAttribute('data-page') || '';
+    if (p.where === 'home' && page !== 'home') return;
+    if (['checkout', 'cart', 'order', 'account'].indexOf(page) !== -1) return;
+    var seenKey = 'promo:' + (p.campaign || p.title || 'x');
+    if (store.get(seenKey, false)) return;
+    setTimeout(function () {
+      var el = doc.createElement('div'); el.className = 'akku-promo'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', p.title || 'Offer');
+      el.innerHTML = '<div class="akku-promo__box"><button type="button" class="akku-promo__close" data-promo-close aria-label="Close">&times;</button>' + (p.image ? '<img src="' + A.esc(A.url(p.image)) + '" alt="">' : '') +
+        '<div class="akku-promo__body">' + (p.title ? '<h2>' + A.esc(p.title) + '</h2>' : '') + (p.text ? '<p>' + A.esc(p.text) + '</p>' : '') + (p.link ? '<a class="btn btn-primary" data-promo-go href="' + A.esc(A.url(p.link)) + '">' + A.esc(p.button || 'See the offer') + '</a>' : '') + '</div></div>';
+      doc.body.appendChild(el);
+      store.set(seenKey, true);
+      var close = function () { el.remove(); };
+      el.addEventListener('click', function (e) { if (e.target === el || e.target.closest('[data-promo-close]')) close(); });
+      doc.addEventListener('keydown', function k(e) { if (e.key === 'Escape') { close(); doc.removeEventListener('keydown', k); } });
+      var b = $('[data-promo-close]', el); if (b) b.focus();
+    }, (p.delay === '' || p.delay == null || !isFinite(Number(p.delay)) || Number(p.delay) < 0 ? 4 : Math.min(60, Number(p.delay))) * 1000);
+  }
+
   /* ------------------------------------------------------------------ boot */
   function boot() {
-    initHeader(); initSettings(); initSearch(); initNewsletter(); initForms();
+    initHeader(); initSettings(); initSearch(); initNewsletter(); initForms(); initPromo(); initWhatsAppButton();
+    var dayIn = $('[data-booking-form] [name="day"]');
+    if (dayIn) { var t0 = new Date(Date.now() + 345 * 60000), days = (A.site.servicing && A.site.servicing.daysAhead) || 30; dayIn.min = t0.toISOString().slice(0, 10); dayIn.max = new Date(t0.getTime() + days * 864e5).toISOString().slice(0, 10); }
     A.initCarousels(); initScrollers(); initCountdowns();
     updateBadges(); A.refresh();
     ['cart', 'wishlist', 'compare', 'orders'].forEach(function (n) { doc.addEventListener('akku:' + n, function () { updateBadges(); markStates(); }); });

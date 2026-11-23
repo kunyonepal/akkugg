@@ -121,9 +121,24 @@
       return '';
     } }
   ];
+  /* filters a category defines in its settings ("filters": [{ key, label, unit }]); products hold the values in "facets" */
+  A.categoryFacets = function () {
+    var out = [];
+    ((A.catalog && A.catalog.categories) || []).forEach(function (c) {
+      (c.filters || []).forEach(function (f) {
+        if (!f || !f.key) return;
+        out.push({ key: 'x-' + String(f.key).replace(/[^a-z0-9-]/gi, '').toLowerCase(), label: f.label || f.key, numeric: !!f.unit, get: function (p) {
+          var v = p.category === c.id && p.facets ? p.facets[f.key] : '';
+          return v ? String(v) + (f.unit && /\d$/.test(String(v)) ? ' ' + f.unit : '') : '';
+        } });
+      });
+    });
+    return out;
+  };
+  A.allFacets = function () { return A.facetDefs.concat(A.categoryFacets()); };
   A.facets = function (p) {
     var out = {};
-    A.facetDefs.forEach(function (f) { var v = f.get(p); if (v) out[f.key] = v; });
+    A.allFacets().forEach(function (f) { var v = f.get(p); if (v) out[f.key] = v; });
     return out;
   };
   A.sizeInGb = function (s) { var m = /(\d+)\s*(TB|GB)/i.exec(s || ''); return m ? Number(m[1]) * (m[2].toUpperCase() === 'TB' ? 1024 : 1) : 0; };
