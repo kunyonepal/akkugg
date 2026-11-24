@@ -9,6 +9,19 @@
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || doc).querySelectorAll(sel)); };
   A.$ = $; A.$$ = $$;
 
+  /* An order's private key can arrive in the page address (order-confirmation.html?id=...&key=..., from the
+     checkout, a payment page or an email). Take it out of the address before anything else runs, so it never
+     reaches analytics or ad tags, the browser history or a shared screenshot. The order page reads it from A.urlKey. */
+  (function () {
+    try {
+      var u = new URL(location.href);
+      if (!u.searchParams.has('key')) return;
+      A.urlKey = (u.searchParams.get('key') || '').slice(0, 100);
+      u.searchParams.delete('key');
+      if (window.history && history.replaceState) history.replaceState(history.state, '', u.pathname + u.search + u.hash);
+    } catch (e) { /* old browser: the order page still removes it */ }
+  })();
+
   /* ------------------------------------------------------------------ storage */
   var mem = {};
   var store = A.store = {

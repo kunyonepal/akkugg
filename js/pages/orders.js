@@ -207,8 +207,9 @@
     var pay = qs.get('pay');
     var local = A.orders.get(id);
     if (!API || (local && local.mode !== 'api')) return localConfirmation(view, local);
-    var key = qs.get('key') || (local && local.key);
-    if (qs.get('key') && window.history.replaceState) window.history.replaceState(null, '', location.pathname + '#' + encodeURIComponent(id));
+    var fromUrl = qs.get('key') || A.urlKey || '';   // app.js has already taken it out of the address
+    var key = fromUrl || (local && local.key);
+    if ((fromUrl || qs.get('id')) && window.history.replaceState) window.history.replaceState(null, '', location.pathname + '#' + encodeURIComponent(id));
     if (!id || !key) { $('[data-order-missing]', view).hidden = false; return; }
     function load() {
       return A.api('GET', 'orders/' + encodeURIComponent(id) + '?key=' + encodeURIComponent(key)).then(function (o) { o.key = key; remember(o, key); render(view, o, pay); watchQr(o); return o; },
