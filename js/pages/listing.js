@@ -140,7 +140,7 @@
       var brands = checked('brand');
       $$('.brand-item[data-brand]').forEach(function (b) { var on = brands.indexOf(b.getAttribute('data-brand')) !== -1; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
       var subs = checked('sub');
-      if (h1 && mode !== 'search') {
+      if (h1 && mode !== 'search' && !section.hasAttribute('data-keep-title')) {
         var sub = subs.length === 1 && A.subcategory(subs[0]);
         h1.textContent = sub ? sub.name : baseTitle;
       }
@@ -237,7 +237,7 @@
       if (h.indexOf('brand-') === 0) {
         var slug = h.slice(6);
         $$('.filter-group[data-filter="brand"] input[type=checkbox]', sidebar).forEach(function (i) {
-          var on = i.value.toLowerCase().replace(/[^a-z0-9]+/g, '-') === slug;
+          var on = A.slug(i.value) === A.slug(slug);
           i.checked = on; if (on) hit = true;
         });
       } else {

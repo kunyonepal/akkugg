@@ -52,8 +52,12 @@
   A.shortName = function (p) { return String(p.name).split(' - ')[0]; };
 
   /* ---------- URLs ---------- */
+  A.slug = function (s) { return String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); };
   A.productUrl = function (p) { return A.root + 'product/' + (p.id || p) + '.html'; };
-  A.categoryUrl = function (catId, subId) { return A.root + catId + '.html' + (subId ? '#' + subId : ''); };
+  /* every type (subcategory) has its own page: laptops/gaming-laptops.html */
+  A.categoryUrl = function (catId, subId) { return A.root + catId + (subId ? '/' + subId : '') + '.html'; };
+  /* every brand with products has its own page: brands/asus.html */
+  A.brandUrl = function (name) { return A.root + 'brands/' + A.slug(name) + '.html'; };
 
   /* ---------- money ---------- */
   A.deliveryAreas = function (site) {

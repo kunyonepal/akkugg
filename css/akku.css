@@ -651,3 +651,38 @@ body .product-card__image .badge-discount { color: #fff !important; background: 
 .pricing-info__actions .btn.btn-primary:hover { background: linear-gradient(135deg, #a90f15 0%, #8f0c11 100%); }
 .akku-form-note { font-size: 12px; color: var(--akku-muted); margin: 6px 0 8px; }
 .akku-form-note a { color: #ff8a8d; }
+
+/* ---------- search round: type and brand pages, price lists and questions under the products ---------- */
+.akku-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; }
+.akku-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.04); color: #fff; font-size: 14px; font-weight: 600; line-height: 1.2; text-decoration: none; }
+.akku-chip small { color: var(--akku-muted); font-weight: 400; font-size: 12px; }
+a.akku-chip:hover, a.akku-chip:focus-visible { border-color: var(--akku-red); background: rgba(237,50,55,.1); color: #fff; }
+.akku-chip.is-on { border-color: var(--akku-red); background: rgba(237,50,55,.18); }
+@media (max-width: 768px) { .akku-chips--head { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; } .akku-chips--head .akku-chip { flex: 0 0 auto; } }
+.category-header .category-icon--logo { background: #fff; padding: 16px; }
+.category-header .category-icon--logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.akku-seo { padding-top: 8px; padding-bottom: 48px; }
+.akku-seo h2 { font-size: 22px; margin: 34px 0 12px; }
+.akku-seo h3 { font-size: 18px; margin: 22px 0 8px; }
+.akku-seo__guide { max-width: 860px; color: rgba(255,255,255,.82); line-height: 1.7; }
+.akku-seo__guide ul { padding-left: 22px; }
+.akku-seo__guide a { color: var(--akku-orange); }
+.akku-seo__prices .akku-muted { margin: 0 0 10px; color: var(--akku-muted); font-size: 14px; }
+.akku-seo__prices > p a { color: var(--akku-orange); }
+.akku-seo__prices td:last-child, .akku-seo__prices th:last-child { white-space: nowrap; }
+.akku-faq { max-width: 860px; margin: 0 0 10px; border: 1px solid var(--akku-line); border-radius: 10px; background: rgba(255,255,255,.02); }
+.akku-faq summary { position: relative; padding: 14px 44px 14px 16px; font-weight: 600; cursor: pointer; list-style: none; }
+.akku-faq summary::-webkit-details-marker { display: none; }
+.akku-faq summary::after { content: '+'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 20px; color: var(--akku-muted); }
+.akku-faq[open] summary::after { content: '\2212'; }
+.akku-faq p { margin: 0; padding: 0 16px 14px; color: rgba(255,255,255,.8); }
+.akku-brand-list { padding-bottom: 48px; }
+.akku-brand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.akku-brand-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 118px; padding: 16px; border-radius: 14px; border: 1px solid var(--akku-line); background: var(--akku-card); color: #fff; text-align: center; text-decoration: none; transition: border-color .2s, transform .2s; }
+.akku-brand-card img { width: 120px; height: 44px; padding: 6px 10px; border-radius: 8px; background: #fff; object-fit: contain; }
+.akku-brand-card__name { font-size: 18px; font-weight: 700; }
+.akku-brand-card__count { font-size: 13px; color: var(--akku-muted); }
+a.akku-brand-card:hover, a.akku-brand-card:focus-visible { border-color: var(--akku-red); color: #fff; transform: translateY(-2px); }
+.categories-hub .akku-chips { margin-bottom: 12px; }
+.categories-hub section > p a { color: var(--akku-orange); }
+@media print { .akku-chips, .akku-seo__faq, .akku-seo__links { display: none; } }
