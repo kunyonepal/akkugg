@@ -242,7 +242,7 @@
     return '<a href="' + A.productUrl(p) + '" class="sidebar__product" data-pid="' + p.id + '">' +
       '<div class="sidebar__product-image ' + A.mediaClass(p) + '">' + A.media(p, 200, 200) + '</div>' +
       '<div class="sidebar__product-info"><p class="sidebar__product-category">' + A.esc(A.categoryName(p)) + '</p>' +
-        '<h4 class="sidebar__product-title">' + A.esc(A.shortName(p)) + '</h4>' +
+        '<h3 class="sidebar__product-title h4">' + A.esc(A.shortName(p)) + '</h3>' +
         '<div class="sidebar__product-price">' + R.prices(p, 'price-current', 'price-old') + '</div></div></a>';
   };
 
@@ -286,7 +286,7 @@
         '<button class="btn-wishlist" type="button" data-action="wishlist" data-pid="' + p.id + '" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>' +
       '</div>' +
       '<div class="product-card__content">' +
-        '<h5><a href="' + A.productUrl(p) + '">' + A.esc(A.shortName(p)) + '</a></h5>' +
+        '<h4 class="h5"><a href="' + A.productUrl(p) + '">' + A.esc(A.shortName(p)) + '</a></h4>' +
         ((p.chips || []).length ? '<p class="product-specs">' + p.chips.slice(0, 3).map(A.esc).join(' • ') + '</p>' : '') +
         '<div class="product-price">' + R.prices(p, 'current-price', 'original-price') + '</div>' +
       '</div></div>';

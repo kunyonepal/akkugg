@@ -69,7 +69,7 @@
       if (!ok) { var f = $('.is-invalid', form); if (f) f.focus(); return; }
       busy(btn, true, 'Creating account...');
       A.api('POST', 'auth/register', { name: g('fullName').value.trim(), email: g('email').value.trim(), phone: g('phone').value.trim(), password: g('password').value, marketing: g('newsletter').checked, terms: g('agreeTerms').checked, adult: !!(g('ageConfirm') && g('ageConfirm').checked) })
-        .then(function () { window.location.href = nextUrl(); }, function (err) { busy(btn, false); A.formErrors(form, err, { name: 'fullName', terms: 'agreeTerms', adult: 'ageConfirm' }); });
+        .then(function () { A.track('CompleteRegistration', { value: 0, label: 'account' }); setTimeout(function () { window.location.href = nextUrl(); }, 300); }, function (err) { busy(btn, false); A.formErrors(form, err, { name: 'fullName', terms: 'agreeTerms', adult: 'ageConfirm' }); });
     });
   }
 

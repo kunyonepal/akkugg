@@ -734,7 +734,7 @@
         if (!A.site.backend) { A.toast('Newsletter sign-up is not connected yet, so this address was not saved.', { type: 'info', duration: 6000 }); return; }
         var btn = $('button', form); if (btn) btn.disabled = true;
         A.api('POST', 'newsletter', { email: input.value.trim(), source: 'footer' })
-          .then(function (r) { A.toast(r.message, { type: 'success' }); form.reset(); }, function (err) { A.toast(err.message, { type: 'error' }); })
+          .then(function (r) { A.toast(r.message, { type: 'success' }); form.reset(); A.track('Newsletter', { value: 0, label: 'footer' }); }, function (err) { A.toast(err.message, { type: 'error' }); })
           .then(function () { if (btn) btn.disabled = false; });
       });
     });

@@ -107,11 +107,17 @@
   if (mode !== 'off' && !choice()) { if (doc.body) banner(); else doc.addEventListener('DOMContentLoaded', banner); }
 
   /* ---------- one shop event to every tag ---------- */
-  var GA = { ViewContent: 'view_item', ViewCategory: 'view_item_list', AddToCart: 'add_to_cart', InitiateCheckout: 'begin_checkout', AddPaymentInfo: 'add_payment_info', Purchase: 'purchase', Lead: 'generate_lead', Contact: 'contact', Search: 'search', AddToWishlist: 'add_to_wishlist', ShareBuild: 'share' };
-  var TT = { ViewContent: 'ViewContent', AddToCart: 'AddToCart', InitiateCheckout: 'InitiateCheckout', AddPaymentInfo: 'AddPaymentInfo', Purchase: 'CompletePayment', Lead: 'SubmitForm', Contact: 'Contact', Search: 'Search', AddToWishlist: 'AddToWishlist' };
+  var GA = { ViewContent: 'view_item', ViewCategory: 'view_item_list', AddToCart: 'add_to_cart', InitiateCheckout: 'begin_checkout', AddPaymentInfo: 'add_payment_info', Purchase: 'purchase', Lead: 'generate_lead', Newsletter: 'generate_lead', CompleteRegistration: 'sign_up', FindLocation: 'find_location', CustomizeProduct: 'customize_product', Contact: 'contact', Search: 'search', AddToWishlist: 'add_to_wishlist', ShareBuild: 'share' };
+  var TT = { ViewContent: 'ViewContent', AddToCart: 'AddToCart', InitiateCheckout: 'InitiateCheckout', AddPaymentInfo: 'AddPaymentInfo', Purchase: 'CompletePayment', Lead: 'SubmitForm', Newsletter: 'SubmitForm', CompleteRegistration: 'CompleteRegistration', Contact: 'Contact', Search: 'Search', AddToWishlist: 'AddToWishlist' };
   var ADS = { Purchase: 'purchase', Lead: 'lead', Contact: 'contact', AddToCart: 'addToCart', InitiateCheckout: 'beginCheckout' };
-  var META_STANDARD = { ViewContent: 1, AddToCart: 1, InitiateCheckout: 1, AddPaymentInfo: 1, Purchase: 1, Lead: 1, Contact: 1, Search: 1, AddToWishlist: 1 };
-  var TO_SERVER = { ViewContent: 1, AddToCart: 1, InitiateCheckout: 1, AddPaymentInfo: 1, Contact: 1, Search: 1 };
+  var META_STANDARD = { ViewContent: 1, AddToCart: 1, InitiateCheckout: 1, AddPaymentInfo: 1, Purchase: 1, Lead: 1, Contact: 1, Search: 1, AddToWishlist: 1, CompleteRegistration: 1, FindLocation: 1, CustomizeProduct: 1 };
+  var META_NAME = { Newsletter: 'Lead' };   /* a newsletter sign-up is a Lead for Meta, kept apart here so the server can send it too */
+  var TO_SERVER = { ViewContent: 1, AddToCart: 1, InitiateCheckout: 1, AddPaymentInfo: 1, Contact: 1, Search: 1, CompleteRegistration: 1, Newsletter: 1, FindLocation: 1, CustomizeProduct: 1 };
+  /* Meta does not list the Nepalese rupee among its currencies, so values go to Meta in US dollars at the shop's rate
+     (Settings → currency) unless the owner chose NPR; the catalogue feed and the server events use the same rule. */
+  var usdRate = +((A.site.currency || {}).usdRate) || 0, metaCur = a.metaCurrency === 'NPR' || !usdRate ? 'NPR' : 'USD';
+  var toMeta = function (n) { return metaCur === 'USD' ? Math.round((+n || 0) / usdRate * 100) / 100 : (+n || 0); };
+
   function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
   function fire(name, d) {
     if (!allowed()) return;
@@ -127,11 +133,12 @@
         if (GA[name] && items.length) gtag('event', GA[name], { send_to: aw, value: value, items: items.map(function (i) { return { id: i.id, google_business_vertical: 'retail' }; }) });
       }
       if (meta && window.fbq) {
-        var md = { currency: cur, value: value };
-        if (items.length) { md.content_type = 'product'; md.content_ids = items.map(function (i) { return i.id; }); md.contents = items.map(function (i) { return { id: i.id, quantity: i.qty || 1, item_price: i.price }; }); md.num_items = items.reduce(function (n, i) { return n + (i.qty || 1); }, 0); }
+        var md = { currency: metaCur, value: toMeta(value) };
+        if (items.length) { md.content_type = 'product'; md.content_ids = items.map(function (i) { return i.id; }); md.contents = items.map(function (i) { return { id: i.id, quantity: i.qty || 1, item_price: toMeta(i.price) }; }); md.num_items = items.reduce(function (n, i) { return n + (i.qty || 1); }, 0); }
         if (d.search) md.search_string = d.search;
         if (d.label) md.content_name = d.label;
-        window.fbq(META_STANDARD[name] ? 'track' : 'trackCustom', name, md, { eventID: id });
+        var mn = META_NAME[name] || name;
+        window.fbq(META_STANDARD[mn] ? 'track' : 'trackCustom', mn, md, { eventID: id });
       }
       if (tt && window.ttq && TT[name]) window.ttq.track(TT[name], { currency: cur, value: value, query: d.search, content_type: items.length ? 'product' : undefined,
         contents: items.map(function (i) { return { content_id: i.id, content_name: i.name, quantity: i.qty || 1, price: i.price }; }) }, { event_id: id });
@@ -164,6 +171,7 @@
     if (!l) return;
     var h = l.getAttribute('href') || '', kind = /^tel:/.test(h) ? 'call' : /wa\.me|whatsapp/.test(h) ? 'whatsapp' : /^mailto:/.test(h) ? 'email' : /^viber:/.test(h) ? 'viber' : '';
     if (kind) fire('Contact', { label: kind + (page ? ' · ' + page : ''), value: 0 });
+    else if (/google\.[a-z.]+\/maps|maps\.google\.|maps\.app\.goo\.gl|goo\.gl\/maps/.test(h) || l.hasAttribute('data-directions')) fire('FindLocation', { label: page || 'map', value: 0 });
   });
 
   /* the purchase, once per order, on the order confirmation page */

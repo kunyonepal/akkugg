@@ -49,7 +49,7 @@
 .filters-sidebar{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:24px;height:fit-content;position:sticky;top:100px}
 @media(max-width: 968px){.filters-sidebar{position:fixed;left:-100%;top:0;height:100vh;width:320px;max-width:85vw;z-index:1000;transition:left .3s;overflow-y:auto;border-radius:0}.filters-sidebar.active{left:0}}
 .filters-sidebar .filter-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.05)}
-.filters-sidebar .filter-header h3{font-size:18px;font-weight:600}
+.filters-sidebar .filter-header h3,.filters-sidebar .filter-header h2{font-size:18px;font-weight:600}
 .filters-sidebar .filter-header .btn-text{color:#ed3237;font-size:13px;cursor:pointer;background:none;border:none;transition:opacity .3s}
 .filters-sidebar .filter-header .btn-text:hover{opacity:.8}
 .filters-sidebar .filter-group{margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:20px}

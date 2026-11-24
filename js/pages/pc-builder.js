@@ -1,6 +1,7 @@
 /* Custom PC builder: pick a part per slot from the catalogue, check socket / memory compatibility,
    add the whole build to the cart as one line. The build is remembered on this device. */
 (function () {
+  var customized = false;
   'use strict';
   var A = window.Akku, $ = A.$, $$ = A.$$;
   var SLOTS = [
@@ -133,6 +134,7 @@
       if (pick && openSlot) {
         var p = A.product(pick.getAttribute('data-pick'));
         build[openSlot] = p.id; save(); render(); close();
+        if (!customized) { customized = true; A.track('CustomizeProduct', { value: 0, label: 'pc-builder', items: [{ id: p.id, name: p.name, price: p.ask ? 0 : p.price }] }); }   // once per visit
         var issues = problems();
         A.toast(issues.length ? issues[0] : A.shortName(p) + ' added to your build', { type: issues.length ? 'error' : 'success' });
         return;

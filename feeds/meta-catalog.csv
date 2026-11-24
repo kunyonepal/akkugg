@@ -1,1 +1,1 @@
-id,title,description,availability,condition,price,sale_price,link,image_link,brand,product_type
+id,title,description,availability,condition,price,sale_price,link,image_link,additional_image_link,brand,item_group_id,product_type,custom_label_0,custom_label_1,custom_label_2

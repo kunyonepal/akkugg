@@ -23,7 +23,7 @@
 .stat-card:hover{background:linear-gradient(135deg, rgba(237, 50, 55, 0.1), rgba(237, 50, 55, 0.05));border-color:rgba(237,50,55,.4);transform:translateY(-4px);box-shadow:0 8px 24px rgba(237,50,55,.15)}
 .stat-card .stat-icon{width:60px;height:60px;background:linear-gradient(135deg, #ED3237, #c82529);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;flex-shrink:0}
 .stat-card .stat-info{flex:1}
-.stat-card .stat-info h3{font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 4px}
+.stat-card .stat-info h3,.stat-card .stat-info h2{font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 4px}
 .stat-card .stat-info p{color:#888;margin:0;font-size:.9rem}
 .sort-options{display:flex;align-items:center;gap:10px}
 .sort-options label{color:#888;font-size:.9rem;margin:0}

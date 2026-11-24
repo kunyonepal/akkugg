@@ -301,7 +301,7 @@ body.dark-theme{background-image:url(../../assets/img/bg.webp);background-size:c
 .delivery-option-card input[type=radio]{position:absolute;opacity:0;pointer-events:none}
 .delivery-option-card label{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;cursor:pointer;margin:0}
 .delivery-option-card .delivery-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;background:rgba(237,50,55,.15);border-radius:10px;color:#ed3237;font-size:1.5rem}
-.delivery-option-card .delivery-details h4{color:#fff;font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.delivery-option-card .delivery-details h4,.delivery-option-card .delivery-details h3{color:#fff;font-size:1.05rem;font-weight:600;margin-bottom:6px}
 .delivery-option-card .delivery-details .delivery-time{color:#ed3237;font-size:.9rem;font-weight:500;margin-bottom:4px}
 .delivery-option-card .delivery-details .delivery-desc{color:rgba(255,255,255,.6);font-size:.85rem;margin:0}
 .delivery-option-card .delivery-price{font-size:1.1rem;font-weight:700;color:#fff}

@@ -40,7 +40,7 @@
 .auth-visual .visual-features .visual-feature{display:flex;gap:20px;align-items:flex-start}
 .auth-visual .visual-features .visual-feature .feature-icon-circle{width:56px;height:56px;border-radius:50%;background:rgba(237,50,55,.1);border:2px solid rgba(237,50,55,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .auth-visual .visual-features .visual-feature .feature-icon-circle i{font-size:1.5rem;color:#ed3237}
-.auth-visual .visual-features .visual-feature h3{font-size:1.1rem;font-weight:600;color:#fff;margin:0 0 6px 0}
+.auth-visual .visual-features .visual-feature h3,.auth-visual .visual-features .visual-feature h2{font-size:1.1rem;font-weight:600;color:#fff;margin:0 0 6px 0}
 .auth-visual .visual-features .visual-feature p{font-size:.95rem;color:#888;margin:0;line-height:1.5}
 .auth-visual .visual-stats{display:grid;grid-template-columns:repeat(3, 1fr);gap:20px}
 .auth-visual .visual-stats .stat-box{text-align:center;padding:20px;background:rgba(237,50,55,.05);border:1px solid rgba(237,50,55,.15);border-radius:12px;backdrop-filter:blur(10px)}
