@@ -56,7 +56,7 @@
   }
   function payButtons(o, label) {
     return '<div class="akku-pay-panel__methods">' + (o.methods || []).map(function (m) {
-      return '<button type="button" class="akku-pay-btn" data-pay-method="' + A.esc(m.id) + '">' + (m.logo ? '<img src="' + A.root + A.esc(m.logo) + '" alt="">' : '<i class="fas ' + A.esc(m.icon || 'fa-wallet') + '"></i>') +
+      return '<button type="button" class="akku-pay-btn" data-pay-method="' + A.esc(m.id) + '">' + (m.logo ? '<img src="' + A.esc(A.url(m.logo)) + '" alt="">' : '<i class="fas ' + A.esc(m.icon || 'fa-wallet') + '"></i>') +
         '<span>' + (m.id === 'cod' ? 'Pay on delivery instead' : A.esc(label) + ' ' + A.esc(m.name)) + '</span></button>';
     }).join('') + '</div>';
   }
