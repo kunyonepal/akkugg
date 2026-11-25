@@ -575,3 +575,5 @@
 body.dark-theme{background-image:url(../../assets/img/bg.webp);background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed}
 body.dark-theme .header{position:relative;z-index:1000}
 body.dark-theme section,body.dark-theme footer{position:relative;z-index:1}
+/* Akku.GG: a category tile without a picture shows its icon large and in the brand red, not as a faint mark */
+.category__image.is-empty .akku-ph{font-size:3rem;color:#ed3237;text-shadow:0 0 18px rgba(237,50,55,.5);background:radial-gradient(circle at 50% 45%,rgba(237,50,55,.2),rgba(237,50,55,0) 62%),rgba(255,255,255,.02)}
